@@ -1,0 +1,90 @@
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
+import eliteTaxi from "@/assets/elite-taxi.jpg";
+import airportPulse from "@/assets/airport-pulse.jpg";
+import northernTours from "@/assets/northern-tours.jpg";
+
+const heroCards = [
+  { img: eliteTaxi, title: "Elite Taxi", desc: "Premium city rides" },
+  { img: airportPulse, title: "Airport Pulse", desc: "Seamless airport transfers" },
+  { img: northernTours, title: "Northern Tours", desc: "Explore the mountains" },
+];
+
+const Hero = () => {
+  return (
+    <section id="hero" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+      {/* Ghost watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <span className="font-display text-[12rem] md:text-[20rem] font-black text-foreground/[0.03] leading-none">
+          MUSA
+        </span>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4">
+            Your Journey,
+            <br />
+            <span className="italic text-gold">Our Passion</span>
+          </h1>
+          <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto">
+            Experience luxury travel reimagined. From city commutes to mountain escapes, we curate every mile of your voyage.
+          </p>
+        </motion.div>
+
+        {/* Search bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="max-w-2xl mx-auto bg-card rounded-2xl shadow-card p-3 flex flex-col sm:flex-row items-center gap-3 mb-16"
+        >
+          <div className="flex-1 w-full flex items-center gap-3 px-4 py-2">
+            <Search size={18} className="text-gray-text" />
+            <input
+              type="text"
+              placeholder="Where to?"
+              className="bg-transparent w-full outline-none font-body text-sm placeholder:text-gray-text"
+              onFocus={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
+            />
+          </div>
+          <button
+            onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
+            className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-6 py-3 rounded-xl flex items-center gap-2 transition-transform hover:scale-[1.03] w-full sm:w-auto justify-center"
+          >
+            <Search size={16} />
+            Explore Rides
+          </button>
+        </motion.div>
+
+        {/* Floating cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          {heroCards.map((card, i) => (
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + i * 0.15, duration: 0.5 }}
+              className={`bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-lg transition-all hover:-translate-y-1 ${
+                i === 0 ? "animate-float" : i === 1 ? "animate-float-delayed-1" : "animate-float-delayed-2"
+              }`}
+            >
+              <img src={card.img} alt={card.title} className="w-full h-36 object-cover" />
+              <div className="p-4">
+                <h3 className="font-body font-semibold text-sm">{card.title}</h3>
+                <p className="text-gray-text font-body text-xs">{card.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
