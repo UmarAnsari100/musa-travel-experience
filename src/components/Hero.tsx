@@ -24,7 +24,7 @@ const Hero = () => {
     <section id="hero" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
       {/* Ghost watermark */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <span className="font-display text-[12rem] md:text-[20rem] font-black text-foreground/[0.03] leading-none">
+        <span className="font-display text-[12rem] md:text-[20rem] font-black text-black/[0.05] leading-none uppercase">
           MUSA
         </span>
       </div>

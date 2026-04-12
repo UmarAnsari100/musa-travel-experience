@@ -82,6 +82,10 @@ const Navbar = () => {
                 <Link
                   key={link}
                   to="/fleet"
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "instant" });
+                    setMobileOpen(false);
+                  }}
                   className={`text-sm font-body font-medium transition-colors ${
                     location.pathname === "/fleet" ? "text-gold" : "text-foreground hover:text-gold"
                   }`}
@@ -131,7 +135,10 @@ const Navbar = () => {
               <Link
                 key={link}
                 to={isFleet ? "/fleet" : "/"}
-                onClick={() => handleNavClick(link)}
+                onClick={() => {
+                  if (isFleet) window.scrollTo({ top: 0, behavior: "instant" });
+                  handleNavClick(link);
+                }}
                 className="block w-full text-left font-body text-sm py-2"
               >
                 {link}
