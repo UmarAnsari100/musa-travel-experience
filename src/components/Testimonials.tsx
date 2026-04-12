@@ -3,19 +3,29 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    text: "The most professional service in the country. The captain was knowledgeable and the vehicle was immaculate. Truly a comfort masterpiece.",
-    name: "Zara Ahmed",
-    role: "Frequent Traveler",
+    text: "The Makkah to Madinah transfer was flawless. Driver was waiting at the Haram gate. Pure professionalism.",
+    name: "Pilgrim Traveler",
+    role: "Riyadh, KSA",
   },
   {
-    text: "Musa Travel feels like your private international concierge. Every detail is polished, each plan covers just the essentials in comfort.",
-    name: "Ayesha Malik",
-    role: "Business Executive",
+    text: "KAIA airport pickup was waiting before I even landed. Seamless experience. Highly recommend MUSA TRAVEL.",
+    name: "Business Executive",
+    role: "Jeddah, KSA",
   },
   {
-    text: "Reliability is hard to find but Musa Travel delivers every time. Their support infrastructure is always at the ready, no matter what.",
-    name: "Omar Farooq",
-    role: "Corporate Client",
+    text: "AlUla tour was breathtaking. Guide knew every stone of Hegra. Best trip I've ever taken in the Kingdom.",
+    name: "Heritage Explorer",
+    role: "Makkah, KSA",
+  },
+  {
+    text: "Asir Mountains package exceeded all expectations. Guide was brilliant and the views were absolutely breathtaking.",
+    name: "Nature Lover",
+    role: "Madinah, KSA",
+  },
+  {
+    text: "Used MUSA TRAVEL for our corporate fleet. Reliable, professional, invoiced monthly. 10/10 service every time.",
+    name: "Corporate Partner",
+    role: "Dammam, KSA",
   },
 ];
 

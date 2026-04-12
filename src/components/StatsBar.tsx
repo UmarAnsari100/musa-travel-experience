@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: "12K+", label: "Happy Customers" },
-  { value: "50+", label: "Destinations" },
-  { value: "4.9/5", label: "Average Rating" },
-  { value: "150+", label: "Fleet Vehicles" },
-  { value: "24/7", label: "Customer Support" },
+  { value: "12K+", label: "Happy Pilgrims & Travelers" },
+  { value: "50+", label: "Sacred & Tourist Destinations" },
+  { value: "4.9★", label: "Average Rating" },
+  { value: "150+", label: "Premium Vehicles" },
+  { value: "24/7", label: "Always Available" },
 ];
 
 const StatsBar = () => (

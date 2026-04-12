@@ -1,13 +1,22 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import eliteTaxi from "@/assets/elite-taxi.jpg";
-import airportPulse from "@/assets/airport-pulse.jpg";
-import northernTours from "@/assets/northern-tours.jpg";
 
 const heroCards = [
-  { img: eliteTaxi, title: "Elite Taxi", desc: "Premium city rides" },
-  { img: airportPulse, title: "Airport Pulse", desc: "Seamless airport transfers" },
-  { img: northernTours, title: "Northern Tours", desc: "Explore the mountains" },
+  { 
+    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800", 
+    title: "🕌 Makkah Transfers", 
+    desc: "Spiritual journey comfort" 
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&q=80&w=800", 
+    title: "✈️ Haramain Express", 
+    desc: "Seamless railway transfers" 
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=800", 
+    title: "🏜️ Desert Safari", 
+    desc: "Explore the golden dunes" 
+  },
 ];
 
 const Hero = () => {
@@ -28,12 +37,12 @@ const Hero = () => {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4">
-            Your Journey,
+            Saudi Arabia's Premium
             <br />
-            <span className="italic text-gold">Our Passion</span>
+            <span className="italic text-gold">Travel & Taxi Service</span>
           </h1>
           <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto">
-            Experience luxury travel reimagined. From city commutes to mountain escapes, we curate every mile of your voyage.
+            Experience luxury travel reimagined across the Kingdom. From sacred pilgrimages to desert adventures, we curate every mile of your voyage.
           </p>
         </motion.div>
 
@@ -48,7 +57,7 @@ const Hero = () => {
             <Search size={18} className="text-gray-text" />
             <input
               type="text"
-              placeholder="Where to?"
+              placeholder="Where to in KSA?"
               className="bg-transparent w-full outline-none font-body text-sm placeholder:text-gray-text"
               onFocus={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
             />
@@ -88,3 +97,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

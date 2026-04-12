@@ -25,7 +25,7 @@ const Footer = () => {
               MUSA<span className="text-gold font-normal">TRAVEL</span>
             </div>
             <p className="text-primary-foreground/60 font-body text-sm leading-relaxed">
-              Pakistan's most trusted travel service. Redefining the journey for those who travel first class, yet the journey feels like home.
+              Saudi Arabia's most trusted travel & taxi service. Redefining the journey for pilgrims and travelers with premium comfort and reliability across the Kingdom.
             </p>
             <div className="flex gap-4 mt-4">
               {["FB", "IG", "TW"].map((s) => (

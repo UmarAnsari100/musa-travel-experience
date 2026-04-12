@@ -2,7 +2,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-const serviceTypes = ["City Taxi", "Airport Transfer", "Intercity Travel", "Northern Tour", "Corporate Fleet", "Events & Weddings"];
+const serviceTypes = [
+  "🕌 Hajj & Umrah Transfers", 
+  "✈️ Airport Transfers", 
+  "🚗 Intercity Travel", 
+  "🏜️ Desert & Heritage Tours", 
+  "💼 Corporate Fleet", 
+  "👑 VIP & Royal Events"
+];
 
 const BookingForm = () => {
   const [form, setForm] = useState({
@@ -53,7 +60,7 @@ const BookingForm = () => {
     }
 
     // WhatsApp message
-    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "923001234567";
+    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000";
     const msg = encodeURIComponent(
       `*New Booking — MUSA TRAVEL*\n\nService: ${form.service}\nFrom: ${form.from} → To: ${form.to}\nDate: ${form.date} at ${form.time}\nPassengers: ${form.passengers}\nName: ${form.name} | Phone: ${form.phone}`
     );
@@ -71,8 +78,7 @@ const BookingForm = () => {
   };
 
   const inputClass = (key: string) =>
-    `w-full bg-surface-low rounded-xl px-4 py-3 font-body text-sm outline-none transition-colors focus:ring-2 focus:ring-gold/40 ${
-      errors[key] ? "ring-2 ring-destructive" : ""
+    `w-full bg-surface-low rounded-xl px-4 py-3 font-body text-sm outline-none transition-colors focus:ring-2 focus:ring-gold/40 ${errors[key] ? "ring-2 ring-destructive" : ""
     }`;
 
   return (
@@ -154,7 +160,7 @@ const BookingForm = () => {
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">Phone</label>
-              <input value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+92 300 1234567" className={inputClass("phone")} />
+              <input value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+966 50 000 0000" className={inputClass("phone")} />
               {errors.phone && <span className="text-destructive text-xs mt-1 block">{errors.phone}</span>}
             </div>
             <div>

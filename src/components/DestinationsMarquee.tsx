@@ -1,4 +1,17 @@
-const destinations = ["Kardu", "Lahore", "Gwadar", "Naran", "Peshawar", "Islamabad", "Swat"];
+const destinations = [
+  "🕌 Makkah", 
+  "🕍 Madinah", 
+  "🌆 Riyadh", 
+  "🌊 Jeddah", 
+  "🏔️ AlUla", 
+  "🏛️ Diriyah", 
+  "🌴 Taif", 
+  "🏜️ Empty Quarter", 
+  "🗿 Hegra", 
+  "🌃 Dammam", 
+  "🌁 Abha", 
+  "🏖️ NEOM"
+];
 
 const DestinationsMarquee = () => (
   <section id="destinations" className="py-12 overflow-hidden bg-foreground">

@@ -1,12 +1,52 @@
 import { motion } from "framer-motion";
-import hunza from "@/assets/hunza-valley.jpg";
-import mughal from "@/assets/mughal-heritage.jpg";
-import skardu from "@/assets/skardu-wilderness.jpg";
 
 const trips = [
-  { img: hunza, title: "Hunza Valley Escape", desc: "Explore the legendary Silk Road and Rakaposhi valley.", price: "₨25,000", dest: "Hunza" },
-  { img: mughal, title: "Mughal Heritage Tour", desc: "A curated journey through Lahore's majestic history.", price: "₨18,000", dest: "Lahore" },
-  { img: skardu, title: "Skardu Wilderness", desc: "Brave the Cold Waters and Shangrila's beauty.", price: "₨32,000", dest: "Skardu" },
+  { 
+    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800", 
+    title: "Makkah & Madinah Pilgrimage Package", 
+    desc: "7 days of spiritual journey with private transfers between the two Holy Cities, Mina, and Arafat.", 
+    price: "SAR 1,200", 
+    dest: "Makkah",
+    badge: "BESTSELLER"
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=800", 
+    title: "AlUla Heritage & Rose City Tour", 
+    desc: "5 days exploring Hegra, Dadan, Jabal Ikmah and Nabataean UNESCO World Heritage Sites.", 
+    price: "SAR 2,500", 
+    dest: "AlUla",
+    badge: "POPULAR"
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1586724230473-4122198d4072?auto=format&fit=crop&q=80&w=800", 
+    title: "Riyadh City & Diriyah Experience", 
+    desc: "3 days: Kingdom Tower, Edge of the World, Diriyah UNESCO site, and the best of Saudi's modern capital.", 
+    price: "SAR 800", 
+    dest: "Riyadh",
+    badge: "NEW"
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1551041738-f86047247d51?auto=format&fit=crop&q=80&w=800", 
+    title: "Jeddah Corniche & Historic District", 
+    desc: "2 days in Al-Balad UNESCO Heritage, Floating Mosque, King Fahd Fountain, and Red Sea corniche.", 
+    price: "SAR 650", 
+    dest: "Jeddah"
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1614741355037-339247f985b5?auto=format&fit=crop&q=80&w=800", 
+    title: "Abha & Asir Mountains Retreat", 
+    desc: "4 days in the Green Mountains — cable cars, flower markets, and cool mountain air.", 
+    price: "SAR 1,800", 
+    dest: "Abha"
+  },
+  { 
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f?auto=format&fit=crop&q=80&w=800", 
+    title: "Airport VIP Transfer — Premium", 
+    desc: "Luxury sedan with meet & greet, porter assistance, and real-time flight tracking at all KSA airports.", 
+    price: "SAR 250", 
+    dest: "Airport",
+    badge: "TAXI"
+  },
 ];
 
 const reveal = {
@@ -60,14 +100,29 @@ const FeaturedTrips = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ delay: i * 0.12, duration: 0.65 }}
-              className="bg-card rounded-2xl overflow-hidden shadow-card hover:-translate-y-1 hover:shadow-lg transition-all"
+              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:-translate-y-1 hover:shadow-lg transition-all relative"
             >
-              <img src={trip.img} alt={trip.title} className="w-full h-52 object-cover" loading="lazy" />
+              {trip.badge && (
+                <div className="absolute top-4 right-4 z-10 bg-gold text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                  {trip.badge}
+                </div>
+              )}
+              <div className="overflow-hidden h-52">
+                <img 
+                  src={trip.img} 
+                  alt={trip.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                  loading="lazy" 
+                />
+              </div>
               <div className="p-6">
                 <h3 className="font-body font-semibold text-lg mb-1">{trip.title}</h3>
-                <p className="text-gray-text font-body text-sm mb-4">{trip.desc}</p>
+                <p className="text-gray-text font-body text-sm mb-4 line-clamp-2">{trip.desc}</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-display font-bold text-xl text-gold">{trip.price}</span>
+                  <div>
+                    <span className="font-display font-bold text-xl text-gold">{trip.price}</span>
+                    <span className="text-[10px] text-gray-text ml-1">/ person</span>
+                  </div>
                   <button
                     onClick={() => handleBook(trip.dest)}
                     className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-5 py-2 rounded-full transition-transform hover:scale-[1.03]"

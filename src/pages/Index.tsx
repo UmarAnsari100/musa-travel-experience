@@ -6,6 +6,7 @@ import BookingProcess from "@/components/BookingProcess";
 import Services from "@/components/Services";
 import DestinationsMarquee from "@/components/DestinationsMarquee";
 import FeaturedTrips from "@/components/FeaturedTrips";
+import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import BookingForm from "@/components/BookingForm";
@@ -24,6 +25,7 @@ const Index = () => {
       <Services />
       <DestinationsMarquee />
       <FeaturedTrips />
+      <Pricing />
       <BookingForm />
       <Testimonials />
       <FAQ />

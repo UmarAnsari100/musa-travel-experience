@@ -5,19 +5,19 @@ const cards = [
   {
     icon: Shield,
     title: "Uncompromising Safety",
-    desc: "Verified chauffeurs and fleet tracking for complete peace of mind on every journey you take.",
+    desc: "All drivers are MOI-verified, licensed, and trained for Hajj & Umrah transfer protocols. Your safety on Saudi roads is our promise.",
     dark: true,
   },
   {
     icon: Clock,
     title: "Time Precision",
-    desc: "Our AI-driven routing ensures you are always on time, so you never miss a moment that matters.",
+    desc: "We monitor flight arrivals at KAIA, KFIA, and RUH airports. Punctual pickup for every pilgrim and business traveler — guaranteed.",
     dark: false,
   },
   {
     icon: Award,
     title: "Curated Expertise",
-    desc: "Hand-picked local experts and experienced drivers to tailor your trips with regional knowledge.",
+    desc: "Born and raised in the Kingdom — our drivers know every route from Makkah to Madinah, Jeddah to Riyadh, and every stop in between.",
     dark: false,
   },
 ];

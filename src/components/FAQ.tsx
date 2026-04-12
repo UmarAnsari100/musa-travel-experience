@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 
 const faqs = [
-  { q: "How far in a long distance trip?", a: "We cover distances across all major Pakistani cities and northern areas. Our long-distance trips range from 100km to over 1,500km including routes to Hunza, Skardu, and Gwadar." },
-  { q: "Can I request a specific captain?", a: "Yes, repeat clients can request their preferred captain through our WhatsApp line or the booking form. Subject to availability, we always try to match you." },
-  { q: "Are refreshments included in any rides?", a: "Our premium and corporate fleet packages include complimentary water and light refreshments. Northern tour packages include full meal stops at curated restaurants." },
-  { q: "What is your cancellation policy?", a: "Free cancellation up to 24 hours before your scheduled ride. Within 24 hours, a 20% fee applies. No-shows are charged the full fare." },
-  { q: "Do you provide a child safety seat?", a: "Absolutely. Child safety seats are available upon request at no extra charge. Please mention it during booking so we can prepare the appropriate vehicle." },
+  { q: "How do I book a Hajj or Umrah transfer?", a: "Book via WhatsApp, our website, or call our 24/7 hotline. We serve all pilgrims arriving at KAIA and KFIA with direct transfers to Makkah and Madinah." },
+  { q: "Are your drivers Hajj-licensed?", a: "Yes. All drivers hold valid Saudi MOI licenses and Hajj transport permits issued by the Ministry of Hajj." },
+  { q: "Which cities and airports do you cover?", a: "All major KSA cities: Riyadh, Jeddah, Makkah, Madinah, Dammam, Taif, Abha. Airports: KAIA, KFIA, RUH, AHB, DMM." },
+  { q: "Do you offer group rates for families?", a: "Groups of 4+ receive 15% discount. Hajj & Umrah groups of 10+ get a dedicated Coaster with coordinator." },
+  { q: "What is your cancellation policy?", a: "Free cancellation 2 hours before pickup. Tours: full refund 7 days before, 50% credit after that." },
 ];
 
 const FAQ = () => {

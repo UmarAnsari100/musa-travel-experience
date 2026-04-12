@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { Car, Plane, MapPin, Mountain, Building2, Heart } from "lucide-react";
 
 const services = [
-  { icon: Car, title: "City Taxi", desc: "Quick, reliable city-wide premium sedans and hatchback options." },
-  { icon: Plane, title: "Airport Transfers", desc: "On-time pickups with tracked arrivals at major airports nationwide." },
-  { icon: MapPin, title: "Intercity Travel", desc: "Comfortable long-distance rides across the country's major cities." },
-  { icon: Mountain, title: "Northern Tours", desc: "Multi-day guided tour packages through the Karakoram mountains." },
-  { icon: Building2, title: "Corporate Fleet", desc: "Dedicated fleet management tailored for businesses and corporates." },
-  { icon: Heart, title: "Events & Weddings", desc: "Luxury fleets for celebrations, ceremonies and milestone events." },
+  { icon: MapPin, title: "🕌 Hajj & Umrah Transfers", desc: "Dedicated transport between Makkah, Madinah, Mina, Arafat, and Muzdalifah for pilgrims." },
+  { icon: Plane, title: "✈️ Airport Transfers", desc: "Meet & greet at King Abdulaziz (KAIA), King Fahd (KFIA), and King Khalid (RUH)." },
+  { icon: Car, title: "🚗 Intercity Travel", desc: "Comfortable rides between Riyadh, Jeddah, Makkah, Madinah, Dammam, and Taif." },
+  { icon: Mountain, title: "🏜️ Desert & Heritage Tours", desc: "Guided tours to AlUla, Hegra, Edge of the World, Empty Quarter, and Diriyah UNESCO." },
+  { icon: Building2, title: "💼 Corporate Fleet", desc: "Monthly accounts and VIP transport for businesses across the Kingdom's major cities." },
+  { icon: Heart, title: "👑 VIP & Royal Events", desc: "Luxury vehicle hire for weddings, government events, and high-profile occasions in KSA." },
 ];
 
 const reveal = {

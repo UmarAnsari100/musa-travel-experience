@@ -17,10 +17,10 @@ const FooterCTA = () => (
         transition={{ duration: 0.65 }}
       >
         <h2 className="font-display font-bold text-3xl md:text-5xl text-primary-foreground mb-4">
-          Ready to Explore?
+          Ready to Explore the Kingdom?
         </h2>
-        <p className="text-primary-foreground/60 font-body mb-8 max-w-md mx-auto">
-          Your next curated voyage is just a tap away.
+        <p className="text-primary-foreground/60 font-body mb-8 max-w-lg mx-auto">
+          From the Holy Cities to the ancient desert — MUSA TRAVEL is your trusted companion across Saudi Arabia.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
@@ -30,7 +30,7 @@ const FooterCTA = () => (
             Book Now
           </button>
           <a
-            href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "923001234567"}?text=${encodeURIComponent("Hi, I'd like to know more about your services.")}`}
+            href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000"}?text=${encodeURIComponent("Hi, I'd like to know more about your services.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="font-body font-semibold text-sm px-8 py-3 rounded-full text-primary-foreground bg-primary-foreground/10 transition-transform hover:scale-[1.03]"
