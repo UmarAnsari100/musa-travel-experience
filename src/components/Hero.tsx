@@ -1,19 +1,22 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import makkahImg from "../assets/makkah.jpg";
+import haramainImg from "../assets/hermain.jpg";
+import desertSafariImg from "../assets/desert-safari.jpg";
 
 const heroCards = [
   {
-    img: "src/assets/makkah.jpg",
+    img: makkahImg,
     title: " Makkah Transfers",
     desc: "Spiritual journey comfort"
   },
   {
-    img: "src/assets/hermain.jpg",
+    img: haramainImg,
     title: " Haramain Express",
     desc: "Seamless railway transfers"
   },
   {
-    img: "src/assets/desert-safari.jpg",
+    img: desertSafariImg,
     title: " Desert Safari",
     desc: "Explore the golden dunes"
   },
