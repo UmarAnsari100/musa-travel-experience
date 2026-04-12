@@ -3,17 +3,17 @@ import { Search } from "lucide-react";
 
 const heroCards = [
   {
-    img: "src/assets/download (3).jpg",
+    img: "src/assets/makkah.jpg",
     title: " Makkah Transfers",
     desc: "Spiritual journey comfort"
   },
   {
-    img: "src/assets/How to travel between Mecca and Medina with the Haramain High-Speed Railway.jpg",
+    img: "src/assets/hermain.jpg",
     title: " Haramain Express",
     desc: "Seamless railway transfers"
   },
   {
-    img: "src/assets/Evening Desert Safari Riyadh — The Ultimate Desert Safari Riyadh Experience.jpg",
+    img: "src/assets/desert-safari.jpg",
     title: " Desert Safari",
     desc: "Explore the golden dunes"
   },

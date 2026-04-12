@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const trips = [
   {
-    img: "src/assets/download.jpg",
+    img: "src/assets/madina.jpg",
     title: "Makkah & Madinah Pilgrimage Package",
     desc: "7 days of spiritual journey with private transfers between the two Holy Cities, Mina, and Arafat.",
     price: "SAR 1,200",
@@ -10,7 +10,7 @@ const trips = [
     badge: "BESTSELLER"
   },
   {
-    img: "src/assets/download (1).jpg",
+    img: "src/assets/alula.jpg",
     title: "AlUla Heritage & Rose City Tour",
     desc: "5 days exploring Hegra, Dadan, Jabal Ikmah and Nabataean UNESCO World Heritage Sites.",
     price: "SAR 2,500",
@@ -18,7 +18,7 @@ const trips = [
     badge: "POPULAR"
   },
   {
-    img: "src/assets/طريف ، الدرعية🤎.jpg",
+    img: "src/assets/riyadh.jpg",
     title: "Riyadh City & Diriyah Experience",
     desc: "3 days: Kingdom Tower, Edge of the World, Diriyah UNESCO site, and the best of Saudi's modern capital.",
     price: "SAR 800",
@@ -26,21 +26,21 @@ const trips = [
     badge: "NEW"
   },
   {
-    img: "src/assets/download (2).jpg",
+    img: "src/assets/jeddah.jpg",
     title: "Jeddah Corniche & Historic District",
     desc: "2 days in Al-Balad UNESCO Heritage, Floating Mosque, King Fahd Fountain, and Red Sea corniche.",
     price: "SAR 650",
     dest: "Jeddah"
   },
   {
-    img: "src/assets/Abha, saudi arabia 🇸🇦.jpg",
+    img: "src/assets/abha.jpg",
     title: "Abha & Asir Mountains Retreat",
     desc: "4 days in the Green Mountains — cable cars, flower markets, and cool mountain air.",
     price: "SAR 1,800",
     dest: "Abha"
   },
   {
-    img: "src/assets/THE LARGEST AIRPORT IN THE WORLD_.jpg",
+    img: "src/assets/airport.jpg",
     title: "Airport VIP Transfer — Premium",
     desc: "Luxury sedan with meet & greet, porter assistance, and real-time flight tracking at all KSA airports.",
     price: "SAR 250",
