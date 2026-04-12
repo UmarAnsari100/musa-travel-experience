@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
-const navLinks = ["Home", "Destinations", "Services", "Packages", "FAQ"];
+const navLinks = ["Home", "Fleet", "Services", "Packages", "FAQ"];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -15,7 +17,12 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const sectionIds = ["hero", "destinations", "services", "packages", "faq"];
+    if (location.pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
+    const sectionIds = ["hero", "fleet", "services", "packages", "faq"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -32,13 +39,19 @@ const Navbar = () => {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [location.pathname]);
 
-  const scrollTo = (link: string) => {
+  const handleNavClick = (link: string) => {
     setMobileOpen(false);
+    if (link === "Fleet") return; // Handled by Link component
+
+    if (location.pathname !== "/") {
+      // If not on home page, Home link takes back to /
+      return;
+    }
+
     const map: Record<string, string> = {
       Home: "hero",
-      Destinations: "destinations",
       Services: "services",
       Packages: "packages",
       FAQ: "faq",
@@ -58,28 +71,47 @@ const Navbar = () => {
       }}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <div className="font-display text-xl font-bold tracking-tight">
+        <Link to="/" className="font-display text-xl font-bold tracking-tight">
           MUSA<span className="text-gold font-normal">TRAVEL</span>
-        </div>
+        </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button
-              key={link}
-              onClick={() => scrollTo(link)}
-              className={`text-sm font-body font-medium transition-colors ${
-                activeSection === link ? "text-gold" : "text-foreground hover:text-gold"
-              }`}
-            >
-              {link}
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            if (link === "Fleet") {
+              return (
+                <Link
+                  key={link}
+                  to="/fleet"
+                  className={`text-sm font-body font-medium transition-colors ${
+                    location.pathname === "/fleet" ? "text-gold" : "text-foreground hover:text-gold"
+                  }`}
+                >
+                  {link}
+                </Link>
+              );
+            }
+            return (
+              <Link
+                key={link}
+                to="/"
+                onClick={() => handleNavClick(link)}
+                className={`text-sm font-body font-medium transition-colors ${
+                  activeSection === link ? "text-gold" : "text-foreground hover:text-gold"
+                }`}
+              >
+                {link}
+              </Link>
+            );
+          })}
         </div>
 
         <button
           onClick={() => {
-            const el = document.getElementById("booking");
-            el?.scrollIntoView({ behavior: "smooth" });
+            if (location.pathname !== "/") {
+              window.location.href = "/#booking";
+            } else {
+              document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+            }
           }}
           className="hidden md:block gradient-gold text-primary-foreground font-body font-semibold text-sm px-6 py-2.5 rounded-full transition-transform hover:scale-[1.03]"
         >
@@ -93,19 +125,27 @@ const Navbar = () => {
 
       {mobileOpen && (
         <div className="md:hidden bg-card px-6 pb-4 space-y-3">
-          {navLinks.map((link) => (
-            <button
-              key={link}
-              onClick={() => scrollTo(link)}
-              className="block w-full text-left font-body text-sm py-2"
-            >
-              {link}
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            const isFleet = link === "Fleet";
+            return (
+              <Link
+                key={link}
+                to={isFleet ? "/fleet" : "/"}
+                onClick={() => handleNavClick(link)}
+                className="block w-full text-left font-body text-sm py-2"
+              >
+                {link}
+              </Link>
+            );
+          })}
           <button
             onClick={() => {
               setMobileOpen(false);
-              document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+              if (location.pathname !== "/") {
+                window.location.href = "/#booking";
+              } else {
+                document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+              }
             }}
             className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-6 py-2.5 rounded-full w-full"
           >
