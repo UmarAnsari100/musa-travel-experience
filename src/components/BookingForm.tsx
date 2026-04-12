@@ -85,10 +85,10 @@ const BookingForm = () => {
     <section id="booking" className="py-20 md:py-28 bg-surface-low">
       <div className="container mx-auto px-6 max-w-3xl">
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-12"
         >
           <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">Reserve Now</span>
@@ -97,11 +97,11 @@ const BookingForm = () => {
 
         <motion.form
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="bg-card rounded-2xl shadow-card p-8 space-y-5"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-card shadow-card p-8 space-y-5"
         >
           {/* Service */}
           <div>

@@ -50,7 +50,7 @@ const trips = [
 ];
 
 const reveal = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -78,7 +78,7 @@ const FeaturedTrips = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex items-end justify-between mb-12"
         >
           <div>
@@ -99,8 +99,8 @@ const FeaturedTrips = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.65 }}
-              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:-translate-y-1 hover:shadow-lg transition-all relative"
+              transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
+              className="group bg-card overflow-hidden shadow-card transition-all relative"
             >
               {trip.badge && (
                 <div className="absolute top-4 right-4 z-10 bg-gold text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">

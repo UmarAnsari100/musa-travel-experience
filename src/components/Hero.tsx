@@ -2,20 +2,20 @@ import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 
 const heroCards = [
-  { 
-    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800", 
-    title: "🕌 Makkah Transfers", 
-    desc: "Spiritual journey comfort" 
+  {
+    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800",
+    title: " Makkah Transfers",
+    desc: "Spiritual journey comfort"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&q=80&w=800", 
-    title: "✈️ Haramain Express", 
-    desc: "Seamless railway transfers" 
+  {
+    img: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&q=80&w=800",
+    title: " Haramain Express",
+    desc: "Seamless railway transfers"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=800", 
-    title: "🏜️ Desert Safari", 
-    desc: "Explore the golden dunes" 
+  {
+    img: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=800",
+    title: " Desert Safari",
+    desc: "Explore the golden dunes"
   },
 ];
 
@@ -48,10 +48,10 @@ const Hero = () => {
 
         {/* Search bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="max-w-2xl mx-auto bg-card rounded-2xl shadow-card p-3 flex flex-col sm:flex-row items-center gap-3 mb-16"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-2xl mx-auto bg-card shadow-card p-3 flex flex-col sm:flex-row items-center gap-3 mb-16"
         >
           <div className="flex-1 w-full flex items-center gap-3 px-4 py-2">
             <Search size={18} className="text-gray-text" />
@@ -76,12 +76,11 @@ const Hero = () => {
           {heroCards.map((card, i) => (
             <motion.div
               key={card.title}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.15, duration: 0.5 }}
-              className={`bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-lg transition-all hover:-translate-y-1 ${
-                i === 0 ? "animate-float" : i === 1 ? "animate-float-delayed-1" : "animate-float-delayed-2"
-              }`}
+              transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
+              className={`bg-card overflow-hidden shadow-card transition-all ${i === 0 ? "animate-float" : i === 1 ? "animate-float-delayed-1" : "animate-float-delayed-2"
+                }`}
             >
               <img src={card.img} alt={card.title} className="w-full h-36 object-cover" />
               <div className="p-4">

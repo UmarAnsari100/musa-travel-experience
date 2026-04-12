@@ -1,16 +1,16 @@
 const destinations = [
-  "🕌 Makkah", 
-  "🕍 Madinah", 
-  "🌆 Riyadh", 
-  "🌊 Jeddah", 
-  "🏔️ AlUla", 
-  "🏛️ Diriyah", 
-  "🌴 Taif", 
-  "🏜️ Empty Quarter", 
-  "🗿 Hegra", 
-  "🌃 Dammam", 
-  "🌁 Abha", 
-  "🏖️ NEOM"
+  " Makkah",
+  " Madinah",
+  " Riyadh",
+  " Jeddah",
+  " AlUla",
+  " Diriyah",
+  " Taif",
+  " Empty Quarter",
+  " Hegra",
+  " Dammam",
+  " Abha",
+  " NEOM"
 ];
 
 const DestinationsMarquee = () => (

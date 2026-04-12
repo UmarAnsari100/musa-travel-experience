@@ -23,7 +23,7 @@ const cards = [
 ];
 
 const reveal = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -35,7 +35,7 @@ const WhyChooseUs = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.65 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center mb-16"
       >
         <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">Why Choose Us</span>
@@ -50,16 +50,17 @@ const WhyChooseUs = () => (
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.65 }}
-            className={`rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg ${
-              card.dark ? "bg-foreground text-primary-foreground" : "bg-card shadow-card"
-            }`}
+            transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
+            className="hover-black-card p-8"
           >
-            <card.icon size={28} className={card.dark ? "text-gold" : "text-gold"} />
-            <h3 className="font-body font-semibold text-lg mt-5 mb-3">{card.title}</h3>
-            <p className={`font-body text-sm leading-relaxed ${card.dark ? "text-primary-foreground/70" : "text-gray-text"}`}>
+            <div className="icon-container mb-6">
+              <card.icon size={28} />
+            </div>
+            <h3 className="font-body font-semibold text-lg mb-3">{card.title}</h3>
+            <p className="font-body text-sm leading-relaxed">
               {card.desc}
             </p>
+            <div className="shimmer-line" />
           </motion.div>
         ))}
       </div>

@@ -5,7 +5,7 @@ const FooterCTA = () => (
     {/* Ghost watermark */}
     <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none">
       <span className="font-display text-[10rem] md:text-[16rem] font-black text-primary-foreground/[0.04] leading-none">
-        MUS
+        MUSA
       </span>
     </div>
 

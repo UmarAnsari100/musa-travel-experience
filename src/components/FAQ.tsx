@@ -17,10 +17,10 @@ const FAQ = () => {
     <section id="faq" className="py-20 md:py-28">
       <div className="container mx-auto px-6 max-w-2xl">
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-12"
         >
           <h2 className="font-display font-bold text-3xl md:text-4xl">Common Enquiries</h2>
@@ -30,11 +30,11 @@ const FAQ = () => {
           {faqs.map((faq, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05, duration: 0.4 }}
-              className="bg-card rounded-2xl shadow-card overflow-hidden"
+              transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
+              className="bg-card shadow-card overflow-hidden"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}

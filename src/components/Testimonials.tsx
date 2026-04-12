@@ -30,7 +30,7 @@ const testimonials = [
 ];
 
 const reveal = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -42,41 +42,38 @@ const Testimonials = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.65 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center mb-16"
       >
         <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">Reviews</span>
         <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">Voices of the Voyage</h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {testimonials.map((t, i) => (
-          <motion.div
-            key={t.name}
-            variants={reveal}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.65 }}
-            className="bg-card rounded-2xl p-8 shadow-card hover:-translate-y-1 hover:shadow-lg transition-all"
-          >
-            <div className="flex gap-1 mb-4">
-              {Array.from({ length: 5 }).map((_, j) => (
-                <Star key={j} size={14} className="fill-gold text-gold" />
-              ))}
-            </div>
-            <p className="text-gray-text font-body text-sm leading-relaxed mb-6">"{t.text}"</p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full gradient-gold flex items-center justify-center text-primary-foreground font-body font-bold text-sm">
-                {t.name[0]}
+      <div className="marquee-wrapper">
+        <div className="marquee-track">
+          {[...testimonials, ...testimonials].map((t, i) => (
+            <div
+              key={i}
+              className="bg-card p-8 rounded-2xl shadow-card transition-all testimonial-marquee-card"
+            >
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: 5 }).map((_, j) => (
+                  <Star key={j} size={14} className="fill-gold text-gold" />
+                ))}
               </div>
-              <div>
-                <div className="font-body font-semibold text-sm">{t.name}</div>
-                <div className="font-body text-xs text-gray-text">{t.role}</div>
+              <p className="text-gray-text font-body text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full gradient-gold flex items-center justify-center text-primary-foreground font-body font-bold text-sm">
+                  {t.name[0]}
+                </div>
+                <div>
+                  <div className="font-body font-semibold text-sm">{t.name}</div>
+                  <div className="font-body text-xs text-gray-text">{t.role}</div>
+                </div>
               </div>
             </div>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   </section>

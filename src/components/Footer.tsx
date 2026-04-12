@@ -1,6 +1,12 @@
-import { Send } from "lucide-react";
+import { Send, Facebook, Instagram, Twitter } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+const socialLinks = [
+  { Icon: Facebook, name: "Facebook" },
+  { Icon: Instagram, name: "Instagram" },
+  { Icon: Twitter, name: "Twitter" },
+];
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -16,75 +22,98 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-primary-foreground pt-16 pb-8">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Logo */}
-          <div>
-            <div className="font-display text-xl font-bold mb-3">
-              MUSA<span className="text-gold font-normal">TRAVEL</span>
+    <footer className="relative bg-[#000000] text-white pt-20 pb-10 overflow-hidden">
+      <div className="relative container mx-auto px-6 max-w-[1200px]">
+
+        {/* Middle Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start py-12">
+          {/* Column 1: Brand */}
+          <div className="pr-0 md:pr-12 h-full">
+            <div className="font-display text-xl font-bold mb-4 tracking-tight">
+              MUSA<span className="text-[#C9A84C] font-normal"> TRAVEL</span>
             </div>
-            <p className="text-primary-foreground/60 font-body text-sm leading-relaxed">
-              Saudi Arabia's most trusted travel & taxi service. Redefining the journey for pilgrims and travelers with premium comfort and reliability across the Kingdom.
+            <p className="text-white/50 font-body text-[13px] leading-relaxed mb-8 max-w-[240px]">
+              Saudi Arabia's most trusted travel & taxi service. Redefining high-end Kingdom voyages.
             </p>
-            <div className="flex gap-4 mt-4">
-              {["FB", "IG", "TW"].map((s) => (
-                <span key={s} className="w-8 h-8 rounded-full bg-primary-foreground/10 flex items-center justify-center text-xs font-body">
-                  {s}
-                </span>
+            <div className="flex gap-3">
+              {socialLinks.map(({ Icon, name }) => (
+                <button
+                  key={name}
+                  className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center transition-all hover:border-[#C9A84C] hover:text-[#C9A84C]"
+                  aria-label={name}
+                >
+                  <Icon size={14} />
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-body font-semibold text-sm mb-4">Quick Links</h4>
-            {["Home", "Destinations", "Services", "Packages", "FAQ"].map((link) => (
-              <button
-                key={link}
-                onClick={() => {
-                  const map: Record<string, string> = { Home: "hero", Destinations: "destinations", Services: "services", Packages: "packages", FAQ: "faq" };
-                  document.getElementById(map[link])?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="block text-primary-foreground/60 font-body text-sm py-1 hover:text-gold transition-colors"
-              >
-                {link}
-              </button>
-            ))}
+          {/* Column 2: Links */}
+          <div className="px-0 md:px-12 h-full">
+            <div className="mb-10">
+              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">QUICK LINKS</h4>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                {["Home", "Destinations", "Services", "Packages", "FAQ"].map((link) => (
+                  <button
+                    key={link}
+                    onClick={() => {
+                      const map: Record<string, string> = { Home: "hero", Destinations: "destinations", Services: "services", Packages: "packages", FAQ: "faq" };
+                      document.getElementById(map[link])?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="text-white text-left font-body text-[13px] hover:text-[#C9A84C] transition-colors"
+                  >
+                    {link}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">LEGAL</h4>
+              <div className="flex flex-col gap-3">
+                {["Privacy Policy", "Terms of Service"].map((link) => (
+                  <span key={link} className="text-white font-body text-[13px] cursor-pointer hover:text-[#C9A84C] transition-colors">
+                    {link}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Legal */}
-          <div>
-            <h4 className="font-body font-semibold text-sm mb-4">Legal</h4>
-            {["Privacy Policy", "Terms of Service"].map((link) => (
-              <span key={link} className="block text-primary-foreground/60 font-body text-sm py-1 cursor-pointer hover:text-gold transition-colors">
-                {link}
-              </span>
-            ))}
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-body font-semibold text-sm mb-4">Newsletter</h4>
-            <p className="text-primary-foreground/60 font-body text-sm mb-4">Get curated updates and exclusive voyage deals.</p>
-            <form onSubmit={handleNewsletter} className="flex">
+          {/* Column 3: Newsletter */}
+          <div className="pl-0 md:pl-12">
+            <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">NEWSLETTER</h4>
+            <p className="text-white/50 font-body text-[13px] leading-relaxed mb-6">
+              Get curated updates and exclusive Kingdom deals.
+            </p>
+            <form onSubmit={handleNewsletter} className="relative flex items-center max-w-[280px]">
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Email"
-                className="flex-1 bg-primary-foreground/10 rounded-l-xl px-4 py-2.5 font-body text-sm outline-none text-primary-foreground placeholder:text-primary-foreground/40"
+                className="w-full bg-[#1a1a2e] border border-white/10 rounded-full py-3.5 px-6 text-[13px] text-white placeholder:text-white/40 focus:outline-none focus:border-[#C9A84C] transition-colors pr-14"
               />
-              <button type="submit" className="gradient-gold px-4 py-2.5 rounded-r-xl transition-transform hover:scale-[1.03]">
-                <Send size={16} className="text-primary-foreground" />
+              <button
+                type="submit"
+                className="absolute right-1.5 w-10 h-10 bg-[#C9A84C] rounded-full flex items-center justify-center hover:opacity-90 transition-opacity"
+              >
+                <Send size={15} className="text-[#0D0D14]" />
               </button>
             </form>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 pt-6 text-center">
-          <p className="text-primary-foreground/40 font-body text-xs">
-            © 2025 MUSA TRAVEL. The Curated Voyage All Rights Reserved.
+        {/* Bottom Bar */}
+        <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/35 font-body text-[12px]">
+            © 2026 Musa Travel. All rights reserved.
           </p>
+          <div className="flex gap-6">
+            {["Privacy", "Terms"].map((l) => (
+              <span key={l} className="text-white/35 font-body text-[12px] hover:text-white cursor-pointer transition-colors">
+                {l}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

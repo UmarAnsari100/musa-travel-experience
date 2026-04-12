@@ -2,16 +2,16 @@ import { motion } from "framer-motion";
 import { Car, Plane, MapPin, Mountain, Building2, Heart } from "lucide-react";
 
 const services = [
-  { icon: MapPin, title: "🕌 Hajj & Umrah Transfers", desc: "Dedicated transport between Makkah, Madinah, Mina, Arafat, and Muzdalifah for pilgrims." },
-  { icon: Plane, title: "✈️ Airport Transfers", desc: "Meet & greet at King Abdulaziz (KAIA), King Fahd (KFIA), and King Khalid (RUH)." },
-  { icon: Car, title: "🚗 Intercity Travel", desc: "Comfortable rides between Riyadh, Jeddah, Makkah, Madinah, Dammam, and Taif." },
-  { icon: Mountain, title: "🏜️ Desert & Heritage Tours", desc: "Guided tours to AlUla, Hegra, Edge of the World, Empty Quarter, and Diriyah UNESCO." },
-  { icon: Building2, title: "💼 Corporate Fleet", desc: "Monthly accounts and VIP transport for businesses across the Kingdom's major cities." },
-  { icon: Heart, title: "👑 VIP & Royal Events", desc: "Luxury vehicle hire for weddings, government events, and high-profile occasions in KSA." },
+  { icon: MapPin, title: " Hajj & Umrah Transfers", desc: "Dedicated transport between Makkah, Madinah, Mina, Arafat, and Muzdalifah for pilgrims." },
+  { icon: Plane, title: " Airport Transfers", desc: "Meet & greet at King Abdulaziz (KAIA), King Fahd (KFIA), and King Khalid (RUH)." },
+  { icon: Car, title: " Intercity Travel", desc: "Comfortable rides between Riyadh, Jeddah, Makkah, Madinah, Dammam, and Taif." },
+  { icon: Mountain, title: " Desert & Heritage Tours", desc: "Guided tours to AlUla, Hegra, Edge of the World, Empty Quarter, and Diriyah UNESCO." },
+  { icon: Building2, title: " Corporate Fleet", desc: "Monthly accounts and VIP transport for businesses across the Kingdom's major cities." },
+  { icon: Heart, title: " VIP & Royal Events", desc: "Luxury vehicle hire for weddings, government events, and high-profile occasions in KSA." },
 ];
 
 const reveal = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -23,7 +23,7 @@ const Services = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.65 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center mb-16"
       >
         <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">What We Offer</span>
@@ -38,12 +38,15 @@ const Services = () => (
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: i * 0.08, duration: 0.65 }}
-            className="bg-card rounded-2xl p-8 shadow-card hover:-translate-y-1 hover:shadow-lg transition-all text-center"
+            transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
+            className="hover-black-card p-8 text-center"
           >
-            <svc.icon size={32} className="text-gold mx-auto mb-4" />
+            <div className="icon-container mx-auto mb-6">
+              <svc.icon size={32} />
+            </div>
             <h3 className="font-body font-semibold text-base mb-2">{svc.title}</h3>
-            <p className="text-gray-text font-body text-sm">{svc.desc}</p>
+            <p className="font-body text-sm leading-relaxed">{svc.desc}</p>
+            <div className="shimmer-line" />
           </motion.div>
         ))}
       </div>
