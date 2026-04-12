@@ -1,49 +1,49 @@
 import { motion } from "framer-motion";
 
 const trips = [
-  { 
-    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800", 
-    title: "Makkah & Madinah Pilgrimage Package", 
-    desc: "7 days of spiritual journey with private transfers between the two Holy Cities, Mina, and Arafat.", 
-    price: "SAR 1,200", 
+  {
+    img: "src/assets/download.jpg",
+    title: "Makkah & Madinah Pilgrimage Package",
+    desc: "7 days of spiritual journey with private transfers between the two Holy Cities, Mina, and Arafat.",
+    price: "SAR 1,200",
     dest: "Makkah",
     badge: "BESTSELLER"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&q=80&w=800", 
-    title: "AlUla Heritage & Rose City Tour", 
-    desc: "5 days exploring Hegra, Dadan, Jabal Ikmah and Nabataean UNESCO World Heritage Sites.", 
-    price: "SAR 2,500", 
+  {
+    img: "src/assets/download (1).jpg",
+    title: "AlUla Heritage & Rose City Tour",
+    desc: "5 days exploring Hegra, Dadan, Jabal Ikmah and Nabataean UNESCO World Heritage Sites.",
+    price: "SAR 2,500",
     dest: "AlUla",
     badge: "POPULAR"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1586724230473-4122198d4072?auto=format&fit=crop&q=80&w=800", 
-    title: "Riyadh City & Diriyah Experience", 
-    desc: "3 days: Kingdom Tower, Edge of the World, Diriyah UNESCO site, and the best of Saudi's modern capital.", 
-    price: "SAR 800", 
+  {
+    img: "src/assets/طريف ، الدرعية🤎.jpg",
+    title: "Riyadh City & Diriyah Experience",
+    desc: "3 days: Kingdom Tower, Edge of the World, Diriyah UNESCO site, and the best of Saudi's modern capital.",
+    price: "SAR 800",
     dest: "Riyadh",
     badge: "NEW"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1551041738-f86047247d51?auto=format&fit=crop&q=80&w=800", 
-    title: "Jeddah Corniche & Historic District", 
-    desc: "2 days in Al-Balad UNESCO Heritage, Floating Mosque, King Fahd Fountain, and Red Sea corniche.", 
-    price: "SAR 650", 
+  {
+    img: "src/assets/download (2).jpg",
+    title: "Jeddah Corniche & Historic District",
+    desc: "2 days in Al-Balad UNESCO Heritage, Floating Mosque, King Fahd Fountain, and Red Sea corniche.",
+    price: "SAR 650",
     dest: "Jeddah"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1614741355037-339247f985b5?auto=format&fit=crop&q=80&w=800", 
-    title: "Abha & Asir Mountains Retreat", 
-    desc: "4 days in the Green Mountains — cable cars, flower markets, and cool mountain air.", 
-    price: "SAR 1,800", 
+  {
+    img: "src/assets/Abha, saudi arabia 🇸🇦.jpg",
+    title: "Abha & Asir Mountains Retreat",
+    desc: "4 days in the Green Mountains — cable cars, flower markets, and cool mountain air.",
+    price: "SAR 1,800",
     dest: "Abha"
   },
-  { 
-    img: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f?auto=format&fit=crop&q=80&w=800", 
-    title: "Airport VIP Transfer — Premium", 
-    desc: "Luxury sedan with meet & greet, porter assistance, and real-time flight tracking at all KSA airports.", 
-    price: "SAR 250", 
+  {
+    img: "src/assets/THE LARGEST AIRPORT IN THE WORLD_.jpg",
+    title: "Airport VIP Transfer — Premium",
+    desc: "Luxury sedan with meet & greet, porter assistance, and real-time flight tracking at all KSA airports.",
+    price: "SAR 250",
     dest: "Airport",
     badge: "TAXI"
   },
@@ -108,11 +108,11 @@ const FeaturedTrips = () => {
                 </div>
               )}
               <div className="overflow-hidden h-52">
-                <img 
-                  src={trip.img} 
-                  alt={trip.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                  loading="lazy" 
+                <img
+                  src={trip.img}
+                  alt={trip.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">

@@ -1,19 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
 const serviceTypes = [
-  "🕌 Hajj & Umrah Transfers", 
-  "✈️ Airport Transfers", 
-  "🚗 Intercity Travel", 
-  "🏜️ Desert & Heritage Tours", 
-  "💼 Corporate Fleet", 
-  "👑 VIP & Royal Events"
+  " Hajj & Umrah Transfers",
+  " Airport Transfers",
+  " Intercity Travel",
+  " Desert & Heritage Tours",
+  " Corporate Fleet",
+  " VIP & Royal Events"
 ];
 
-const BookingForm = () => {
+const vehicleTypes = [
+  "Toyota Camry",
+  "Mercedes E-Class",
+  "Toyota Land Cruiser",
+  "GMC Yukon",
+  "Toyota Hiace",
+  "Mercedes S-Class",
+  "Toyota Corolla",
+  "Chevrolet Suburban",
+  "Coaster Bus"
+];
+
+const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
   const [form, setForm] = useState({
     service: "",
+    vehicle: prefillVehicle || "",
     from: "",
     to: "",
     date: "",
@@ -62,12 +75,12 @@ const BookingForm = () => {
     // WhatsApp message
     const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000";
     const msg = encodeURIComponent(
-      `*New Booking — MUSA TRAVEL*\n\nService: ${form.service}\nFrom: ${form.from} → To: ${form.to}\nDate: ${form.date} at ${form.time}\nPassengers: ${form.passengers}\nName: ${form.name} | Phone: ${form.phone}`
+      `*New Booking — MUSA TRAVEL*\n\nService: ${form.service}\nVehicle: ${form.vehicle}\nFrom: ${form.from} → To: ${form.to}\nDate: ${form.date} at ${form.time}\nPassengers: ${form.passengers}\nName: ${form.name} | Phone: ${form.phone}`
     );
     window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
 
     toast.success("Booking sent! We'll confirm shortly.");
-    setForm({ service: "", from: "", to: "", date: "", time: "", passengers: "1", name: "", phone: "", email: "" });
+    setForm({ service: "", vehicle: "", from: "", to: "", date: "", time: "", passengers: "1", name: "", phone: "", email: "" });
     setErrors({});
     setLoading(false);
   };
@@ -76,6 +89,12 @@ const BookingForm = () => {
     setForm((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" }));
   };
+
+  useEffect(() => {
+    if (prefillVehicle) {
+      setForm(prev => ({ ...prev, vehicle: prefillVehicle }));
+    }
+  }, [prefillVehicle]);
 
   const inputClass = (key: string) =>
     `w-full bg-surface-low rounded-xl px-4 py-3 font-body text-sm outline-none transition-colors focus:ring-2 focus:ring-gold/40 ${errors[key] ? "ring-2 ring-destructive" : ""
@@ -103,16 +122,26 @@ const BookingForm = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="bg-card shadow-card p-8 space-y-5"
         >
-          {/* Service */}
-          <div>
-            <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">Service Type</label>
-            <select value={form.service} onChange={(e) => update("service", e.target.value)} className={inputClass("service")}>
-              <option value="">Select service...</option>
-              {serviceTypes.map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-            {errors.service && <span className="text-destructive text-xs mt-1 block">{errors.service}</span>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">Service Type</label>
+              <select value={form.service} onChange={(e) => update("service", e.target.value)} className={inputClass("service")}>
+                <option value="">Select service...</option>
+                {serviceTypes.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+              {errors.service && <span className="text-destructive text-xs mt-1 block">{errors.service}</span>}
+            </div>
+            <div>
+              <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">Vehicle Type</label>
+              <select value={form.vehicle} onChange={(e) => update("vehicle", e.target.value)} className={inputClass("vehicle")}>
+                <option value="">Select vehicle...</option>
+                {vehicleTypes.map((v) => (
+                  <option key={v} value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* From / To */}

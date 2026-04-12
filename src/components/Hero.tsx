@@ -3,17 +3,17 @@ import { Search } from "lucide-react";
 
 const heroCards = [
   {
-    img: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800",
+    img: "src/assets/download (3).jpg",
     title: " Makkah Transfers",
     desc: "Spiritual journey comfort"
   },
   {
-    img: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&q=80&w=800",
+    img: "src/assets/How to travel between Mecca and Medina with the Haramain High-Speed Railway.jpg",
     title: " Haramain Express",
     desc: "Seamless railway transfers"
   },
   {
-    img: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&q=80&w=800",
+    img: "src/assets/Evening Desert Safari Riyadh — The Ultimate Desert Safari Riyadh Experience.jpg",
     title: " Desert Safari",
     desc: "Explore the golden dunes"
   },
