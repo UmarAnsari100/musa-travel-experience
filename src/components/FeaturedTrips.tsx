@@ -85,16 +85,13 @@ const FeaturedTrips = () => {
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex items-end justify-between mb-12"
+          className="text-center mb-16"
         >
           <div>
             <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">Top Picks</span>
             <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">Featured Voyages</h2>
-            <p className="text-gray-text font-body mt-2">Our most sought-after curated experiences.</p>
+            <p className="text-gray-text font-body mt-2 max-w-xl mx-auto">Our most sought-after curated experiences.</p>
           </div>
-          <button className="hidden md:block text-gold font-body font-medium text-sm hover:underline">
-            View All Packages →
-          </button>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

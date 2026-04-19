@@ -4,6 +4,7 @@ import { Users, Briefcase, Snowflake, X, ChevronRight, Star, Check, Fuel, Settin
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { toast } from "sonner";
 
 const fleetData = [
@@ -179,6 +180,30 @@ const Fleet = () => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [handleEsc]);
 
+  const handleWhatsApp = (car: any) => {
+    const waNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966532822165";
+    const message = encodeURIComponent(
+      `Hi MUSA TRAVEL! 👋\n\n` +
+      `I'm interested in booking:\n` +
+      `🚗 *${car.name}*\n` +
+      `📋 Type: ${car.type}\n` +
+      `👥 Passengers: ${car.passengers}\n` +
+      `💰 Price: SAR ${car.price}\n\n` +
+      `Please confirm availability.`
+    );
+    window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+  };
+
+  const handleCustomFleetWhatsApp = () => {
+    const waNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966532822165";
+    const fleetMessage = encodeURIComponent(
+      `Hi MUSA TRAVEL! 👋\n\n` +
+      `I need a *Custom Fleet* arrangement.\n\n` +
+      `Please contact me with details.`
+    );
+    window.open(`https://wa.me/${waNumber}?text=${fleetMessage}`, "_blank");
+  };
+
   const handleBookNow = (carName: string) => {
     setDetailsCar(null);
     setPrefillVehicle(carName);
@@ -244,9 +269,9 @@ const Fleet = () => {
       </section>
 
       {/* Fleet Grid */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-3 md:px-6">
         <div className="container mx-auto max-w-[1200px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             <AnimatePresence mode="popLayout">
               {filteredCars.map((car, i) => (
                 <motion.div
@@ -258,33 +283,33 @@ const Fleet = () => {
                   transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
                   className="bg-white dark:bg-[#111] border border-black/5 dark:border-white/5 rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group"
                 >
-                  <div className="relative h-[220px] overflow-hidden">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#F8F8F6] dark:bg-[#161616] p-3 md:p-4 transition-colors">
                     <img 
                       src={car.img} 
                       alt={car.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[#C9A84C] text-[#0D0D14] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                    <div className="absolute top-2 left-2 md:top-4 md:left-4">
+                      <span className="bg-[#C9A84C] text-[#0D0D14] text-[8px] md:text-[10px] font-bold px-2 md:px-3 py-0.5 md:py-1 rounded-full uppercase tracking-wider shadow-sm">
                         {car.type}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="font-display font-bold text-xl text-[#1a1a1a] dark:text-white mb-2">{car.name}</h3>
+                  <div className="p-3 md:p-6">
+                    <h3 className="font-display font-bold text-sm md:text-xl text-[#1a1a1a] dark:text-white mb-1 md:mb-2">{car.name}</h3>
                     
-                    <div className="flex gap-4 mb-4 text-gray-500 dark:text-gray-400 text-[13px] font-body">
-                      <div className="flex items-center gap-1.5">
-                        <Users size={14} className="text-[#C9A84C]" />
-                        <span>{car.passengers} pax</span>
+                    <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-gray-500 dark:text-gray-400 text-[10px] md:text-[13px] font-body">
+                      <div className="flex items-center gap-1 md:gap-1.5">
+                        <Users size={12} className="text-[#C9A84C]" />
+                        <span>{car.passengers}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Briefcase size={14} className="text-[#C9A84C]" />
-                        <span>{car.luggage} bags</span>
+                      <div className="flex items-center gap-1 md:gap-1.5">
+                        <Briefcase size={12} className="text-[#C9A84C]" />
+                        <span>{car.luggage}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Snowflake size={14} className="text-[#C9A84C]" />
+                      <div className="flex items-center gap-1 md:gap-1.5 hidden sm:flex">
+                        <Snowflake size={12} className="text-[#C9A84C]" />
                         <span>AC</span>
                       </div>
                     </div>
@@ -293,18 +318,17 @@ const Fleet = () => {
                       {car.desc}
                     </p>
 
-                    <div className="flex items-end justify-between mb-6">
+                    <div className="flex items-end justify-between mb-4 md:mb-6">
                       <div>
-                        <span className="text-gray-400 text-xs block mb-1 font-body">Starting from</span>
-                        <span className="text-[#C9A84C] font-display font-bold text-xl">SAR {car.price}</span>
-                        <span className="text-gray-400 text-[10px] ml-1 font-body">/ trip</span>
+                        <span className="text-gray-400 text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
+                        <span className="text-[#C9A84C] font-display font-bold text-sm md:text-xl">SAR {car.price}</span>
                       </div>
                     </div>
 
-                    <div className="flex gap-3 mt-auto">
+                    <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-auto">
                       <button 
                         onClick={() => handleBookNow(car.name)}
-                        className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-sm py-3 rounded-xl hover:opacity-90 transition-opacity"
+                        className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
                         Book Now
                       </button>
@@ -313,9 +337,9 @@ const Fleet = () => {
                           setDetailsCar(car);
                           setCurrentImageIndex(0);
                         }}
-                        className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-sm py-3 rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
+                        className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
                       >
-                        View Details
+                        Details
                       </button>
                     </div>
                   </div>
@@ -355,7 +379,7 @@ const Fleet = () => {
               {/* Left Column: Gallery */}
               <div className="w-full md:w-[45%] lg:w-[42%] flex flex-col h-auto md:min-h-[500px]">
                 {/* Main Image */}
-                <div className="relative h-[220px] md:h-[280px] w-full overflow-hidden bg-gray-100 dark:bg-white/5 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
+                <div className="relative aspect-video w-full overflow-hidden bg-gray-100 dark:bg-white/5 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
                     <motion.img 
                       key={currentImageIndex}
@@ -365,19 +389,19 @@ const Fleet = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-full object-cover" 
+                      className="w-full h-full object-cover object-center" 
                     />
                   </AnimatePresence>
                 </div>
 
                 {/* Thumbnail strip */}
-                <div className="flex gap-2 p-3 bg-[#F8F8F6] dark:bg-[#1C1C1C] overflow-x-auto no-scrollbar transition-colors">
+                <div className="flex gap-2 p-2 md:p-3 bg-[#F8F8F6] dark:bg-[#1C1C1C] overflow-x-auto scrollbar-none transition-colors">
                   {(detailsCar.gallery && detailsCar.gallery.length > 0 ? detailsCar.gallery : [detailsCar.img]).map((img: string, idx: number) => (
                     <img 
                       key={idx}
                       src={img}
                       onClick={() => setCurrentImageIndex(idx)}
-                      className={`w-[72px] h-[54px] rounded-lg object-cover cursor-pointer transition-all duration-200 flex-shrink-0 ${
+                      className={`w-[64px] h-[48px] md:w-[80px] md:h-[60px] rounded-lg object-cover cursor-pointer transition-all duration-200 flex-shrink-0 ${
                         currentImageIndex === idx 
                           ? "border-2 border-[#D4A853] opacity-100 scale-105" 
                           : "border-2 border-transparent opacity-60 hover:opacity-90 hover:border-[#D4A853]/50"
@@ -482,12 +506,35 @@ const Fleet = () => {
         )}
       </AnimatePresence>
 
+      {/* Custom Fleet Banner */}
+      <section className="py-16 bg-[#D4A853]/5 dark:bg-[#D4A853]/5 border-y border-[#D4A853]/10">
+        <div className="container mx-auto px-6 text-center">
+          <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#1a1a1a] dark:text-white">
+            Need a Custom Fleet?
+          </h3>
+          <p className="text-gray-text dark:text-gray-400 font-body mb-8 max-w-lg mx-auto">
+            Contact us for corporate accounts, group events, or specific vehicle requirements across the Kingdom.
+          </p>
+          <button 
+            onClick={handleCustomFleetWhatsApp}
+            className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold text-sm px-8 py-3 rounded-full transition-all duration-200 hover:scale-105"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.836L.057 23.886a.5.5 0 00.611.61l6.218-1.637A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.9 9.9 0 01-5.031-1.371l-.36-.214-3.733.982.998-3.648-.235-.374 A9.9 9.9 0 012.1 12C2.1 6.533 6.533 2.1 12 2.1c5.467 0 9.9 4.433 9.9 9.9 0 5.467-4.433 9.9-9.9 9.9z"/>
+            </svg>
+            Contact for Custom Fleet
+          </button>
+        </div>
+      </section>
+
       {/* Integrated Booking Form */}
       <div id="booking">
         <BookingForm prefillVehicle={prefillVehicle} />
       </div>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

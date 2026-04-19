@@ -49,6 +49,20 @@
   body {
     @apply bg-background text-foreground font-body antialiased;
   }
+
+  /* Global Responsive Image Rules */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  video {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer utilities {

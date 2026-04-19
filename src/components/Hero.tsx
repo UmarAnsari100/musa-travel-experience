@@ -75,20 +75,24 @@ const Hero = () => {
         </motion.div>
 
         {/* Floating cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div className="flex flex-row overflow-x-auto snap-x snap-mandatory scrollbar-none gap-3 md:gap-6 px-6 pb-8 md:pb-0 md:px-0 md:justify-center max-w-full mx-auto relative overflow-y-visible">
           {heroCards.map((card, i) => (
             <motion.div
               key={card.title}
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-              className={`bg-card overflow-hidden shadow-card transition-all ${i === 0 ? "animate-float" : i === 1 ? "animate-float-delayed-1" : "animate-float-delayed-2"
+              className={`bg-card shrink-0 snap-start overflow-hidden shadow-card transition-all rounded-xl lg:rounded-2xl w-[150px] md:w-[180px] lg:w-[220px] ${i === 0 ? "animate-float" : i === 1 ? "animate-float-delayed-1" : "animate-float-delayed-2"
                 }`}
             >
-              <img src={card.img} alt={card.title} className="w-full h-36 object-cover" />
-              <div className="p-4">
-                <h3 className="font-body font-semibold text-sm">{card.title}</h3>
-                <p className="text-gray-text font-body text-xs">{card.desc}</p>
+              <img
+                src={card.img}
+                alt={card.title}
+                className="w-full h-[90px] md:h-[120px] lg:h-[140px] object-cover rounded-t-xl lg:rounded-t-2xl"
+              />
+              <div className="p-3 md:p-4">
+                <h3 className="font-body font-semibold text-xs md:text-sm">{card.title}</h3>
+                <p className="text-gray-text font-body text-[10px] md:text-xs">{card.desc}</p>
               </div>
             </motion.div>
           ))}

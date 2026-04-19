@@ -63,7 +63,7 @@ const Testimonials = () => (
               </div>
               <p className="text-gray-text font-body text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full gradient-gold flex items-center justify-center text-primary-foreground font-body font-bold text-sm">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full gradient-gold shrink-0 flex items-center justify-center text-primary-foreground font-body font-bold text-sm md:text-base overflow-hidden">
                   {t.name[0]}
                 </div>
                 <div>
