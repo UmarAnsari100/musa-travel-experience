@@ -239,5 +239,11 @@
     "terms": "Terms of Service",
     "cookies": "Cookie Policy",
     "copyright": "© 2026 MUSA TRAVEL. All rights reserved."
+  },
+  "contact": {
+    "tag": "CONTACT US",
+    "support": "Customer Support",
+    "whatsapp1": "+966 59 710 0424",
+    "whatsapp2": "+966 59 376 0027"
   }
 }

@@ -1,5 +1,5 @@
 const WhatsAppButton = () => {
-  const number = import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000";
+  const number = import.meta.env.VITE_WHATSAPP_NUMBER || "966597100424";
   const msg = encodeURIComponent("Hi! I'm interested in MUSA TRAVEL services.");
 
   return (

@@ -1,4 +1,4 @@
-import { Send, Facebook, Instagram, Twitter } from "lucide-react";
+import { Send, Facebook, Instagram, Twitter, Phone, MessageCircle, Mail } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -29,7 +29,6 @@ const Footer = () => {
 
         {/* Middle Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start py-12">
-          {/* Column 1: Brand */}
           <div className="pr-0 md:pr-12 h-full">
             <div className="font-display text-xl font-bold mb-4 tracking-tight">
               MUSA<span className="text-[#C9A84C] font-normal"> TRAVEL</span>
@@ -37,7 +36,7 @@ const Footer = () => {
             <p className="text-white/50 font-body text-[13px] leading-relaxed mb-8 max-w-[240px]">
               {t('footer.tagline')}
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-8">
               {socialLinks.map(({ Icon, name }) => (
                 <button
                   key={name}
@@ -47,6 +46,30 @@ const Footer = () => {
                   <Icon size={14} />
                 </button>
               ))}
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-body font-bold text-[#C9A84C] mb-2 uppercase tracking-[0.25em] text-[10px]">{t('contact.tag')}</h4>
+              <div className="flex flex-col gap-3">
+                <a href="https://wa.me/966597100424" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/70 hover:text-[#C9A84C] transition-colors group">
+                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform">
+                    <MessageCircle size={14} />
+                  </div>
+                  <span className="font-body text-[13px]">{t('contact.whatsapp1')}</span>
+                </a>
+                <a href="https://wa.me/966593760027" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/70 hover:text-[#C9A84C] transition-colors group">
+                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform">
+                    <MessageCircle size={14} />
+                  </div>
+                  <span className="font-body text-[13px]">{t('contact.whatsapp2')}</span>
+                </a>
+                <a href="mailto:support@musatravel.com" className="flex items-center gap-3 text-white/70 hover:text-[#C9A84C] transition-colors group">
+                  <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
+                    <Mail size={14} />
+                  </div>
+                  <span className="font-body text-[13px]">support@musatravel.com</span>
+                </a>
+              </div>
             </div>
           </div>
 
