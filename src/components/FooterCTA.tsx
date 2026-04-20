@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const FooterCTA = () => (
+const FooterCTA = () => {
+  const { t } = useTranslation();
+  return (
   <section className="relative bg-foreground py-20 md:py-28 overflow-hidden">
     {/* Ghost watermark */}
     <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none">
@@ -17,17 +20,19 @@ const FooterCTA = () => (
         transition={{ duration: 0.65 }}
       >
         <h2 className="font-display font-bold text-3xl md:text-5xl text-primary-foreground mb-4">
-          Ready to Explore the Kingdom?
+          {t('footerCta.heading1')}
+          <br className="hidden md:block"/>
+          {t('footerCta.heading2')}
         </h2>
         <p className="text-primary-foreground/60 font-body mb-8 max-w-lg mx-auto">
-          From the Holy Cities to the ancient desert — MUSA TRAVEL is your trusted companion across Saudi Arabia.
+          {t('footerCta.subtext')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
             className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-8 py-3 rounded-full transition-transform hover:scale-[1.03]"
           >
-            Book Now
+            {t('footerCta.btn1')}
           </button>
           <a
             href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000"}?text=${encodeURIComponent("Hi, I'd like to know more about your services.")}`}
@@ -35,12 +40,13 @@ const FooterCTA = () => (
             rel="noopener noreferrer"
             className="font-body font-semibold text-sm px-8 py-3 rounded-full text-primary-foreground bg-primary-foreground/10 transition-transform hover:scale-[1.03]"
           >
-            Contact Sales
+            {t('footerCta.btn2')}
           </a>
         </div>
       </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 export default FooterCTA;

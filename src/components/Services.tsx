@@ -1,21 +1,25 @@
 import { motion } from "framer-motion";
 import { Car, Plane, MapPin, Mountain, Building2, Heart } from "lucide-react";
-
-const services = [
-  { icon: MapPin, title: " Hajj & Umrah Transfers", desc: "Dedicated transport between Makkah, Madinah, Mina, Arafat, and Muzdalifah for pilgrims." },
-  { icon: Plane, title: " Airport Transfers", desc: "Meet & greet at King Abdulaziz (KAIA), King Fahd (KFIA), and King Khalid (RUH)." },
-  { icon: Car, title: " Intercity Travel", desc: "Comfortable rides between Riyadh, Jeddah, Makkah, Madinah, Dammam, and Taif." },
-  { icon: Mountain, title: " Desert & Heritage Tours", desc: "Guided tours to AlUla, Hegra, Edge of the World, Empty Quarter, and Diriyah UNESCO." },
-  { icon: Building2, title: " Corporate Fleet", desc: "Monthly accounts and VIP transport for businesses across the Kingdom's major cities." },
-  { icon: Heart, title: " VIP & Royal Events", desc: "Luxury vehicle hire for weddings, government events, and high-profile occasions in KSA." },
-];
+import { useTranslation } from "react-i18next";
 
 const reveal = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
-const Services = () => (
+const Services = () => {
+  const { t } = useTranslation();
+
+  const services = [
+    { icon: MapPin, title: t('services.s1Title'), desc: t('services.s1Desc') },
+    { icon: Plane, title: t('services.s2Title'), desc: t('services.s2Desc') },
+    { icon: Car, title: t('services.s3Title'), desc: t('services.s3Desc') },
+    { icon: Mountain, title: t('services.s4Title'), desc: t('services.s4Desc') },
+    { icon: Building2, title: t('services.s5Title'), desc: t('services.s5Desc') },
+    { icon: Heart, title: t('services.s6Title'), desc: t('services.s6Desc') },
+  ];
+
+  return (
   <section id="services" className="py-20 md:py-28">
     <div className="container mx-auto px-6">
       <motion.div
@@ -26,8 +30,8 @@ const Services = () => (
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center mb-16"
       >
-        <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">What We Offer</span>
-        <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">Services for Every Need</h2>
+        <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">{t('services.tag')}</span>
+        <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">{t('services.heading')}</h2>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -52,6 +56,7 @@ const Services = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default Services;

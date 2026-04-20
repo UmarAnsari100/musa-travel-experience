@@ -1,14 +1,18 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const stats = [
-  { value: "12K+", label: "Happy Pilgrims & Travelers" },
-  { value: "50+", label: "Sacred & Tourist Destinations" },
-  { value: "4.9★", label: "Average Rating" },
-  { value: "150+", label: "Premium Vehicles" },
-  { value: "24/7", label: "Always Available" },
-];
+const StatsBar = () => {
+  const { t } = useTranslation();
 
-const StatsBar = () => (
+  const stats = [
+    { value: "12K+", label: t('stats.travelers') },
+    { value: "50+", label: t('stats.destinations') },
+    { value: "4.9★", label: t('stats.rating') },
+    { value: "150+", label: t('stats.vehicles') },
+    { value: "24/7", label: t('stats.available') },
+  ];
+
+  return (
   <section className="bg-foreground py-8">
     <div className="container mx-auto px-6">
       <motion.div
@@ -27,6 +31,7 @@ const StatsBar = () => (
       </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 export default StatsBar;

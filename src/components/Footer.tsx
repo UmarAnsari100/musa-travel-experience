@@ -1,6 +1,7 @@
 import { Send, Facebook, Instagram, Twitter } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const socialLinks = [
   { Icon: Facebook, name: "Facebook" },
@@ -9,6 +10,7 @@ const socialLinks = [
 ];
 
 const Footer = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
 
   const handleNewsletter = (e: React.FormEvent) => {
@@ -33,7 +35,7 @@ const Footer = () => {
               MUSA<span className="text-[#C9A84C] font-normal"> TRAVEL</span>
             </div>
             <p className="text-white/50 font-body text-[13px] leading-relaxed mb-8 max-w-[240px]">
-              Saudi Arabia's most trusted travel & taxi service. Redefining high-end Kingdom voyages.
+              {t('footer.tagline')}
             </p>
             <div className="flex gap-3">
               {socialLinks.map(({ Icon, name }) => (
@@ -51,28 +53,37 @@ const Footer = () => {
           {/* Column 2: Links */}
           <div className="px-0 md:px-12 h-full">
             <div className="mb-10">
-              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">QUICK LINKS</h4>
+              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">{t('footer.quickLinks')}</h4>
               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                {["Home", "Destinations", "Services", "Packages", "FAQ"].map((link) => (
+                {[
+                  { k: "nav.home", l: "Home" },
+                  { k: "nav.destinations", l: "Destinations" },
+                  { k: "nav.services", l: "Services" },
+                  { k: "nav.packages", l: "Packages" },
+                  { k: "nav.faq", l: "FAQ" }
+                ].map((link) => (
                   <button
-                    key={link}
+                    key={link.l}
                     onClick={() => {
                       const map: Record<string, string> = { Home: "hero", Destinations: "destinations", Services: "services", Packages: "packages", FAQ: "faq" };
-                      document.getElementById(map[link])?.scrollIntoView({ behavior: "smooth" });
+                      document.getElementById(map[link.l])?.scrollIntoView({ behavior: "smooth" });
                     }}
                     className="text-white text-left font-body text-[13px] hover:text-[#C9A84C] transition-colors"
                   >
-                    {link}
+                    {t(link.k)}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">LEGAL</h4>
+              <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">{t('footer.legal')}</h4>
               <div className="flex flex-col gap-3">
-                {["Privacy Policy", "Terms of Service"].map((link) => (
-                  <span key={link} className="text-white font-body text-[13px] cursor-pointer hover:text-[#C9A84C] transition-colors">
-                    {link}
+                {[
+                  { k: 'footer.privacy', l: "Privacy Policy" },
+                  { k: 'footer.terms', l: "Terms of Service" }
+                ].map((link) => (
+                  <span key={link.l} className="text-white font-body text-[13px] cursor-pointer hover:text-[#C9A84C] transition-colors">
+                    {t(link.k)}
                   </span>
                 ))}
               </div>
@@ -81,15 +92,15 @@ const Footer = () => {
 
           {/* Column 3: Newsletter */}
           <div className="pl-0 md:pl-12">
-            <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">NEWSLETTER</h4>
+            <h4 className="font-body font-bold text-[#C9A84C] mb-6 uppercase tracking-[0.25em] text-[10px]">{t('footer.newsletter')}</h4>
             <p className="text-white/50 font-body text-[13px] leading-relaxed mb-6">
-              Get curated updates and exclusive Kingdom deals.
+              {t('footer.newsletterDesc')}
             </p>
             <form onSubmit={handleNewsletter} className="relative flex items-center max-w-[280px]">
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email"
+                placeholder={t('footer.emailPlaceholder')}
                 className="w-full bg-[#1a1a2e] border border-white/10 rounded-full py-3.5 px-6 text-[13px] text-white placeholder:text-white/40 focus:outline-none focus:border-[#C9A84C] transition-colors pr-14"
               />
               <button
@@ -105,12 +116,15 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/35 font-body text-[12px]">
-            © 2026 Musa Travel. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <div className="flex gap-6">
-            {["Privacy", "Terms"].map((l) => (
-              <span key={l} className="text-white/35 font-body text-[12px] hover:text-white cursor-pointer transition-colors">
-                {l}
+            {[
+              { k: 'footer.privacy', l: "Privacy" },
+              { k: 'footer.terms', l: "Terms" }
+            ].map((l) => (
+              <span key={l.l} className="text-white/35 font-body text-[12px] hover:text-white cursor-pointer transition-colors">
+                {t(l.k)}
               </span>
             ))}
           </div>

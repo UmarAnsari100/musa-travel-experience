@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import madinahImg from "../assets/madina.jpg";
 import alulaImg from "../assets/alula.jpg";
 import riyadhImg from "../assets/riyadh.jpg";
@@ -9,49 +10,49 @@ import airportImg from "../assets/airport.jpg";
 const trips = [
   {
     img: madinahImg,
-    title: "Makkah & Madinah Pilgrimage Package",
-    desc: "7 days of spiritual journey with private transfers between the two Holy Cities, Mina, and Arafat.",
+    titleKey: "trips.trip1Title",
+    descKey: "trips.trip1Desc",
     price: "SAR 1,200",
     dest: "Makkah",
-    badge: "BESTSELLER"
+    badgeKey: "trips.trip1Badge"
   },
   {
     img: alulaImg,
-    title: "AlUla Heritage & Rose City Tour",
-    desc: "5 days exploring Hegra, Dadan, Jabal Ikmah and Nabataean UNESCO World Heritage Sites.",
+    titleKey: "trips.trip2Title",
+    descKey: "trips.trip2Desc",
     price: "SAR 2,500",
     dest: "AlUla",
-    badge: "POPULAR"
+    badgeKey: "trips.trip2Badge"
   },
   {
     img: riyadhImg,
-    title: "Riyadh City & Diriyah Experience",
-    desc: "3 days: Kingdom Tower, Edge of the World, Diriyah UNESCO site, and the best of Saudi's modern capital.",
+    titleKey: "trips.trip3Title",
+    descKey: "trips.trip3Desc",
     price: "SAR 800",
     dest: "Riyadh",
-    badge: "NEW"
+    badgeKey: "trips.trip3Badge"
   },
   {
     img: jeddahImg,
-    title: "Jeddah Corniche & Historic District",
-    desc: "2 days in Al-Balad UNESCO Heritage, Floating Mosque, King Fahd Fountain, and Red Sea corniche.",
+    titleKey: "trips.trip4Title",
+    descKey: "trips.trip4Desc",
     price: "SAR 650",
     dest: "Jeddah"
   },
   {
     img: abhaImg,
-    title: "Abha & Asir Mountains Retreat",
-    desc: "4 days in the Green Mountains — cable cars, flower markets, and cool mountain air.",
+    titleKey: "trips.trip5Title",
+    descKey: "trips.trip5Desc",
     price: "SAR 1,800",
     dest: "Abha"
   },
   {
     img: airportImg,
-    title: "Airport VIP Transfer — Premium",
-    desc: "Luxury sedan with meet & greet, porter assistance, and real-time flight tracking at all KSA airports.",
+    titleKey: "trips.trip6Title",
+    descKey: "trips.trip6Desc",
     price: "SAR 250",
     dest: "Airport",
-    badge: "TAXI"
+    badgeKey: "trips.trip6Badge"
   },
 ];
 
@@ -61,6 +62,8 @@ const reveal = {
 };
 
 const FeaturedTrips = () => {
+  const { t } = useTranslation();
+
   const handleBook = (dest: string) => {
     const el = document.getElementById("booking");
     if (el) {
@@ -88,16 +91,16 @@ const FeaturedTrips = () => {
           className="text-center mb-16"
         >
           <div>
-            <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">Top Picks</span>
-            <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">Featured Voyages</h2>
-            <p className="text-gray-text font-body mt-2 max-w-xl mx-auto">Our most sought-after curated experiences.</p>
+            <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">{t('trips.tag')}</span>
+            <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">{t('trips.heading')}</h2>
+            <p className="text-gray-text font-body mt-2 max-w-xl mx-auto">{t('trips.subtext')}</p>
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {trips.map((trip, i) => (
             <motion.div
-              key={trip.title}
+              key={trip.titleKey}
               variants={reveal}
               initial="hidden"
               whileInView="visible"
@@ -105,32 +108,32 @@ const FeaturedTrips = () => {
               transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
               className="group bg-card overflow-hidden shadow-card transition-all relative"
             >
-              {trip.badge && (
+              {trip.badgeKey && (
                 <div className="absolute top-4 right-4 z-10 bg-gold text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
-                  {trip.badge}
+                  {t(trip.badgeKey)}
                 </div>
               )}
               <div className="overflow-hidden h-52">
                 <img
                   src={trip.img}
-                  alt={trip.title}
+                  alt={t(trip.titleKey)}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-body font-semibold text-lg mb-1">{trip.title}</h3>
-                <p className="text-gray-text font-body text-sm mb-4 line-clamp-2">{trip.desc}</p>
+                <h3 className="font-body font-semibold text-lg mb-1">{t(trip.titleKey)}</h3>
+                <p className="text-gray-text font-body text-sm mb-4 line-clamp-2">{t(trip.descKey)}</p>
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="font-display font-bold text-xl text-gold">{trip.price}</span>
-                    <span className="text-[10px] text-gray-text ml-1">/ person</span>
+                    <span className="text-[10px] text-gray-text ml-1">{t('trips.perPerson')}</span>
                   </div>
                   <button
                     onClick={() => handleBook(trip.dest)}
                     className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-5 py-2 rounded-full transition-transform hover:scale-[1.03]"
                   >
-                    Book Now
+                    {t('trips.bookNow')}
                   </button>
                 </div>
               </div>

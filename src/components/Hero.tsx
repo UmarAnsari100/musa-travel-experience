@@ -1,28 +1,31 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import makkahImg from "../assets/makkah.jpg";
 import haramainImg from "../assets/hermain.jpg";
 import desertSafariImg from "../assets/desert-safari.jpg";
 
-const heroCards = [
-  {
-    img: makkahImg,
-    title: " Makkah Transfers",
-    desc: "Spiritual journey comfort"
-  },
-  {
-    img: haramainImg,
-    title: " Haramain Express",
-    desc: "Seamless railway transfers"
-  },
-  {
-    img: desertSafariImg,
-    title: " Desert Safari",
-    desc: "Explore the golden dunes"
-  },
-];
-
 const Hero = () => {
+  const { t } = useTranslation();
+
+  const heroCards = [
+    {
+      img: makkahImg,
+      title: t('hero.card1'),
+      desc: t('hero.card1Desc')
+    },
+    {
+      img: haramainImg,
+      title: t('hero.card2'),
+      desc: t('hero.card2Desc')
+    },
+    {
+      img: desertSafariImg,
+      title: t('hero.card3'),
+      desc: t('hero.card3Desc')
+    },
+  ];
+
   return (
     <section id="hero" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
       {/* Ghost watermark */}
@@ -40,12 +43,12 @@ const Hero = () => {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4">
-            Saudi Arabia's Premium
+            {t('hero.headline1')}
             <br />
-            <span className="italic text-gold">Travel & Taxi Service</span>
+            <span className="italic text-gold">{t('hero.headline2')}</span>
           </h1>
           <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto">
-            Experience luxury travel reimagined across the Kingdom. From sacred pilgrimages to desert adventures, we curate every mile of your voyage.
+            {t('hero.subtext')}
           </p>
         </motion.div>
 
@@ -60,7 +63,7 @@ const Hero = () => {
             <Search size={18} className="text-gray-text" />
             <input
               type="text"
-              placeholder="Where to in KSA?"
+              placeholder={`${t('hero.searchFrom')}...`}
               className="bg-transparent w-full outline-none font-body text-sm placeholder:text-gray-text"
               onFocus={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
             />
@@ -70,7 +73,7 @@ const Hero = () => {
             className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-6 py-3 rounded-xl flex items-center gap-2 transition-transform hover:scale-[1.03] w-full sm:w-auto justify-center"
           >
             <Search size={16} />
-            Explore Rides
+            {t('hero.searchBtn')}
           </button>
         </motion.div>
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -144,6 +144,7 @@
 
 .animate-marquee {
   animation: marquee 35s linear infinite;
+  direction: ltr !important;
 }
 
 .animate-marquee:hover {
@@ -251,6 +252,7 @@
 .marquee-wrapper {
   overflow: hidden;
   width: 100%;
+  direction: ltr !important;
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -316,4 +318,310 @@
 .testimonial-marquee-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
+}
+
+/* RTL Support & Font Loading */
+
+/* English — default */
+[lang="en"] body {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Arabic */
+[lang="ar"] body {
+  font-family: 'Cairo', sans-serif;
+}
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3 {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+}
+[lang="ar"] body,
+[lang="ar"] p,
+[lang="ar"] span,
+[lang="ar"] div {
+  font-size: 0.95em;
+  line-height: 1.85;
+}
+[lang="ar"] h1 {
+  font-size: clamp(52px, 8.5vw, 100px);
+  line-height: 1.3;
+}
+[lang="ar"] h2 {
+  font-size: clamp(30px, 3.8vw, 50px);
+  line-height: 1.4;
+}
+[lang="ar"] h3 {
+  font-size: 20px;
+  line-height: 1.5;
+}
+[lang="ar"] button {
+  font-size: 14px;
+}
+
+/* Urdu */
+[lang="ur"] body {
+  font-family: 'Noto Nastaliq Urdu', serif;
+}
+[lang="ur"] h1,
+[lang="ur"] h2,
+[lang="ur"] h3 {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  font-weight: 700;
+}
+[lang="ur"] body,
+[lang="ur"] p,
+[lang="ur"] span,
+[lang="ur"] div,
+[lang="ur"] a {
+  font-size: 0.88em;
+  line-height: 2.0;
+}
+[lang="ur"] h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 1.4;
+}
+[lang="ur"] h2 {
+  font-size: clamp(28px, 3.5vw, 46px);
+  line-height: 1.5;
+}
+[lang="ur"] h3 {
+  font-size: 18px;
+  line-height: 1.6;
+}
+[lang="ur"] .card p,
+[lang="ur"] [class*="card"] p {
+  font-size: 13px;
+  line-height: 1.9;
+}
+[lang="ur"] nav a,
+[lang="ur"] nav button {
+  font-size: 13px;
+}
+[lang="ur"] button {
+  font-size: 13px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+[lang="ur"] .stat-num,
+[lang="ur"] [class*="stat"] {
+  font-family: 'Playfair Display', serif;
+  font-size: inherit;
+}
+
+/* Keep brand name always in Playfair Display regardless */
+.nav-logo,
+.footer-logo,
+[class*="brand-name"] {
+  font-family: 'Playfair Display', serif !important;
+  direction: ltr !important;
+}
+
+/* Keep numbers always in Playfair/DM Sans */
+[lang="ar"] .stat-num,
+[lang="ur"] .stat-num,
+[lang="ar"] .price,
+[lang="ur"] .price,
+[lang="ar"] [class*="price"],
+[lang="ur"] [class*="price"] {
+  font-family: 'Playfair Display', serif !important;
+  direction: ltr !important;
+}
+
+/* Button Overflow Fixes */
+button,
+[class*="btn"],
+[class*="button"] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: fit-content;
+}
+[lang="ar"] .btn-gold,
+[lang="ur"] .btn-gold,
+[lang="ar"] [class*="book"],
+[lang="ur"] [class*="book"] {
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 13px;
+  min-width: auto;
+  width: auto;
+}
+[lang="ar"] nav .btn-pill,
+[lang="ur"] nav .btn-pill {
+  font-size: 12px;
+  padding: 9px 18px;
+  letter-spacing: 0;
+}
+[lang="ar"] .lang-switcher,
+[lang="ur"] .lang-switcher {
+  min-width: 72px;
+}
+
+/* RTL Layout Fixes */
+[dir="rtl"] {
+  text-align: right;
+}
+[dir="rtl"] nav .nav-inner,
+[dir="rtl"] nav .navbar-container,
+[dir="rtl"] .navbar {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] nav .nav-links,
+[dir="rtl"] .nav-links {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] nav .nav-right {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .nav-logo {
+  direction: ltr;
+  font-family: 'Playfair Display', serif;
+}
+.nav-logo {
+  unicode-bidi: plaintext;
+  direction: ltr !important;
+}
+
+/* Cards RTL */
+[dir="rtl"] .card,
+[dir="rtl"] [class*="card"] {
+  text-align: right;
+}
+[dir="rtl"] .service-card,
+[dir="rtl"] [class*="service"] {
+  text-align: center;
+}
+[dir="rtl"] .process-card,
+[dir="rtl"] [class*="step"] {
+  text-align: right;
+}
+[dir="rtl"] .process-card::before,
+[dir="rtl"] [class*="step"]::before {
+  left: auto;
+  right: 0;
+  border-radius: 0 3px 3px 0;
+}
+[dir="rtl"] [class*="card"]::after {
+  left: 15%;
+  right: 15%;
+}
+
+/* Hero RTL */
+[dir="rtl"] .hero-content {
+  direction: rtl;
+  text-align: center;
+}
+[dir="rtl"] .hero-h1,
+[dir="rtl"] [class*="hero"] h1 {
+  text-align: center;
+  direction: rtl;
+}
+[dir="rtl"] .search-bar {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .search-field input,
+[dir="rtl"] .search-field select {
+  text-align: right;
+  direction: rtl;
+}
+[dir="rtl"] .search-field label {
+  text-align: right;
+}
+[dir="rtl"] .search-btn {
+  border-radius: 12px;
+}
+
+/* Booking Form RTL */
+[dir="rtl"] .booking-form,
+[dir="rtl"] form {
+  direction: rtl;
+}
+[dir="rtl"] form label {
+  text-align: right;
+  display: block;
+}
+[dir="rtl"] form input,
+[dir="rtl"] form select,
+[dir="rtl"] form textarea {
+  text-align: right;
+  direction: rtl;
+}
+[dir="rtl"] form button[type="submit"] {
+  width: 100%;
+}
+
+/* Footer RTL */
+[dir="rtl"] footer .footer-inner,
+[dir="rtl"] footer .footer-grid {
+  direction: rtl;
+}
+[dir="rtl"] footer .footer-links {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] footer .footer-col {
+  text-align: right;
+}
+[dir="rtl"] footer input[type="email"] {
+  text-align: right;
+  direction: rtl;
+}
+[dir="rtl"] .social-icons {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .footer-copy {
+  text-align: left;
+  direction: ltr;
+}
+[dir="rtl"] .footer-logo {
+  direction: ltr !important;
+  text-align: left;
+}
+
+/* Stats Bar RTL */
+[dir="rtl"] .stats-bar {
+  direction: rtl;
+}
+[dir="rtl"] .stat-num {
+  direction: ltr !important;
+  font-family: 'Playfair Display' !important;
+}
+[dir="rtl"] .stat-label {
+  direction: rtl;
+  text-align: center;
+}
+
+
+/* Fleet Tab RTL */
+[dir="rtl"] .filter-tabs {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .fleet-grid {
+  direction: rtl;
+}
+[dir="rtl"] .fleet-card {
+  text-align: right;
+}
+[dir="rtl"] .car-features {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .card-footer {
+  flex-direction: row-reverse;
+}
+
+/* FAQ RTL */
+[dir="rtl"] .faq-item {
+  direction: rtl;
+}
+[dir="rtl"] .faq-q {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .faq-q-text {
+  text-align: right;
+}
+[dir="rtl"] .faq-toggle {
+  margin-left: 0;
+  margin-right: auto;
+  order: -1;
 }

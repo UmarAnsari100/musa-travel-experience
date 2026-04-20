@@ -1,21 +1,25 @@
 import { motion } from "framer-motion";
 import { MapPin, Calendar, CreditCard, Car, CheckCircle, Star } from "lucide-react";
-
-const steps = [
-  { num: "01", icon: MapPin, title: "Choose Route", desc: "Select your pickup and drop-off locations." },
-  { num: "02", icon: Calendar, title: "Pick Date & Time", desc: "Choose your preferred schedule." },
-  { num: "03", icon: Star, title: "Select Service", desc: "Pick from our range of travel services." },
-  { num: "04", icon: CreditCard, title: "Secure Pay", desc: "Pay securely through multiple methods." },
-  { num: "05", icon: Car, title: "Enjoy Ride", desc: "Relax while our chauffeur handles the rest." },
-  { num: "06", icon: CheckCircle, title: "Rate & Review", desc: "Share your experience and earn rewards." },
-];
+import { useTranslation } from "react-i18next";
 
 const reveal = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 };
 
-const BookingProcess = () => (
+const BookingProcess = () => {
+  const { t } = useTranslation();
+
+  const steps = [
+    { num: "01", icon: MapPin, title: t('process.step1'), desc: t('process.step1Desc') },
+    { num: "02", icon: Calendar, title: t('process.step2'), desc: t('process.step2Desc') },
+    { num: "03", icon: Star, title: t('process.step3'), desc: t('process.step3Desc') },
+    { num: "04", icon: CreditCard, title: t('process.step4'), desc: t('process.step4Desc') },
+    { num: "05", icon: Car, title: t('process.step5'), desc: t('process.step5Desc') },
+    { num: "06", icon: CheckCircle, title: t('process.step6'), desc: t('process.step6Desc') },
+  ];
+
+  return (
   <section className="py-20 md:py-28 bg-surface-low">
     <div className="container mx-auto px-6">
       <motion.div
@@ -26,10 +30,10 @@ const BookingProcess = () => (
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center mb-16"
       >
-        <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">How It Works</span>
-        <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">Seamlessly Crafted Booking Process</h2>
+        <span className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text">{t('process.tag')}</span>
+        <h2 className="font-display font-bold text-3xl md:text-4xl mt-3">{t('process.heading')}</h2>
         <p className="text-gray-text font-body mt-4 max-w-lg mx-auto">
-          From selection to drop-off, every step is optimized for your convenience.
+          {t('process.subtext')}
         </p>
       </motion.div>
 
@@ -59,6 +63,7 @@ const BookingProcess = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default BookingProcess;

@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
-
-const faqs = [
-  { q: "How do I book a Hajj or Umrah transfer?", a: "Book via WhatsApp, our website, or call our 24/7 hotline. We serve all pilgrims arriving at KAIA and KFIA with direct transfers to Makkah and Madinah." },
-  { q: "Are your drivers Hajj-licensed?", a: "Yes. All drivers hold valid Saudi MOI licenses and Hajj transport permits issued by the Ministry of Hajj." },
-  { q: "Which cities and airports do you cover?", a: "All major KSA cities: Riyadh, Jeddah, Makkah, Madinah, Dammam, Taif, Abha. Airports: KAIA, KFIA, RUH, AHB, DMM." },
-  { q: "Do you offer group rates for families?", a: "Groups of 4+ receive 15% discount. Hajj & Umrah groups of 10+ get a dedicated Coaster with coordinator." },
-  { q: "What is your cancellation policy?", a: "Free cancellation 2 hours before pickup. Tours: full refund 7 days before, 50% credit after that." },
-];
+import { useTranslation } from "react-i18next";
 
 const FAQ = () => {
+  const { t } = useTranslation();
+
+  const faqs = [
+    { q: t('faq.q1'), a: t('faq.a1') },
+    { q: t('faq.q2'), a: t('faq.a2') },
+    { q: t('faq.q3'), a: t('faq.a3') },
+    { q: t('faq.q4'), a: t('faq.a4') },
+    { q: t('faq.q5'), a: t('faq.a5') },
+  ];
+
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
@@ -23,7 +26,7 @@ const FAQ = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-12"
         >
-          <h2 className="font-display font-bold text-3xl md:text-4xl">Common Enquiries</h2>
+          <h2 className="font-display font-bold text-3xl md:text-4xl">{t('faq.heading')}</h2>
         </motion.div>
 
         <div className="space-y-3">

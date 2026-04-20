@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Briefcase, Snowflake, X, ChevronRight, Star, Check, Fuel, Settings, ShieldCheck, MapPin, Calendar, Clock, MessageSquare } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
@@ -11,12 +12,12 @@ const fleetData = [
   { 
     id: 1, 
     name: "Toyota Camry", 
-    type: "Sedan", 
-    cat: "Sedan", 
+    typeKey: "fleet.filterSedan", 
+    catKey: "fleet.filterSedan", 
     passengers: 4, 
     luggage: 3, 
-    trans: "Automatic", 
-    fuel: "Hybrid", 
+    transKey: "fleet.automatic", 
+    fuelKey: "fleet.hybrid", 
     rating: 4.8, 
     reviews: 98, 
     price: 120, 
@@ -28,17 +29,17 @@ const fleetData = [
       "https://images.unsplash.com/photo-1619682817660-8488e0da9dca?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "Comfortable mid-size sedan perfect for city transfers and airport rides. Features advanced safety systems and smooth handling." 
+    descKey: "fleet.car1Desc" 
   },
   { 
     id: 6, 
     name: "Mercedes E-Class", 
-    type: "VIP Sedan", 
-    cat: "VIP", 
+    typeKey: "fleet.vipSedan", 
+    catKey: "fleet.filterLuxury", 
     passengers: 4, 
     luggage: 3, 
-    trans: "Automatic", 
-    fuel: "Hybrid", 
+    transKey: "fleet.automatic", 
+    fuelKey: "fleet.hybrid", 
     rating: 5.0, 
     reviews: 89, 
     price: 400, 
@@ -50,17 +51,17 @@ const fleetData = [
        "https://images.unsplash.com/photo-1511119253457-37fb8bb0f146?auto=format&fit=crop&q=80&w=800",
        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "Executive class sedan for business travel and VIP airport transfers. Experience the pinnacle of German engineering and luxury."
+    descKey: "fleet.car2Desc"
   },
   { 
     id: 4, 
     name: "Toyota Land Cruiser", 
-    type: "VIP SUV", 
-    cat: "VIP", 
+    typeKey: "fleet.vipSuv", 
+    catKey: "fleet.filterLuxury", 
     passengers: 6, 
     luggage: 4, 
-    trans: "Automatic", 
-    fuel: "Petrol", 
+    transKey: "fleet.automatic", 
+    fuelKey: "fleet.petrol", 
     rating: 5.0, 
     reviews: 201, 
     price: 350, 
@@ -72,17 +73,17 @@ const fleetData = [
       "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "Premium VIP SUV delivering the ultimate luxury experience across the Kingdom, perfect for desert tours and VIP groups." 
+    descKey: "fleet.car3Desc" 
   },
   { 
     id: 3, 
     name: "GMC Yukon", 
-    type: "SUV", 
-    cat: "SUV", 
+    typeKey: "fleet.filterSuv", 
+    catKey: "fleet.filterSuv", 
     passengers: 6, 
     luggage: 5, 
-    trans: "Automatic", 
-    fuel: "Petrol", 
+    transKey: "fleet.automatic", 
+    fuelKey: "fleet.petrol", 
     rating: 4.9, 
     reviews: 76, 
     price: 250, 
@@ -94,17 +95,17 @@ const fleetData = [
       "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "Spacious full-size SUV ideal for families and group travel. Combines utility with premium comfort features." 
+    descKey: "fleet.car4Desc" 
   },
   { 
     id: 5, 
     name: "Toyota Hiace", 
-    type: "Van", 
-    cat: "Van", 
+    typeKey: "fleet.filterVan", 
+    catKey: "fleet.filterVan", 
     passengers: 12, 
     luggage: 8, 
-    trans: "Manual", 
-    fuel: "Diesel", 
+    transKey: "fleet.manual", 
+    fuelKey: "fleet.diesel", 
     rating: 4.8, 
     reviews: 112, 
     price: 300, 
@@ -116,17 +117,17 @@ const fleetData = [
       "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1619682817660-8488e0da9dca?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "Spacious van perfect for group travel, pilgrim transfers and corporate trips. Plenty of room for passengers and luggage." 
+    descKey: "fleet.car5Desc" 
   },
   { 
     id: 9, 
     name: "Mercedes S-Class", 
-    type: "Luxury Sedan", 
-    cat: "VIP", 
+    typeKey: "fleet.luxurySedan", 
+    catKey: "fleet.filterLuxury", 
     passengers: 3, 
     luggage: 2, 
-    trans: "Automatic", 
-    fuel: "Hybrid", 
+    transKey: "fleet.automatic", 
+    fuelKey: "fleet.hybrid", 
     rating: 5.0, 
     reviews: 42, 
     price: 800, 
@@ -138,16 +139,24 @@ const fleetData = [
       "https://images.unsplash.com/photo-1511119253457-37fb8bb0f146?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800"
     ],
-    desc: "The ultimate luxury limousine. Featuring massage seats, ambient lighting, and rear-seat entertainment for unparalleled comfort." 
+    descKey: "fleet.car6Desc" 
   },
-  { id: 2, name: "Toyota Corolla", type: "Sedan", cat: "Sedan", passengers: 4, luggage: 2, trans: "Automatic", fuel: "Petrol", rating: 4.7, reviews: 143, price: 100, img: "https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800"], desc: "Reliable and economical choice for short to medium distance trips." },
-  { id: 7, name: "Coaster Bus", type: "Bus", cat: "Bus", passengers: 30, luggage: 15, trans: "Manual", fuel: "Diesel", rating: 4.7, reviews: 54, price: 600, img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800"], desc: "Large capacity bus for pilgrim groups, school trips and corporate events." },
-  { id: 8, name: "Chevrolet Suburban", type: "SUV", cat: "SUV", passengers: 7, luggage: 6, trans: "Automatic", fuel: "Petrol", rating: 4.9, reviews: 67, price: 280, img: "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800"], desc: "Full-size SUV combining comfort and cargo space for longer journeys." },
+  { id: 2, name: "Toyota Corolla", typeKey: "fleet.filterSedan", catKey: "fleet.filterSedan", passengers: 4, luggage: 2, transKey: "fleet.automatic", fuelKey: "fleet.petrol", rating: 4.7, reviews: 143, price: 100, img: "https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car7Desc" },
+  { id: 7, name: "Coaster Bus", typeKey: "fleet.filterBus", catKey: "fleet.filterBus", passengers: 30, luggage: 15, transKey: "fleet.manual", fuelKey: "fleet.diesel", rating: 4.7, reviews: 54, price: 600, img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car8Desc" },
+  { id: 8, name: "Chevrolet Suburban", typeKey: "fleet.filterSuv", catKey: "fleet.filterSuv", passengers: 7, luggage: 6, transKey: "fleet.automatic", fuelKey: "fleet.petrol", rating: 4.9, reviews: 67, price: 280, img: "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car9Desc" },
 ];
 
-const categories = ["All", "Sedan", "SUV", "Van", "VIP", "Bus"];
+const categories = [
+  { key: "All", labelKey: "fleet.filterAll" },
+  { key: "Sedan", labelKey: "fleet.filterSedan" },
+  { key: "SUV", labelKey: "fleet.filterSuv" },
+  { key: "Van", labelKey: "fleet.filterVan" },
+  { key: "VIP", labelKey: "fleet.filterLuxury" },
+  { key: "Bus", labelKey: "fleet.filterBus" },
+];
 
 const Fleet = () => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState("All");
   const [detailsCar, setDetailsCar] = useState<any>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -165,7 +174,7 @@ const Fleet = () => {
 
   const filteredCars = filter === "All" 
     ? fleetData 
-    : fleetData.filter(car => car.cat === filter || car.type.includes(filter));
+    : fleetData.filter(car => car.catKey.includes(filter) || car.typeKey.includes(filter));
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -237,13 +246,13 @@ const Fleet = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4 text-[#1a1a1a] dark:text-white">
-              Our <span className="italic text-gold">Premium Fleet</span>
+              {t('fleet.heading')}
             </h1>
             <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto mb-2 dark:text-gray-400">
-              Travel in comfort and style across the Kingdom. Choose the perfect vehicle for your journey.
+              {t('fleet.subtext')}
             </p>
             <p className="text-[#C9A84C] font-body text-[11px] uppercase tracking-[0.3em] font-bold">
-              ELEGANCE IN EVERY MILE
+              {t('fleet.tag')}
             </p>
           </motion.div>
         </div>
@@ -254,15 +263,15 @@ const Fleet = () => {
         <div className="container mx-auto px-6 flex justify-center flex-wrap gap-3">
           {categories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setFilter(cat)}
+              key={cat.key}
+              onClick={() => setFilter(cat.key)}
               className={`px-6 py-2 rounded-full font-body text-sm font-semibold transition-all border ${
-                filter === cat 
+                filter === cat.key 
                   ? "bg-[#C9A84C] text-[#0D0D14] border-[#C9A84C]" 
                   : "bg-white dark:bg-[#1A1A1A] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-white/10 hover:border-[#C9A84C] hover:text-[#C9A84C]"
               }`}
             >
-              {cat}
+              {t(cat.labelKey)}
             </button>
           ))}
         </div>
@@ -291,7 +300,7 @@ const Fleet = () => {
                     />
                     <div className="absolute top-2 left-2 md:top-4 md:left-4">
                       <span className="bg-[#C9A84C] text-[#0D0D14] text-[8px] md:text-[10px] font-bold px-2 md:px-3 py-0.5 md:py-1 rounded-full uppercase tracking-wider shadow-sm">
-                        {car.type}
+                        {t(car.typeKey)}
                       </span>
                     </div>
                   </div>
@@ -315,7 +324,7 @@ const Fleet = () => {
                     </div>
 
                     <p className="text-gray-400 dark:text-gray-500 text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
-                      {car.desc}
+                      {t(car.descKey)}
                     </p>
 
                     <div className="flex items-end justify-between mb-4 md:mb-6">
@@ -330,7 +339,7 @@ const Fleet = () => {
                         onClick={() => handleBookNow(car.name)}
                         className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
-                        Book Now
+                        {t('fleet.bookNow')}
                       </button>
                       <button 
                         onClick={() => {
@@ -339,7 +348,7 @@ const Fleet = () => {
                         }}
                         className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
                       >
-                        Details
+                        {t('fleet.viewDetail')}
                       </button>
                     </div>
                   </div>
@@ -439,12 +448,12 @@ const Fleet = () => {
                 {/* Specs Grid */}
                 <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-4 mb-6">
                   {[
-                    { icon: Users, label: "PASSENGERS", val: detailsCar.passengers },
-                    { icon: Briefcase, label: "LUGGAGE", val: `${detailsCar.luggage} bags` },
-                    { icon: Fuel, label: "FUEL", val: detailsCar.fuel },
-                    { icon: Settings, label: "TRANSMISSION", val: detailsCar.trans },
-                    { icon: Snowflake, label: "AC", val: "Yes" },
-                    { icon: ShieldCheck, label: "INSURANCE", val: "Included" },
+                    { icon: Users, label: t('fleet.passengers'), val: detailsCar.passengers },
+                    { icon: Briefcase, label: t('fleet.luggage'), val: `${detailsCar.luggage} ${t('fleet.bags')}` },
+                    { icon: Fuel, label: t('fleet.fuel'), val: t(detailsCar.fuelKey) },
+                    { icon: Settings, label: t('fleet.transmission'), val: t(detailsCar.transKey) },
+                    { icon: Snowflake, label: t('fleet.ac'), val: t('fleet.included') },
+                    { icon: ShieldCheck, label: t('fleet.insurance'), val: t('fleet.included') },
                   ].map((spec, i) => (
                     <div key={i} className="flex flex-col gap-1">
                       <div className="flex items-center gap-2">
@@ -468,13 +477,13 @@ const Fleet = () => {
                     INCLUDED FEATURES
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {["Free WiFi", "Water Bottle", "Phone Charger", "Child Seat Available", "24/7 Support", "Meet & Greet", "Flight Tracking"].map((f, i) => (
+                    {["Free WiFi", "Water Bottle", "Phone Charger", "Child Seat Available", "24/7 Support", "Meet & Greet", "Flight Tracking"].map((f, idx) => (
                       <div 
-                        key={i} 
+                        key={idx} 
                         className="flex items-center gap-1.5 bg-[#D4A853]/5 dark:bg-[#D4A853]/8 border border-[#D4A853]/20 px-3 py-1.5 rounded-full"
                       >
                         <Check size={12} className="text-[#D4A853]" />
-                        <span className="text-[11px] md:text-[12px] font-body text-[#888880]">{f}</span>
+                        <span className="text-[11px] md:text-[12px] font-body text-[#888880]">{t(`fleet.feat${idx+1}`)}</span>
                       </div>
                     ))}
                   </div>
@@ -483,7 +492,7 @@ const Fleet = () => {
                 <div className="h-px bg-[#E8E8E4] dark:bg-[#222220] my-4" />
 
                 <p className="text-gray-500 dark:text-[#888880] text-sm font-body leading-relaxed mb-8">
-                  {detailsCar.desc}
+                  {t(detailsCar.descKey)}
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-3">
@@ -491,13 +500,13 @@ const Fleet = () => {
                     onClick={() => handleBookNow(detailsCar.name)}
                     className="flex-1 gradient-gold text-black font-body font-bold text-[15px] h-[48px] md:h-auto py-3.5 rounded-full shadow-lg shadow-gold/10 hover:shadow-gold/20 transition-all"
                   >
-                    Book Now
+                    {t('fleet.bookNow')}
                   </button>
                   <button 
                     onClick={() => setDetailsCar(null)}
                     className="flex-1 border-1.5 border-[#E8E8E4] dark:border-[#333330] text-[#1a1a1a] dark:text-[#F5F5F0] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#F5F5F0] dark:hover:bg-white/5 transition-all"
                   >
-                    Close
+                    {t('fleet.close')}
                   </button>
                 </div>
               </div>
@@ -510,10 +519,10 @@ const Fleet = () => {
       <section className="py-16 bg-[#D4A853]/5 dark:bg-[#D4A853]/5 border-y border-[#D4A853]/10">
         <div className="container mx-auto px-6 text-center">
           <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#1a1a1a] dark:text-white">
-            Need a Custom Fleet?
+            {t('fleet.customFleet')}
           </h3>
           <p className="text-gray-text dark:text-gray-400 font-body mb-8 max-w-lg mx-auto">
-            Contact us for corporate accounts, group events, or specific vehicle requirements across the Kingdom.
+            {t('fleet.customDesc')}
           </p>
           <button 
             onClick={handleCustomFleetWhatsApp}
@@ -523,7 +532,7 @@ const Fleet = () => {
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.836L.057 23.886a.5.5 0 00.611.61l6.218-1.637A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.9 9.9 0 01-5.031-1.371l-.36-.214-3.733.982.998-3.648-.235-.374 A9.9 9.9 0 012.1 12C2.1 6.533 6.533 2.1 12 2.1c5.467 0 9.9 4.433 9.9 9.9 0 5.467-4.433 9.9-9.9 9.9z"/>
             </svg>
-            Contact for Custom Fleet
+            {t('fleet.contactTeam')}
           </button>
         </div>
       </section>
