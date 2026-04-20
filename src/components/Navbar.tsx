@@ -80,7 +80,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         <Link to="/" className="font-display text-xl font-bold tracking-tight">
-          MUSA<span className="text-gold font-normal">TRAVEL</span>
+          MUSA<span className="text-gold font-normal">TRANSPORT</span>
         </Link>
 
         {/* Desktop Nav Links */}
@@ -122,7 +122,7 @@ const Navbar = () => {
 
         {/* NAVBAR RIGHT AREA (Logic for Desktop/Mobile) */}
         <div className="flex items-center gap-2 md:gap-4">
-          
+
           {/* Always Visible Switcher */}
           <LanguageSwitcher />
 
@@ -141,7 +141,7 @@ const Navbar = () => {
           </button>
 
           {/* Hamburger Bar — mobile only */}
-          <button 
+          <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="flex md:hidden items-center justify-center w-[36px] h-[36px] rounded-[10px] bg-[rgba(212,168,83,0.08)] border border-[rgba(212,168,83,0.20)] text-gold transition-all hover:bg-[rgba(212,168,83,0.15)] hover:border-[rgba(212,168,83,0.40)]"
           >
@@ -184,7 +184,7 @@ const Navbar = () => {
                 </Link>
               ))}
             </div>
-            
+
             <button
               onClick={() => {
                 setMobileOpen(false);
