@@ -42,12 +42,12 @@ const Hero = () => {
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4">
-            {t('hero.headline1')}
-            <br />
-            <span className="italic text-gold">{t('hero.headline2')}</span>
+          <h1 className="font-display font-black text-[2.2rem] md:text-[3.2rem] lg:text-[4rem] leading-[1.1] tracking-[-0.02em] mb-6">
+            <span className="block text-foreground">{t('hero.headline1')}</span>
+            <span className="block text-foreground">{t('hero.headline2')}</span>
+            <span className="block text-gold italic font-medium mt-1 md:mt-2">{t('hero.headline3')}</span>
           </h1>
-          <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto">
+          <p className="text-gray-text font-body text-sm md:text-base max-w-xl mx-auto">
             {t('hero.subtext')}
           </p>
         </motion.div>

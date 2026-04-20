@@ -21,4 +21,8 @@ i18n
     }
   })
 
+// Set initial direction and language
+document.documentElement.dir = ['ar', 'ur'].includes(savedLang) ? 'rtl' : 'ltr'
+document.documentElement.lang = savedLang
+
 export default i18n
