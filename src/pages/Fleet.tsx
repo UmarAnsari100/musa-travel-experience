@@ -8,156 +8,230 @@ import BookingForm from "@/components/BookingForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { toast } from "sonner";
 
-const fleetData = [
-  { 
-    id: 1, 
-    name: "Toyota Camry", 
-    typeKey: "fleet.filterSedan", 
-    catKey: "fleet.filterSedan", 
-    passengers: 4, 
-    luggage: 3, 
-    transKey: "fleet.automatic", 
-    fuelKey: "fleet.hybrid", 
-    rating: 4.8, 
-    reviews: 98, 
-    price: 120, 
-    img: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-      "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1550355291-b6a678dc238f?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1619682817660-8488e0da9dca?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car1Desc" 
-  },
-  { 
-    id: 6, 
-    name: "Mercedes E-Class", 
-    typeKey: "fleet.vipSedan", 
-    catKey: "fleet.filterLuxury", 
-    passengers: 4, 
-    luggage: 3, 
-    transKey: "fleet.automatic", 
-    fuelKey: "fleet.hybrid", 
-    rating: 5.0, 
-    reviews: 89, 
-    price: 400, 
-    img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-       "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800",
-       "https://images.unsplash.com/photo-1507767439269-2c64f107e609?auto=format&fit=crop&q=80&w=800",
-       "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
-       "https://images.unsplash.com/photo-1511119253457-37fb8bb0f146?auto=format&fit=crop&q=80&w=800",
-       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car2Desc"
-  },
-  { 
-    id: 4, 
-    name: "Toyota Land Cruiser", 
-    typeKey: "fleet.vipSuv", 
-    catKey: "fleet.filterLuxury", 
-    passengers: 6, 
-    luggage: 4, 
-    transKey: "fleet.automatic", 
-    fuelKey: "fleet.petrol", 
-    rating: 5.0, 
-    reviews: 201, 
-    price: 350, 
-    img: "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-      "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1469285994282-454ceb49e63c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car3Desc" 
-  },
-  { 
-    id: 3, 
-    name: "GMC Yukon", 
-    typeKey: "fleet.filterSuv", 
-    catKey: "fleet.filterSuv", 
-    passengers: 6, 
-    luggage: 5, 
-    transKey: "fleet.automatic", 
-    fuelKey: "fleet.petrol", 
-    rating: 4.9, 
-    reviews: 76, 
-    price: 250, 
-    img: "https://images.unsplash.com/photo-1567818735868-e71b99932e29?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-      "https://images.unsplash.com/photo-1567818735868-e71b99932e29?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1568844293986-ca45e54881ae?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car4Desc" 
-  },
-  { 
-    id: 5, 
-    name: "Toyota Hiace", 
-    typeKey: "fleet.filterVan", 
-    catKey: "fleet.filterVan", 
-    passengers: 12, 
-    luggage: 8, 
-    transKey: "fleet.manual", 
-    fuelKey: "fleet.diesel", 
-    rating: 4.8, 
-    reviews: 112, 
-    price: 300, 
-    img: "https://images.unsplash.com/photo-1532007271951-c487760934ae?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-      "https://images.unsplash.com/photo-1532007271951-c487760934ae?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1619682817660-8488e0da9dca?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car5Desc" 
-  },
-  { 
-    id: 9, 
-    name: "Mercedes S-Class", 
-    typeKey: "fleet.luxurySedan", 
-    catKey: "fleet.filterLuxury", 
-    passengers: 3, 
-    luggage: 2, 
-    transKey: "fleet.automatic", 
-    fuelKey: "fleet.hybrid", 
-    rating: 5.0, 
-    reviews: 42, 
-    price: 800, 
-    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800",
-    gallery: [
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1511119253457-37fb8bb0f146?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800"
-    ],
-    descKey: "fleet.car6Desc" 
-  },
-  { id: 2, name: "Toyota Corolla", typeKey: "fleet.filterSedan", catKey: "fleet.filterSedan", passengers: 4, luggage: 2, transKey: "fleet.automatic", fuelKey: "fleet.petrol", rating: 4.7, reviews: 143, price: 100, img: "https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1623860831270-ee3132bf52e4?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car7Desc" },
-  { id: 7, name: "Coaster Bus", typeKey: "fleet.filterBus", catKey: "fleet.filterBus", passengers: 30, luggage: 15, transKey: "fleet.manual", fuelKey: "fleet.diesel", rating: 4.7, reviews: 54, price: 600, img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car8Desc" },
-  { id: 8, name: "Chevrolet Suburban", typeKey: "fleet.filterSuv", catKey: "fleet.filterSuv", passengers: 7, luggage: 6, transKey: "fleet.automatic", fuelKey: "fleet.petrol", rating: 4.9, reviews: 67, price: 280, img: "https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800", gallery: ["https://images.unsplash.com/photo-1551522435-a13afa10f103?auto=format&fit=crop&q=80&w=800"], descKey: "fleet.car9Desc" },
-];
+// ── BUS ──────────────────────────
+import bus1 from '../assets/bus/bus1.png'
+import bus2 from '../assets/bus/bus2.png'
+import bus3 from '../assets/bus/bus3.png'
+import bus4 from '../assets/bus/bus4.jpeg'
 
-const categories = [
-  { key: "All", labelKey: "fleet.filterAll" },
-  { key: "Sedan", labelKey: "fleet.filterSedan" },
-  { key: "SUV", labelKey: "fleet.filterSuv" },
-  { key: "Van", labelKey: "fleet.filterVan" },
-  { key: "VIP", labelKey: "fleet.filterLuxury" },
-  { key: "Bus", labelKey: "fleet.filterBus" },
+// ── CAMRY ────────────────────────
+import camry1 from '../assets/camry/camry1.jpg'
+import camry2 from '../assets/camry/camry2.jpg'
+import camry3 from '../assets/camry/camry3.jpg'
+import camry4 from '../assets/camry/camry4.jpg'
+
+// ── COASTER ──────────────────────
+import coaster1 from '../assets/coaster/coaster1.jpeg'
+import coaster2 from '../assets/coaster/coaster2.jpg'
+import coaster3 from '../assets/coaster/coaster3.jpg'
+import coaster4 from '../assets/coaster/coaster4.png'
+
+// ── GMC ──────────────────────────
+import gmc1 from '../assets/gmc/gmc1.png'
+import gmc2 from '../assets/gmc/gmc2.png'
+import gmc3 from '../assets/gmc/gmc3.png'
+import gmc4 from '../assets/gmc/gmc4.jpg'
+
+// ── HIACE ────────────────────────
+import hiace1 from '../assets/hiace/hiace1.png'
+import hiace2 from '../assets/hiace/hiace2.png'
+import hiace3 from '../assets/hiace/hiace3.png'
+import hiace4 from '../assets/hiace/hiace4.png'
+
+// ── STAREX ───────────────────────
+import starex1 from '../assets/starex/starex1.jpg'
+import starex2 from '../assets/starex/starex2.avif'
+import starex3 from '../assets/starex/starex3.avif'
+import starex4 from '../assets/starex/starex4.avif'
+import starex5 from '../assets/starex/starex5.png'
+
+// ── STARIA ───────────────────────
+import staria1 from '../assets/staria/staria1.png'
+import staria2 from '../assets/staria/staria2.png'
+import staria3 from '../assets/staria/staria3.png'
+import staria4 from '../assets/staria/staria4.png'
+import staria5 from '../assets/staria/staria5.png'
+
+const fleetData = [
+  {
+    id: 1,
+    name: 'Toyota Camry',
+    type: 'Business Sedan',
+    category: 'Sedan',
+    seats: 4,
+    luggage: '2 Bags',
+    fuel: 'Hybrid',
+    transmission: 'Automatic',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 150',
+    badge: 'MOST POPULAR',
+    features: [
+      'Free WiFi',
+      'Water Bottle',
+      'Phone Charger',
+      'Meet & Greet',
+      '24/7 Support',
+      'Flight Tracking'
+    ],
+    description: 'Comfortable mid-size sedan perfect for city transfers and airport rides.',
+    coverImage: camry1,
+    gallery: [camry1, camry2, camry3, camry4]
+  },
+  {
+    id: 2,
+    name: 'GMC Yukon',
+    type: 'Premium SUV',
+    category: 'SUV',
+    seats: 7,
+    luggage: '5 Bags',
+    fuel: 'Petrol',
+    transmission: 'Automatic',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 450',
+    badge: '',
+    features: [
+      'Free WiFi',
+      'Captain Seats',
+      'Water Bottle',
+      'Phone Charger',
+      '24/7 Support',
+      'Meet & Greet'
+    ],
+    description: 'Spacious premium SUV perfect for group travel and long distance journeys.',
+    coverImage: gmc1,
+    gallery: [gmc1, gmc2, gmc3, gmc4]
+  },
+  {
+    id: 3,
+    name: 'Toyota Hiace',
+    type: 'Executive Van',
+    category: 'Van',
+    seats: 12,
+    luggage: '8 Bags',
+    fuel: 'Diesel',
+    transmission: 'Automatic',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 600',
+    badge: 'HAJJ SPECIAL',
+    features: [
+      'Free WiFi',
+      'USB Charging',
+      'Water Bottles',
+      'Extra Luggage Space',
+      '24/7 Support',
+      'Group Booking'
+    ],
+    description: 'Ideal for Hajj & Umrah groups, family trips, and airport group transfers.',
+    coverImage: hiace1,
+    gallery: [hiace1, hiace2, hiace3, hiace4]
+  },
+  {
+    id: 4,
+    name: 'Hyundai Starex',
+    type: 'Premium Van',
+    category: 'Van',
+    seats: 9,
+    luggage: '6 Bags',
+    fuel: 'Diesel',
+    transmission: 'Automatic',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 500',
+    badge: '',
+    features: [
+      'Free WiFi',
+      'Reclining Seats',
+      'Water Bottle',
+      'Phone Charger',
+      '24/7 Support',
+      'Meet & Greet'
+    ],
+    description: 'Premium van with reclining seats, perfect for comfortable group travel.',
+    coverImage: starex1,
+    gallery: [starex1, starex2, starex3, starex4, starex5]
+  },
+  {
+    id: 5,
+    name: 'Kia Staria',
+    type: 'Luxury Van',
+    category: 'VIP',
+    seats: 9,
+    luggage: '6 Bags',
+    fuel: 'Petrol',
+    transmission: 'Automatic',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 650',
+    badge: 'PREMIUM',
+    features: [
+      'Free WiFi',
+      'Luxury Interior',
+      'Water Bottle',
+      'Phone Charger',
+      '24/7 Support',
+      'VIP Meet & Greet'
+    ],
+    description: 'Ultra-modern luxury van with premium interior for VIP group transfers.',
+    coverImage: staria1,
+    gallery: [staria1, staria2, staria3, staria4, staria5]
+  },
+  {
+    id: 6,
+    name: 'Toyota Coaster',
+    type: 'Coaster Bus',
+    category: 'Bus',
+    seats: 22,
+    luggage: '15 Bags',
+    fuel: 'Diesel',
+    transmission: 'Manual',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 900',
+    badge: 'HAJJ SPECIAL',
+    features: [
+      'Full AC',
+      'Large Luggage Space',
+      'USB Charging',
+      'Water Bottles',
+      '24/7 Support',
+      'Hajj Permit'
+    ],
+    description: 'Large capacity coaster perfect for Hajj groups, tours, and corporate events.',
+    coverImage: coaster1,
+    gallery: [coaster1, coaster2, coaster3, coaster4]
+  },
+  {
+    id: 7,
+    name: 'Mini Bus',
+    type: 'Mini Bus',
+    category: 'Bus',
+    seats: 30,
+    luggage: '20 Bags',
+    fuel: 'Diesel',
+    transmission: 'Manual',
+    ac: 'Yes',
+    insurance: 'Included',
+    price: 'SAR 1,200',
+    badge: 'GROUP',
+    features: [
+      'Full AC',
+      'Overhead Storage',
+      'USB Charging',
+      'Water Bottles',
+      '24/7 Support',
+      'Hajj Permit'
+    ],
+    description: 'Perfect for large Hajj groups, corporate events, and big family tours.',
+    coverImage: bus1,
+    gallery: [bus1, bus2, bus3, bus4]
+  },
 ];
 
 const Fleet = () => {
   const { t } = useTranslation();
-  const [filter, setFilter] = useState("All");
   const [detailsCar, setDetailsCar] = useState<any>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [prefillVehicle, setPrefillVehicle] = useState("");
@@ -172,9 +246,6 @@ const Fleet = () => {
     return () => observer.disconnect();
   }, []);
 
-  const filteredCars = filter === "All" 
-    ? fleetData 
-    : fleetData.filter(car => car.catKey.includes(filter) || car.typeKey.includes(filter));
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -258,31 +329,13 @@ const Fleet = () => {
         </div>
       </section>
 
-      {/* Filter Bar */}
-      <section className="py-8 bg-gray-50 dark:bg-[#111] border-b border-gray-200 dark:border-white/5 sticky top-[72px] z-40 transition-colors">
-        <div className="container mx-auto px-6 flex justify-center flex-wrap gap-3">
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setFilter(cat.key)}
-              className={`px-6 py-2 rounded-full font-body text-sm font-semibold transition-all border ${
-                filter === cat.key 
-                  ? "bg-[#C9A84C] text-[#0D0D14] border-[#C9A84C]" 
-                  : "bg-white dark:bg-[#1A1A1A] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-white/10 hover:border-[#C9A84C] hover:text-[#C9A84C]"
-              }`}
-            >
-              {t(cat.labelKey)}
-            </button>
-          ))}
-        </div>
-      </section>
 
       {/* Fleet Grid */}
-      <section className="py-20 px-3 md:px-6">
-        <div className="container mx-auto max-w-[1200px]">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+      <section className="py-20 px-4 md:px-6 overflow-x-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
             <AnimatePresence mode="popLayout">
-              {filteredCars.map((car, i) => (
+              {fleetData.map((car, i) => (
                 <motion.div
                   key={car.id}
                   layout
@@ -290,18 +343,25 @@ const Fleet = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-                  className="bg-white dark:bg-[#111] border border-black/5 dark:border-white/5 rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group"
+                  className="bg-white dark:bg-[#111] border border-black/5 dark:border-white/5 rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group cursor-pointer w-full"
+                  onClick={() => {
+                    setDetailsCar(car);
+                    setCurrentImageIndex(0);
+                  }}
                 >
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#F8F8F6] dark:bg-[#161616] p-3 md:p-4 transition-colors">
+                  <div className="relative h-[220px] sm:h-[180px] md:h-[210px] lg:h-[220px] w-full overflow-hidden bg-[#0D0D0D] transition-colors">
                     <img 
-                      src={car.img} 
+                      src={car.coverImage} 
                       alt={car.name} 
-                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover object-center block transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute top-2 left-2 md:top-4 md:left-4">
-                      <span className="bg-[#C9A84C] text-[#0D0D14] text-[8px] md:text-[10px] font-bold px-2 md:px-3 py-0.5 md:py-1 rounded-full uppercase tracking-wider shadow-sm">
-                        {t(car.typeKey)}
-                      </span>
+                    {car.badge && (
+                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.3)]">
+                        {car.badge}
+                      </div>
+                    )}
+                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#D4A853] text-[10px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.25)]">
+                      {car.category}
                     </div>
                   </div>
 
@@ -311,7 +371,7 @@ const Fleet = () => {
                     <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-gray-500 dark:text-gray-400 text-[10px] md:text-[13px] font-body">
                       <div className="flex items-center gap-1 md:gap-1.5">
                         <Users size={12} className="text-[#C9A84C]" />
-                        <span>{car.passengers}</span>
+                        <span>{car.seats} Seats</span>
                       </div>
                       <div className="flex items-center gap-1 md:gap-1.5">
                         <Briefcase size={12} className="text-[#C9A84C]" />
@@ -324,29 +384,33 @@ const Fleet = () => {
                     </div>
 
                     <p className="text-gray-400 dark:text-gray-500 text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
-                      {t(car.descKey)}
+                      {car.description}
                     </p>
 
                     <div className="flex items-end justify-between mb-4 md:mb-6">
                       <div>
                         <span className="text-gray-400 text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
-                        <span className="text-[#C9A84C] font-display font-bold text-sm md:text-xl">SAR {car.price}</span>
+                        <span className="text-[#C9A84C] font-display font-bold text-sm md:text-xl">{car.price}</span>
                       </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-auto">
                       <button 
-                        onClick={() => handleBookNow(car.name)}
-                        className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookNow(car.name);
+                        }}
+                        className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
                         {t('fleet.bookNow')}
                       </button>
                       <button 
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setDetailsCar(car);
                           setCurrentImageIndex(0);
                         }}
-                        className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-[10px] md:text-sm py-2 md:py-3 rounded-lg md:rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
+                        className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
                       >
                         {t('fleet.viewDetail')}
                       </button>
@@ -378,9 +442,10 @@ const Fleet = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative w-[95vw] md:w-[90vw] max-w-[900px] h-full max-h-[95vh] md:max-h-[90vh] bg-white dark:bg-[#111111] rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl flex flex-col md:flex-row transition-colors"
             >
+              {/* Close Button */}
               <button 
                 onClick={() => setDetailsCar(null)}
-                className="absolute top-4 right-4 z-[10] w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
+                className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
               >
                 <X size={20} className="text-gray-800 dark:text-white" />
               </button>
@@ -388,34 +453,58 @@ const Fleet = () => {
               {/* Left Column: Gallery */}
               <div className="w-full md:w-[45%] lg:w-[42%] flex flex-col h-auto md:min-h-[500px]">
                 {/* Main Image */}
-                <div className="relative aspect-video w-full overflow-hidden bg-gray-100 dark:bg-white/5 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
+                <div className="relative aspect-video w-full overflow-hidden bg-[#0D0D0D] p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
                     <motion.img 
                       key={currentImageIndex}
-                      src={detailsCar.gallery[currentImageIndex] || detailsCar.img} 
-                      alt={detailsCar.name} 
+                      src={detailsCar.gallery[currentImageIndex]} 
+                      alt={`${detailsCar.name} view ${currentImageIndex + 1}`} 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-full object-cover object-center" 
+                      className="w-full h-[200px] md:h-[260px] lg:h-[300px] object-cover object-center block" 
                     />
                   </AnimatePresence>
+
+                  {/* Image counter */}
+                  <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm">
+                    {currentImageIndex + 1} / {detailsCar.gallery.length}
+                  </div>
+
+                  {/* Arrow navigation */}
+                  <button
+                    onClick={() => setCurrentImageIndex(prev => prev === 0 ? detailsCar.gallery.length - 1 : prev - 1)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() => setCurrentImageIndex(prev => prev === detailsCar.gallery.length - 1 ? 0 : prev + 1)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                  >
+                    ›
+                  </button>
                 </div>
 
                 {/* Thumbnail strip */}
-                <div className="flex gap-2 p-2 md:p-3 bg-[#F8F8F6] dark:bg-[#1C1C1C] overflow-x-auto scrollbar-none transition-colors">
-                  {(detailsCar.gallery && detailsCar.gallery.length > 0 ? detailsCar.gallery : [detailsCar.img]).map((img: string, idx: number) => (
-                    <img 
+                <div className="flex gap-2 p-3 overflow-x-auto bg-[#0D0D0D] scrollbar-none transition-colors">
+                  {detailsCar.gallery.map((img: string, idx: number) => (
+                    <button
                       key={idx}
-                      src={img}
                       onClick={() => setCurrentImageIndex(idx)}
-                      className={`w-[64px] h-[48px] md:w-[80px] md:h-[60px] rounded-lg object-cover cursor-pointer transition-all duration-200 flex-shrink-0 ${
+                      className={`flex-shrink-0 w-[60px] h-[44px] md:w-[72px] md:h-[54px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                         currentImageIndex === idx 
-                          ? "border-2 border-[#D4A853] opacity-100 scale-105" 
-                          : "border-2 border-transparent opacity-60 hover:opacity-90 hover:border-[#D4A853]/50"
+                          ? "border-[#D4A853] opacity-100 scale-105" 
+                          : "border-transparent opacity-50 hover:opacity-80"
                       }`}
-                    />
+                    >
+                      <img 
+                        src={img}
+                        className="w-full h-full object-cover"
+                        alt={`${detailsCar.name} thumbnail ${idx + 1}`}
+                      />
+                    </button>
                   ))}
                 </div>
               </div>
@@ -424,12 +513,12 @@ const Fleet = () => {
               <div className="flex-1 p-4 md:p-8 lg:p-10 overflow-y-auto max-h-[none] md:max-h-none">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="border border-[#D4A853] text-[#D4A853] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {detailsCar.cat || detailsCar.type}
+                    {detailsCar.category || detailsCar.type}
                   </span>
                   <div className="flex items-center gap-1 text-[#D4A853]">
                     <Star size={13} className="fill-current" />
                     <span className="text-gray-400 dark:text-gray-500 text-[13px] font-body">
-                      {detailsCar.rating} · {detailsCar.reviews} reviews
+                      4.9 · 100+ reviews
                     </span>
                   </div>
                 </div>
@@ -439,7 +528,7 @@ const Fleet = () => {
                 </h2>
                 
                 <div className="mb-4">
-                  <span className="text-[#D4A853] font-display font-bold text-xl md:text-2xl">SAR {detailsCar.price}</span>
+                  <span className="text-[#D4A853] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
                   <span className="text-gray-400 dark:text-gray-500 text-sm font-body ml-1">/trip</span>
                 </div>
 
@@ -448,12 +537,12 @@ const Fleet = () => {
                 {/* Specs Grid */}
                 <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-4 mb-6">
                   {[
-                    { icon: Users, label: t('fleet.passengers'), val: detailsCar.passengers },
-                    { icon: Briefcase, label: t('fleet.luggage'), val: `${detailsCar.luggage} ${t('fleet.bags')}` },
-                    { icon: Fuel, label: t('fleet.fuel'), val: t(detailsCar.fuelKey) },
-                    { icon: Settings, label: t('fleet.transmission'), val: t(detailsCar.transKey) },
-                    { icon: Snowflake, label: t('fleet.ac'), val: t('fleet.included') },
-                    { icon: ShieldCheck, label: t('fleet.insurance'), val: t('fleet.included') },
+                    { icon: Users, label: t('fleet.passengers'), val: `${detailsCar.seats} Seats` },
+                    { icon: Briefcase, label: t('fleet.luggage'), val: detailsCar.luggage },
+                    { icon: Fuel, label: t('fleet.fuel'), val: detailsCar.fuel },
+                    { icon: Settings, label: t('fleet.transmission'), val: detailsCar.transmission },
+                    { icon: Snowflake, label: t('fleet.ac'), val: detailsCar.ac },
+                    { icon: ShieldCheck, label: t('fleet.insurance'), val: detailsCar.insurance },
                   ].map((spec, i) => (
                     <div key={i} className="flex flex-col gap-1">
                       <div className="flex items-center gap-2">
@@ -477,13 +566,13 @@ const Fleet = () => {
                     INCLUDED FEATURES
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {["Free WiFi", "Water Bottle", "Phone Charger", "Child Seat Available", "24/7 Support", "Meet & Greet", "Flight Tracking"].map((f, idx) => (
+                    {detailsCar.features.map((f: string, idx: number) => (
                       <div 
                         key={idx} 
                         className="flex items-center gap-1.5 bg-[#D4A853]/5 dark:bg-[#D4A853]/8 border border-[#D4A853]/20 px-3 py-1.5 rounded-full"
                       >
                         <Check size={12} className="text-[#D4A853]" />
-                        <span className="text-[11px] md:text-[12px] font-body text-[#888880]">{t(`fleet.feat${idx+1}`)}</span>
+                        <span className="text-[11px] md:text-[12px] font-body text-[#888880]">{f}</span>
                       </div>
                     ))}
                   </div>
@@ -492,7 +581,7 @@ const Fleet = () => {
                 <div className="h-px bg-[#E8E8E4] dark:bg-[#222220] my-4" />
 
                 <p className="text-gray-500 dark:text-[#888880] text-sm font-body leading-relaxed mb-8">
-                  {t(detailsCar.descKey)}
+                  {detailsCar.description}
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-3">
