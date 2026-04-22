@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster as HotToaster } from 'react-hot-toast'
 import Index from "./pages/Index.tsx";
 import Fleet from "./pages/Fleet.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -14,6 +15,32 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <HotToaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#111111',
+            color: '#F5F5F0',
+            border: '1px solid #222220',
+            borderRadius: '12px',
+            padding: '14px 20px',
+            fontSize: '14px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#D4A853',
+              secondary: '#000000',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#BA1A1A',
+              secondary: '#FFFFFF',
+            },
+          },
+        }}
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { sendBookingEmail } from "../lib/emailjs";
 
 const serviceTypes = [
   "services.s1Title",
@@ -26,75 +27,133 @@ const vehicleTypes = [
 
 const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
   const { t } = useTranslation();
-  const [form, setForm] = useState({
-    service: "",
-    vehicle: prefillVehicle || "",
-    from: "",
-    to: "",
-    date: "",
-    time: "",
-    passengers: "1",
-    name: "",
-    phone: "",
-    email: "",
+  
+  const [formData, setFormData] = useState({
+    customer_name: '',
+    customer_phone: '',
+    customer_email: '',
+    service_type: '',
+    pickup_location: '',
+    drop_location: '',
+    travel_date: '',
+    travel_time: '',
+    passengers: '1',
+    vehicle_type: prefillVehicle || '',
+    message: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
 
   const validate = () => {
-    const e: Record<string, string> = {};
-    if (!form.service) e.service = t('booking.errService', 'Select a service');
-    if (!form.from.trim()) e.from = t('booking.errRequired', 'Required');
-    if (!form.to.trim()) e.to = t('booking.errRequired', 'Required');
-    if (!form.date) e.date = t('booking.errRequired', 'Required');
-    if (!form.time) e.time = t('booking.errRequired', 'Required');
-    if (!form.name.trim()) e.name = t('booking.errRequired', 'Required');
-    if (!form.phone.trim()) e.phone = t('booking.errRequired', 'Required');
-    if (!form.email.trim()) e.email = t('booking.errRequired', 'Required');
-    else if (!/\S+@\S+\.\S+/.test(form.email)) e.email = t('booking.errEmail', 'Invalid email');
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.customer_name.trim())
+      newErrors.customer_name = t('booking.errRequired', 'Name is required');
+    
+    if (!formData.customer_phone.trim())
+      newErrors.customer_phone = t('booking.errRequired', 'Phone is required');
+    
+    if (!formData.customer_email.trim())
+      newErrors.customer_email = t('booking.errRequired', 'Email is required');
+    else if (!/\S+@\S+\.\S+/.test(formData.customer_email))
+      newErrors.customer_email = t('booking.errEmail', 'Invalid email address');
+    
+    if (!formData.service_type)
+      newErrors.service_type = t('booking.errService', 'Please select a service');
+    
+    if (!formData.pickup_location.trim())
+      newErrors.pickup_location = t('booking.errRequired', 'Pickup location required');
+    
+    if (!formData.drop_location.trim())
+      newErrors.drop_location = t('booking.errRequired', 'Drop location required');
+    
+    if (!formData.travel_date)
+      newErrors.travel_date = t('booking.errRequired', 'Date is required');
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    setLoading(true);
-
-    // Attempt EmailJS (gracefully fail if not configured)
-    try {
-      const emailjs = await import("@emailjs/browser");
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID || "demo",
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "demo",
-        { ...form },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "demo"
-      );
-    } catch {
-      // EmailJS not configured, continue to WhatsApp
+    
+    if (!validate()) {
+      toast.error(t('booking.errFields', 'Please fill all required fields'));
+      return;
     }
 
-    // WhatsApp message
-    const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966500000000";
-    const msg = encodeURIComponent(
-      `*New Booking — MUSA TRAVEL*\n\nService: ${form.service}\nVehicle: ${form.vehicle}\nFrom: ${form.from} → To: ${form.to}\nDate: ${form.date} at ${form.time}\nPassengers: ${form.passengers}\nName: ${form.name} | Phone: ${form.phone}`
-    );
-    window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
+    setIsLoading(true);
+    const loadingToast = toast.loading(t('booking.sending', 'Sending your booking...'));
 
-    toast.success(t('booking.success'));
-    setForm({ service: "", vehicle: "", from: "", to: "", date: "", time: "", passengers: "1", name: "", phone: "", email: "" });
-    setErrors({});
-    setLoading(false);
+    try {
+      // STEP 1 — Send Email
+      await sendBookingEmail(formData);
+
+      // STEP 2 — Open WhatsApp
+      const whatsappMsg = encodeURIComponent(
+        `*New Booking — MUSA TRAVEL* 🚗\n\n` +
+        `👤 *Name:* ${formData.customer_name}\n` +
+        `📱 *Phone:* ${formData.customer_phone}\n` +
+        `📧 *Email:* ${formData.customer_email}\n\n` +
+        `🚗 *Service:* ${formData.service_type}\n` +
+        `📍 *From:* ${formData.pickup_location}\n` +
+        `📍 *To:* ${formData.drop_location}\n` +
+        `📅 *Date:* ${formData.travel_date}\n` +
+        `⏰ *Time:* ${formData.travel_time}\n` +
+        `👥 *Passengers:* ${formData.passengers}\n` +
+        `🚙 *Vehicle:* ${formData.vehicle_type}\n\n` +
+        `💬 *Notes:* ${formData.message || 'None'}`
+      );
+
+      const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966597100424";
+      window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`, '_blank');
+
+      // STEP 3 — Success
+      toast.dismiss(loadingToast);
+      toast.success(t('booking.success', 'Booking sent! We will confirm shortly.'), { duration: 5000 });
+
+      // STEP 4 — Reset form
+      setFormData({
+        customer_name: '',
+        customer_phone: '',
+        customer_email: '',
+        service_type: '',
+        pickup_location: '',
+        drop_location: '',
+        travel_date: '',
+        travel_time: '',
+        passengers: '1',
+        vehicle_type: '',
+        message: '',
+      });
+      setErrors({});
+
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error(t('booking.error', 'Something went wrong. Please try again.'), { duration: 5000 });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const update = (key: string, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
   useEffect(() => {
     if (prefillVehicle) {
-      setForm(prev => ({ ...prev, vehicle: prefillVehicle }));
+      setFormData(prev => ({ ...prev, vehicle_type: prefillVehicle }));
     }
   }, [prefillVehicle]);
 
@@ -127,17 +186,17 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.serviceType')}</label>
-              <select value={form.service} onChange={(e) => update("service", e.target.value)} className={inputClass("service")}>
+              <select name="service_type" value={formData.service_type} onChange={handleChange} className={inputClass("service_type")}>
                 <option value="">{t('booking.selectService', 'Select service...')}</option>
                 {serviceTypes.map((s) => (
                   <option key={s} value={t(s)}>{t(s)}</option>
                 ))}
               </select>
-              {errors.service && <span className="text-destructive text-xs mt-1 block">{errors.service}</span>}
+              {errors.service_type && <span className="text-destructive text-xs mt-1 block">{errors.service_type}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.vehicle')}</label>
-              <select value={form.vehicle} onChange={(e) => update("vehicle", e.target.value)} className={inputClass("vehicle")}>
+              <select name="vehicle_type" value={formData.vehicle_type} onChange={handleChange} className={inputClass("vehicle_type")}>
                 <option value="">{t('booking.selectVehicle', 'Select vehicle...')}</option>
                 {vehicleTypes.map((v) => (
                   <option key={v} value={v}>{v}</option>
@@ -150,13 +209,13 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.from')}</label>
-              <input value={form.from} onChange={(e) => update("from", e.target.value)} placeholder={t('booking.fromPlaceholder', 'Pickup location')} className={inputClass("from")} />
-              {errors.from && <span className="text-destructive text-xs mt-1 block">{errors.from}</span>}
+              <input name="pickup_location" value={formData.pickup_location} onChange={handleChange} placeholder={t('booking.fromPlaceholder', 'Pickup location')} className={inputClass("pickup_location")} />
+              {errors.pickup_location && <span className="text-destructive text-xs mt-1 block">{errors.pickup_location}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.to')}</label>
-              <input id="booking-to" value={form.to} onChange={(e) => update("to", e.target.value)} placeholder={t('booking.toPlaceholder', 'Drop-off location')} className={inputClass("to")} />
-              {errors.to && <span className="text-destructive text-xs mt-1 block">{errors.to}</span>}
+              <input name="drop_location" value={formData.drop_location} onChange={handleChange} placeholder={t('booking.toPlaceholder', 'Drop-off location')} className={inputClass("drop_location")} />
+              {errors.drop_location && <span className="text-destructive text-xs mt-1 block">{errors.drop_location}</span>}
             </div>
           </div>
 
@@ -164,17 +223,17 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.date')}</label>
-              <input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} className={inputClass("date")} />
-              {errors.date && <span className="text-destructive text-xs mt-1 block">{errors.date}</span>}
+              <input type="date" name="travel_date" value={formData.travel_date} onChange={handleChange} className={inputClass("travel_date")} />
+              {errors.travel_date && <span className="text-destructive text-xs mt-1 block">{errors.travel_date}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.time')}</label>
-              <input type="time" value={form.time} onChange={(e) => update("time", e.target.value)} className={inputClass("time")} />
-              {errors.time && <span className="text-destructive text-xs mt-1 block">{errors.time}</span>}
+              <input type="time" name="travel_time" value={formData.travel_time} onChange={handleChange} className={inputClass("travel_time")} />
+              {errors.travel_time && <span className="text-destructive text-xs mt-1 block">{errors.travel_time}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.passengers')}</label>
-              <select value={form.passengers} onChange={(e) => update("passengers", e.target.value)} className={inputClass("passengers")}>
+              <select name="passengers" value={formData.passengers} onChange={handleChange} className={inputClass("passengers")}>
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                   <option key={n} value={n}>{n}</option>
                 ))}
@@ -186,27 +245,40 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.name')}</label>
-              <input value={form.name} onChange={(e) => update("name", e.target.value)} placeholder={t('booking.name', 'Full Name')} className={inputClass("name")} />
-              {errors.name && <span className="text-destructive text-xs mt-1 block">{errors.name}</span>}
+              <input name="customer_name" value={formData.customer_name} onChange={handleChange} placeholder={t('booking.name', 'Full Name')} className={inputClass("customer_name")} />
+              {errors.customer_name && <span className="text-destructive text-xs mt-1 block">{errors.customer_name}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.phone')}</label>
-              <input value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder={t('booking.phonePlaceholder', '+966 50 000 0000')} className={inputClass("phone")} />
-              {errors.phone && <span className="text-destructive text-xs mt-1 block">{errors.phone}</span>}
+              <input name="customer_phone" value={formData.customer_phone} onChange={handleChange} placeholder={t('booking.phonePlaceholder', '+966 50 000 0000')} className={inputClass("customer_phone")} />
+              {errors.customer_phone && <span className="text-destructive text-xs mt-1 block">{errors.customer_phone}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.email')}</label>
-              <input value={form.email} onChange={(e) => update("email", e.target.value)} placeholder={t('booking.emailPlaceholder', 'you@email.com')} className={inputClass("email")} />
-              {errors.email && <span className="text-destructive text-xs mt-1 block">{errors.email}</span>}
+              <input name="customer_email" value={formData.customer_email} onChange={handleChange} placeholder={t('booking.emailPlaceholder', 'you@email.com')} className={inputClass("customer_email")} />
+              {errors.customer_email && <span className="text-destructive text-xs mt-1 block">{errors.customer_email}</span>}
             </div>
+          </div>
+
+          {/* Message / Notes */}
+          <div>
+            <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.message', 'Message / Special Requests')}</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder={t('booking.messagePlaceholder', 'Any special requests...')}
+              rows={3}
+              className={inputClass("message")}
+            />
           </div>
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isLoading}
             className="w-full gradient-gold text-primary-foreground font-body font-semibold text-sm py-3.5 rounded-full transition-transform hover:scale-[1.03] disabled:opacity-60"
           >
-            {loading ? t('booking.sending', 'Sending...') : t('booking.submit')}
+            {isLoading ? t('booking.sending', 'Sending...') : t('booking.submit')}
           </button>
         </motion.form>
       </div>
