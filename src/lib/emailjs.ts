@@ -30,3 +30,16 @@ export const sendBookingEmail = async (
     return { success: false, error }
   }
 }
+
+export const sendConfirmationEmail = async (formData: any) => {
+  try {
+    const response = await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CUSTOMER,
+      formData
+    )
+    return { success: true, response }
+  } catch (error) {
+    return { success: false, error }
+  }
+}

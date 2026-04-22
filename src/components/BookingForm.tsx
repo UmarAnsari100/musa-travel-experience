@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { sendBookingEmail } from "../lib/emailjs";
+import emailjs from '@emailjs/browser';
 
 const serviceTypes = [
   "services.s1Title",
@@ -76,44 +76,59 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validate()) {
-      toast.error(t('booking.errFields', 'Please fill all required fields'));
-      return;
-    }
-
-    setIsLoading(true);
-    const loadingToast = toast.loading(t('booking.sending', 'Sending your booking...'));
-
+    e.preventDefault()
+    if (!validate()) return
+    setIsLoading(true)
+    const loadingToast = 
+      toast.loading('Sending booking...')
     try {
-      // STEP 1 — Send Email
-      await sendBookingEmail(formData);
-
-      // STEP 2 — Open WhatsApp
-      const whatsappMsg = encodeURIComponent(
-        `*New Booking — MUSA TRAVEL* 🚗\n\n` +
-        `👤 *Name:* ${formData.customer_name}\n` +
-        `📱 *Phone:* ${formData.customer_phone}\n` +
-        `📧 *Email:* ${formData.customer_email}\n\n` +
-        `🚗 *Service:* ${formData.service_type}\n` +
-        `📍 *From:* ${formData.pickup_location}\n` +
-        `📍 *To:* ${formData.drop_location}\n` +
-        `📅 *Date:* ${formData.travel_date}\n` +
-        `⏰ *Time:* ${formData.travel_time}\n` +
-        `👥 *Passengers:* ${formData.passengers}\n` +
-        `🚙 *Vehicle:* ${formData.vehicle_type}\n\n` +
-        `💬 *Notes:* ${formData.message || 'None'}`
-      );
-
-      const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966597100424";
-      window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`, '_blank');
-
-      // STEP 3 — Success
-      toast.dismiss(loadingToast);
-      toast.success(t('booking.success', 'Booking sent! We will confirm shortly.'), { duration: 5000 });
-
-      // STEP 4 — Reset form
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formData,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      const customerTemplateId = 
+        import.meta.env
+        .VITE_EMAILJS_TEMPLATE_ID_CUSTOMER
+      if (customerTemplateId) {
+        try {
+          await emailjs.send(
+            import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            customerTemplateId,
+            formData,
+            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+          )
+          console.log('Customer email sent ✅')
+        } catch (err) {
+          console.warn('Customer email failed ⚠️', err)
+        }
+      }
+      const waNum = import.meta.env.VITE_WHATSAPP_NUMBER
+      if (waNum) {
+        const msg = encodeURIComponent(
+          `*New Booking — MUSA TRAVEL* 🚗\n\n`+
+          `👤 *Name:* ${formData.customer_name}\n`+
+          `📱 *Phone:* ${formData.customer_phone}\n`+
+          `📧 *Email:* ${formData.customer_email}\n\n`+
+          `🚗 *Service:* ${formData.service_type}\n`+
+          `📍 *From:* ${formData.pickup_location}\n`+
+          `📍 *To:* ${formData.drop_location}\n`+
+          `📅 *Date:* ${formData.travel_date}\n`+
+          `⏰ *Time:* ${formData.travel_time}\n`+
+          `👥 *Passengers:* ${formData.passengers}\n`+
+          `🚙 *Vehicle:* ${formData.vehicle_type}`
+        )
+        window.open(
+          `https://wa.me/${waNum}?text=${msg}`,
+          '_blank'
+        )
+      }
+      toast.dismiss(loadingToast)
+      toast.success(
+        '✅ Booking sent! We will confirm shortly.',
+        { duration: 5000 }
+      )
       setFormData({
         customer_name: '',
         customer_phone: '',
@@ -126,16 +141,19 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
         passengers: '1',
         vehicle_type: '',
         message: '',
-      });
-      setErrors({});
-
+      })
+      setErrors({})
     } catch (error) {
-      toast.dismiss(loadingToast);
-      toast.error(t('booking.error', 'Something went wrong. Please try again.'), { duration: 5000 });
+      console.error('Submit error:', error)
+      toast.dismiss(loadingToast)
+      toast.error(
+        'Failed to send booking. Try again.',
+        { duration: 5000 }
+      )
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

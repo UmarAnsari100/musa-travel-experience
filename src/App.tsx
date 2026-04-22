@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as HotToaster } from 'react-hot-toast'
 import Index from "./pages/Index.tsx";
 import Fleet from "./pages/Fleet.tsx";
+import ConfirmBooking from "./pages/ConfirmBooking.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/fleet" element={<Fleet />} />
+          <Route path="/confirm" element={<ConfirmBooking />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
