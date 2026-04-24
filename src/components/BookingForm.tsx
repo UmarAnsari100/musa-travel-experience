@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { useBooking } from '../context/BookingContext'
 import emailjs from '@emailjs/browser';
 
 const serviceTypes = [
@@ -15,19 +16,17 @@ const serviceTypes = [
 
 const vehicleTypes = [
   "Toyota Camry",
-  "Mercedes E-Class",
-  "Toyota Land Cruiser",
   "GMC Yukon",
   "Toyota Hiace",
-  "Mercedes S-Class",
-  "Toyota Corolla",
-  "Chevrolet Suburban",
-  "Coaster Bus"
+  "Coaster ",
+  "Hyundai Starex",
+  "Kia Staria",
+  "Mini bus",
 ];
 
 const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
   const { t } = useTranslation();
-  
+
   const [formData, setFormData] = useState({
     customer_name: '',
     customer_phone: '',
@@ -44,30 +43,34 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [highlightedFields, setHighlightedFields] = useState<string[]>([]);
+  const [selectedTrip, setSelectedTrip] = useState<string | null>(null);
+
+  const { bookingDefaults, setBookingDefaults } = useBooking();
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.customer_name.trim())
       newErrors.customer_name = t('booking.errRequired', 'Name is required');
-    
+
     if (!formData.customer_phone.trim())
       newErrors.customer_phone = t('booking.errRequired', 'Phone is required');
-    
+
     if (!formData.customer_email.trim())
       newErrors.customer_email = t('booking.errRequired', 'Email is required');
     else if (!/\S+@\S+\.\S+/.test(formData.customer_email))
       newErrors.customer_email = t('booking.errEmail', 'Invalid email address');
-    
+
     if (!formData.service_type)
       newErrors.service_type = t('booking.errService', 'Please select a service');
-    
+
     if (!formData.pickup_location.trim())
       newErrors.pickup_location = t('booking.errRequired', 'Pickup location required');
-    
+
     if (!formData.drop_location.trim())
       newErrors.drop_location = t('booking.errRequired', 'Drop location required');
-    
+
     if (!formData.travel_date)
       newErrors.travel_date = t('booking.errRequired', 'Date is required');
 
@@ -79,7 +82,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
     e.preventDefault()
     if (!validate()) return
     setIsLoading(true)
-    const loadingToast = 
+    const loadingToast =
       toast.loading('Sending booking...')
     try {
       await emailjs.send(
@@ -88,9 +91,9 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
         formData,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
-      const customerTemplateId = 
+      const customerTemplateId =
         import.meta.env
-        .VITE_EMAILJS_TEMPLATE_ID_CUSTOMER
+          .VITE_EMAILJS_TEMPLATE_ID_CUSTOMER
       if (customerTemplateId) {
         try {
           await emailjs.send(
@@ -107,16 +110,16 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
       const waNum = import.meta.env.VITE_WHATSAPP_NUMBER
       if (waNum) {
         const msg = encodeURIComponent(
-          `*New Booking — MUSA TRAVEL* 🚗\n\n`+
-          `👤 *Name:* ${formData.customer_name}\n`+
-          `📱 *Phone:* ${formData.customer_phone}\n`+
-          `📧 *Email:* ${formData.customer_email}\n\n`+
-          `🚗 *Service:* ${formData.service_type}\n`+
-          `📍 *From:* ${formData.pickup_location}\n`+
-          `📍 *To:* ${formData.drop_location}\n`+
-          `📅 *Date:* ${formData.travel_date}\n`+
-          `⏰ *Time:* ${formData.travel_time}\n`+
-          `👥 *Passengers:* ${formData.passengers}\n`+
+          `*New Booking — MUSA TRAVEL* 🚗\n\n` +
+          `👤 *Name:* ${formData.customer_name}\n` +
+          `📱 *Phone:* ${formData.customer_phone}\n` +
+          `📧 *Email:* ${formData.customer_email}\n\n` +
+          `🚗 *Service:* ${formData.service_type}\n` +
+          `📍 *From:* ${formData.pickup_location}\n` +
+          `📍 *To:* ${formData.drop_location}\n` +
+          `📅 *Date:* ${formData.travel_date}\n` +
+          `⏰ *Time:* ${formData.travel_time}\n` +
+          `👥 *Passengers:* ${formData.passengers}\n` +
           `🚙 *Vehicle:* ${formData.vehicle_type}`
         )
         window.open(
@@ -175,8 +178,35 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
     }
   }, [prefillVehicle]);
 
+  useEffect(() => {
+    if (bookingDefaults) {
+      setFormData(prev => ({
+        ...prev,
+        service_type: bookingDefaults.service_type || prev.service_type,
+        drop_location: bookingDefaults.drop_location || prev.drop_location,
+        vehicle_type: bookingDefaults.vehicle_type || prev.vehicle_type,
+      }));
+
+      if (bookingDefaults.tripTitle) {
+        setSelectedTrip(bookingDefaults.tripTitle);
+      }
+
+      setHighlightedFields(['service_type', 'drop_location', 'vehicle_type']);
+
+      setTimeout(() => {
+        setHighlightedFields([]);
+      }, 3000);
+
+      // Clear defaults after filling
+      setBookingDefaults(null);
+    }
+  }, [bookingDefaults]);
+
   const inputClass = (key: string) =>
-    `w-full bg-surface-low rounded-xl px-4 py-3 font-body text-sm outline-none transition-colors focus:ring-2 focus:ring-gold/40 ${errors[key] ? "ring-2 ring-destructive" : ""
+    `w-full bg-surface-low rounded-xl px-4 py-3 font-body text-sm outline-none transition-all duration-500 focus:ring-2 focus:ring-gold/40 ${errors[key] ? "ring-2 ring-destructive" : ""
+    } ${highlightedFields.includes(key)
+      ? 'border-gold ring-2 ring-gold/30 bg-gold/5'
+      : 'border-transparent'
     }`;
 
   return (
@@ -201,6 +231,39 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="bg-card shadow-card p-8 space-y-5"
         >
+          {selectedTrip && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="flex items-center gap-3 bg-gold/10 border border-gold/20 rounded-xl px-4 py-3 mb-6"
+            >
+              <span className="text-gold text-lg">🚗</span>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-gold">
+                  Selected Package
+                </p>
+                <p className="text-[14px] font-medium text-foreground">
+                  {selectedTrip}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedTrip(null);
+                  setFormData(prev => ({
+                    ...prev,
+                    service_type: '',
+                    drop_location: '',
+                    vehicle_type: '',
+                  }));
+                }}
+                className="ml-auto text-gray-text hover:text-foreground text-lg transition-colors"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.serviceType')}</label>

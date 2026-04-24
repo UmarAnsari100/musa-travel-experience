@@ -6,6 +6,8 @@ import riyadhImg from "../assets/riyadh.jpg";
 import jeddahImg from "../assets/jeddah.jpg";
 import abhaImg from "../assets/abha.jpg";
 import airportImg from "../assets/airport.jpg";
+import { useBooking } from "../context/BookingContext";
+import { toast } from "react-hot-toast";
 
 const trips = [
   {
@@ -14,7 +16,10 @@ const trips = [
     descKey: "trips.trip1Desc",
     price: "SAR 1,200",
     dest: "Makkah",
-    badgeKey: "trips.trip1Badge"
+    badgeKey: "trips.trip1Badge",
+    serviceType: "Hajj & Umrah Transfers",
+    destination: "Makkah Al-Mukarramah",
+    vehicleType: "Toyota Hiace (Van/Group)",
   },
   {
     img: alulaImg,
@@ -22,7 +27,10 @@ const trips = [
     descKey: "trips.trip2Desc",
     price: "SAR 2,500",
     dest: "AlUla",
-    badgeKey: "trips.trip2Badge"
+    badgeKey: "trips.trip2Badge",
+    serviceType: "Desert & Heritage Tours",
+    destination: "AlUla, Madinah Province",
+    vehicleType: "Toyota Land Cruiser (SUV)",
   },
   {
     img: riyadhImg,
@@ -30,21 +38,30 @@ const trips = [
     descKey: "trips.trip3Desc",
     price: "SAR 800",
     dest: "Riyadh",
-    badgeKey: "trips.trip3Badge"
+    badgeKey: "trips.trip3Badge",
+    serviceType: "Intercity Travel",
+    destination: "Riyadh, Central Region",
+    vehicleType: "Toyota Camry (Sedan)",
   },
   {
     img: jeddahImg,
     titleKey: "trips.trip4Title",
     descKey: "trips.trip4Desc",
     price: "SAR 650",
-    dest: "Jeddah"
+    dest: "Jeddah",
+    serviceType: "Intercity Travel",
+    destination: "Jeddah, Hejaz",
+    vehicleType: "Toyota Camry (Sedan)",
   },
   {
     img: abhaImg,
     titleKey: "trips.trip5Title",
     descKey: "trips.trip5Desc",
     price: "SAR 1,800",
-    dest: "Abha"
+    dest: "Abha",
+    serviceType: "Desert & Heritage Tours",
+    destination: "Abha, Asir Region",
+    vehicleType: "Toyota Land Cruiser (SUV)",
   },
   {
     img: airportImg,
@@ -52,7 +69,10 @@ const trips = [
     descKey: "trips.trip6Desc",
     price: "SAR 250",
     dest: "Airport",
-    badgeKey: "trips.trip6Badge"
+    badgeKey: "trips.trip6Badge",
+    serviceType: "Airport Transfers",
+    destination: "King Abdulaziz Airport (KAIA)",
+    vehicleType: "Mercedes E-Class (Executive)",
   },
 ];
 
@@ -63,20 +83,34 @@ const reveal = {
 
 const FeaturedTrips = () => {
   const { t } = useTranslation();
+  const { setBookingDefaults } = useBooking();
 
-  const handleBook = (dest: string) => {
-    const el = document.getElementById("booking");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      // Pre-fill destination after scroll
-      setTimeout(() => {
-        const toInput = document.getElementById("booking-to") as HTMLInputElement;
-        if (toInput) {
-          toInput.value = dest;
-          toInput.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-      }, 800);
+  const handleBook = (trip: any) => {
+    // Step 1 — Set booking defaults
+    setBookingDefaults({
+      service_type: trip.serviceType,
+      drop_location: trip.destination,
+      vehicle_type: trip.vehicleType,
+      tripTitle: t(trip.titleKey),
+    });
+
+    // Step 2 — Smooth scroll to booking form
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
+
+    // Step 3 — Show toast notification
+    toast.success(
+      `✅ "${t(trip.titleKey)}" selected! Complete your booking below.`,
+      { 
+        duration: 4000,
+        icon: '🚗'
+      }
+    );
   };
 
   return (
@@ -130,7 +164,7 @@ const FeaturedTrips = () => {
                     <span className="text-[10px] text-gray-text ml-1">{t('trips.perPerson')}</span>
                   </div>
                   <button
-                    onClick={() => handleBook(trip.dest)}
+                    onClick={() => handleBook(trip)}
                     className="gradient-gold text-primary-foreground font-body font-semibold text-sm px-5 py-2 rounded-full transition-transform hover:scale-[1.03]"
                   >
                     {t('trips.bookNow')}
