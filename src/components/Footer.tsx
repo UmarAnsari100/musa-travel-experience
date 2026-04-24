@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start py-12">
           <div className="pr-0 md:pr-12 h-full">
             <div className="font-display text-xl font-bold mb-4 tracking-tight">
-              MUSA<span className="text-[#C9A84C] font-normal"> TRAVEL</span>
+              MUSA<span className="text-[#C9A84C] font-normal"> TRANSPORT</span>
             </div>
             <p className="text-white/50 font-body text-[13px] leading-relaxed mb-8 max-w-[240px]">
               {t('footer.tagline')}
@@ -63,11 +63,11 @@ const Footer = () => {
                   </div>
                   <span className="font-body text-[13px]">{t('contact.whatsapp2')}</span>
                 </a>
-                <a href="mailto:support@musatravel.com" className="flex items-center gap-3 text-white/70 hover:text-[#C9A84C] transition-colors group">
+                <a href="mailto:musatransport666@gmail.com" className="flex items-center gap-3 text-white/70 hover:text-[#C9A84C] transition-colors group">
                   <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
                     <Mail size={14} />
                   </div>
-                  <span className="font-body text-[13px]">support@musatravel.com</span>
+                  <span className="font-body text-[13px]">musatransport666@gmail.com</span>
                 </a>
               </div>
             </div>
