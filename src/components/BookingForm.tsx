@@ -6,22 +6,27 @@ import { useBooking } from '../context/BookingContext'
 import emailjs from '@emailjs/browser';
 
 const serviceTypes = [
-  "services.s1Title",
-  "services.s2Title",
-  "services.s3Title",
-  "services.s4Title",
-  "services.s5Title",
-  "services.s6Title"
+  { label: "Hajj & Umrah Transfers", value: "Hajj & Umrah Transfers" },
+  { label: "Umrah Package (Economy)", value: "Umrah Package (Economy)" },
+  { label: "Umrah Package + Ziyarat", value: "Umrah Package + Ziyarat" },
+  { label: "Family Umrah Package", value: "Family Umrah Package" },
+  { label: "Group Umrah Package", value: "Group Umrah Package" },
+  { label: "VIP Umrah Package", value: "VIP Umrah Package" },
+  { label: "Airport Transfers", value: "Airport Transfers" },
+  { label: "Intercity Travel", value: "Intercity Travel" },
+  { label: "Desert & Heritage Tours", value: "Desert & Heritage Tours" },
+  { label: "Corporate Fleet", value: "Corporate Fleet" },
+  { label: "VIP & Royal Events", value: "VIP & Royal Events" }
 ];
 
 const vehicleTypes = [
-  "Toyota Camry",
-  "GMC Yukon",
-  "Toyota Hiace",
-  "Coaster ",
-  "Hyundai Starex",
-  "Kia Staria",
-  "Mini bus",
+  { label: "Bus", value: "Bus" },
+  { label: "Camry", value: "Camry" },
+  { label: "Coaster", value: "Coaster" },
+  { label: "GMC", value: "GMC" },
+  { label: "Hiace", value: "Hiace" },
+  { label: "Starex", value: "Starex" },
+  { label: "Staria", value: "Staria" },
 ];
 
 const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
@@ -45,6 +50,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [highlightedFields, setHighlightedFields] = useState<string[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<string | null>(null);
+  const [badgeLabel, setBadgeLabel] = useState('Selected Package');
 
   const { bookingDefaults, setBookingDefaults } = useBooking();
 
@@ -189,6 +195,8 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
 
       if (bookingDefaults.tripTitle) {
         setSelectedTrip(bookingDefaults.tripTitle);
+        // Detect source by checking drop_location
+        setBadgeLabel(bookingDefaults.drop_location ? 'Selected Package' : 'Selected Vehicle');
       }
 
       setHighlightedFields(['service_type', 'drop_location', 'vehicle_type']);
@@ -240,7 +248,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
               <span className="text-gold text-lg">🚗</span>
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-gold">
-                  Selected Package
+                  {badgeLabel}
                 </p>
                 <p className="text-[14px] font-medium text-foreground">
                   {selectedTrip}
@@ -270,7 +278,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
               <select name="service_type" value={formData.service_type} onChange={handleChange} className={inputClass("service_type")}>
                 <option value="">{t('booking.selectService', 'Select service...')}</option>
                 {serviceTypes.map((s) => (
-                  <option key={s} value={t(s)}>{t(s)}</option>
+                  <option key={s.value} value={s.value}>{s.label}</option>
                 ))}
               </select>
               {errors.service_type && <span className="text-destructive text-xs mt-1 block">{errors.service_type}</span>}
@@ -280,7 +288,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
               <select name="vehicle_type" value={formData.vehicle_type} onChange={handleChange} className={inputClass("vehicle_type")}>
                 <option value="">{t('booking.selectVehicle', 'Select vehicle...')}</option>
                 {vehicleTypes.map((v) => (
-                  <option key={v} value={v}>{v}</option>
+                  <option key={v.value} value={v.value}>{v.label}</option>
                 ))}
               </select>
             </div>

@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { toast } from "sonner";
+import { useBooking } from "@/context/BookingContext";
+import { toast } from "react-hot-toast";
 
 // ── BUS ──────────────────────────
 import bus1 from '../assets/bus/bus1.png'
@@ -76,7 +77,10 @@ const fleetData = [
     ],
     description: 'Comfortable mid-size sedan perfect for city transfers and airport rides.',
     coverImage: camry1,
-    gallery: [camry1, camry2, camry3, camry4]
+    gallery: [camry1, camry2, camry3, camry4],
+    serviceType: 'City Taxi',
+    vehicleType: 'Camry',
+    vehicleLabel: 'Toyota Camry — SAR 150/trip',
   },
   {
     id: 2,
@@ -101,7 +105,10 @@ const fleetData = [
     ],
     description: 'Spacious premium SUV perfect for group travel and long distance journeys.',
     coverImage: gmc1,
-    gallery: [gmc1, gmc2, gmc3, gmc4]
+    gallery: [gmc1, gmc2, gmc3, gmc4],
+    serviceType: 'Intercity Travel',
+    vehicleType: 'GMC',
+    vehicleLabel: 'GMC Yukon — SAR 450/trip',
   },
   {
     id: 3,
@@ -126,7 +133,10 @@ const fleetData = [
     ],
     description: 'Ideal for Hajj & Umrah groups, family trips, and airport group transfers.',
     coverImage: hiace1,
-    gallery: [hiace1, hiace2, hiace3, hiace4]
+    gallery: [hiace1, hiace2, hiace3, hiace4],
+    serviceType: 'Hajj & Umrah Transfers',
+    vehicleType: 'Hiace',
+    vehicleLabel: 'Toyota Hiace — SAR 600/trip',
   },
   {
     id: 4,
@@ -151,7 +161,10 @@ const fleetData = [
     ],
     description: 'Premium van with reclining seats, perfect for comfortable group travel.',
     coverImage: starex1,
-    gallery: [starex1, starex2, starex3, starex4, starex5]
+    gallery: [starex1, starex2, starex3, starex4, starex5],
+    serviceType: 'Intercity Travel',
+    vehicleType: 'Starex',
+    vehicleLabel: 'Hyundai Starex — SAR 500/trip',
   },
   {
     id: 5,
@@ -176,7 +189,10 @@ const fleetData = [
     ],
     description: 'Ultra-modern luxury van with premium interior for VIP group transfers.',
     coverImage: staria1,
-    gallery: [staria1, staria2, staria3, staria4, staria5]
+    gallery: [staria1, staria2, staria3, staria4, staria5],
+    serviceType: 'VIP & Royal Events',
+    vehicleType: 'Staria',
+    vehicleLabel: 'Kia Staria — SAR 650/trip',
   },
   {
     id: 6,
@@ -201,7 +217,10 @@ const fleetData = [
     ],
     description: 'Large capacity coaster perfect for Hajj groups, tours, and corporate events.',
     coverImage: coaster1,
-    gallery: [coaster1, coaster2, coaster3, coaster4]
+    gallery: [coaster1, coaster2, coaster3, coaster4],
+    serviceType: 'Hajj & Umrah Transfers',
+    vehicleType: 'Coaster',
+    vehicleLabel: 'Toyota Coaster — SAR 900/trip',
   },
   {
     id: 7,
@@ -226,12 +245,16 @@ const fleetData = [
     ],
     description: 'Perfect for large Hajj groups, corporate events, and big family tours.',
     coverImage: bus1,
-    gallery: [bus1, bus2, bus3, bus4]
+    gallery: [bus1, bus2, bus3, bus4],
+    serviceType: 'Hajj & Umrah Transfers',
+    vehicleType: 'Bus',
+    vehicleLabel: 'Mini Bus — SAR 1,200/trip',
   },
 ];
 
 const Fleet = () => {
   const { t } = useTranslation();
+  const { setBookingDefaults } = useBooking();
   const [detailsCar, setDetailsCar] = useState<any>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [prefillVehicle, setPrefillVehicle] = useState("");
@@ -284,17 +307,40 @@ const Fleet = () => {
     window.open(`https://wa.me/${waNumber}?text=${fleetMessage}`, "_blank");
   };
 
-  const handleBookNow = (carName: string) => {
+  const handleBookNow = (vehicle: any) => {
+    // Step 1 — Set booking defaults
+    setBookingDefaults({
+      service_type: vehicle.serviceType,
+      vehicle_type: vehicle.vehicleType,
+      drop_location: '', // empty for fleet
+      tripTitle: `${vehicle.name} — ${vehicle.type}`,
+    });
+
+    // Step 2 — Close modal if open
     setDetailsCar(null);
-    setPrefillVehicle(carName);
-    
+
+    // Step 3 — Smooth scroll to booking
     setTimeout(() => {
       const el = document.getElementById("booking");
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-      toast.success(`Selected vehicle: ${carName}`, {
-        className: "bg-[#D4A853] text-white font-body font-bold border-none",
-      });
-    }, 100);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
+
+    // Step 4 — Toast notification
+    toast.success(
+      `✅ ${vehicle.name} selected! Complete your booking below.`,
+      {
+        duration: 4000,
+        icon: '🚗',
+        style: {
+          background: '#111111',
+          color: '#F5F5F0',
+          border: '1px solid rgba(212,168,83,0.3)',
+          borderRadius: '12px',
+        }
+      }
+    );
   };
 
   return (
@@ -310,7 +356,7 @@ const Fleet = () => {
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
@@ -350,9 +396,9 @@ const Fleet = () => {
                   }}
                 >
                   <div className="relative h-[220px] sm:h-[180px] md:h-[210px] lg:h-[220px] w-full overflow-hidden bg-[#0D0D0D] transition-colors">
-                    <img 
-                      src={car.coverImage} 
-                      alt={car.name} 
+                    <img
+                      src={car.coverImage}
+                      alt={car.name}
                       className="w-full h-full object-cover object-center block transition-transform duration-500 group-hover:scale-105"
                     />
                     {car.badge && (
@@ -367,7 +413,7 @@ const Fleet = () => {
 
                   <div className="p-3 md:p-6">
                     <h3 className="font-display font-bold text-sm md:text-xl text-[#1a1a1a] dark:text-white mb-1 md:mb-2">{car.name}</h3>
-                    
+
                     <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-gray-500 dark:text-gray-400 text-[10px] md:text-[13px] font-body">
                       <div className="flex items-center gap-1 md:gap-1.5">
                         <Users size={12} className="text-[#C9A84C]" />
@@ -395,16 +441,16 @@ const Fleet = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-auto">
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleBookNow(car.name);
+                          handleBookNow(car);
                         }}
                         className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
                         {t('fleet.bookNow')}
                       </button>
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setDetailsCar(car);
@@ -427,15 +473,15 @@ const Fleet = () => {
       <AnimatePresence>
         {detailsCar && (
           <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setDetailsCar(null)}
               className="absolute inset-0 bg-black/75 backdrop-blur-[4px]"
             />
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -443,7 +489,7 @@ const Fleet = () => {
               className="relative w-[95vw] md:w-[90vw] max-w-[900px] h-full max-h-[95vh] md:max-h-[90vh] bg-white dark:bg-[#111111] rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl flex flex-col md:flex-row transition-colors"
             >
               {/* Close Button */}
-              <button 
+              <button
                 onClick={() => setDetailsCar(null)}
                 className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
               >
@@ -455,15 +501,15 @@ const Fleet = () => {
                 {/* Main Image */}
                 <div className="relative aspect-video w-full overflow-hidden bg-[#0D0D0D] p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
-                    <motion.img 
+                    <motion.img
                       key={currentImageIndex}
-                      src={detailsCar.gallery[currentImageIndex]} 
-                      alt={`${detailsCar.name} view ${currentImageIndex + 1}`} 
+                      src={detailsCar.gallery[currentImageIndex]}
+                      alt={`${detailsCar.name} view ${currentImageIndex + 1}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-[200px] md:h-[260px] lg:h-[300px] object-cover object-center block" 
+                      className="w-full h-[200px] md:h-[260px] lg:h-[300px] object-cover object-center block"
                     />
                   </AnimatePresence>
 
@@ -493,13 +539,12 @@ const Fleet = () => {
                     <button
                       key={idx}
                       onClick={() => setCurrentImageIndex(idx)}
-                      className={`flex-shrink-0 w-[60px] h-[44px] md:w-[72px] md:h-[54px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                        currentImageIndex === idx 
-                          ? "border-[#D4A853] opacity-100 scale-105" 
+                      className={`flex-shrink-0 w-[60px] h-[44px] md:w-[72px] md:h-[54px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${currentImageIndex === idx
+                          ? "border-[#D4A853] opacity-100 scale-105"
                           : "border-transparent opacity-50 hover:opacity-80"
-                      }`}
+                        }`}
                     >
-                      <img 
+                      <img
                         src={img}
                         className="w-full h-full object-cover"
                         alt={`${detailsCar.name} thumbnail ${idx + 1}`}
@@ -526,7 +571,7 @@ const Fleet = () => {
                 <h2 className="font-display font-bold text-xl md:text-[28px] text-[#1a1a1a] dark:text-[#F5F5F0] mb-1">
                   {detailsCar.name}
                 </h2>
-                
+
                 <div className="mb-4">
                   <span className="text-[#D4A853] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
                   <span className="text-gray-400 dark:text-gray-500 text-sm font-body ml-1">/trip</span>
@@ -567,8 +612,8 @@ const Fleet = () => {
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {detailsCar.features.map((f: string, idx: number) => (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         className="flex items-center gap-1.5 bg-[#D4A853]/5 dark:bg-[#D4A853]/8 border border-[#D4A853]/20 px-3 py-1.5 rounded-full"
                       >
                         <Check size={12} className="text-[#D4A853]" />
@@ -585,13 +630,13 @@ const Fleet = () => {
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-3">
-                  <button 
-                    onClick={() => handleBookNow(detailsCar.name)}
+                  <button
+                    onClick={() => handleBookNow(detailsCar)}
                     className="flex-1 gradient-gold text-black font-body font-bold text-[15px] h-[48px] md:h-auto py-3.5 rounded-full shadow-lg shadow-gold/10 hover:shadow-gold/20 transition-all"
                   >
                     {t('fleet.bookNow')}
                   </button>
-                  <button 
+                  <button
                     onClick={() => setDetailsCar(null)}
                     className="flex-1 border-1.5 border-[#E8E8E4] dark:border-[#333330] text-[#1a1a1a] dark:text-[#F5F5F0] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#F5F5F0] dark:hover:bg-white/5 transition-all"
                   >
@@ -613,13 +658,13 @@ const Fleet = () => {
           <p className="text-gray-text dark:text-gray-400 font-body mb-8 max-w-lg mx-auto">
             {t('fleet.customDesc')}
           </p>
-          <button 
+          <button
             onClick={handleCustomFleetWhatsApp}
             className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold text-sm px-8 py-3 rounded-full transition-all duration-200 hover:scale-105"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.836L.057 23.886a.5.5 0 00.611.61l6.218-1.637A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.9 9.9 0 01-5.031-1.371l-.36-.214-3.733.982.998-3.648-.235-.374 A9.9 9.9 0 012.1 12C2.1 6.533 6.533 2.1 12 2.1c5.467 0 9.9 4.433 9.9 9.9 0 5.467-4.433 9.9-9.9 9.9z"/>
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.836L.057 23.886a.5.5 0 00.611.61l6.218-1.637A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.9 9.9 0 01-5.031-1.371l-.36-.214-3.733.982.998-3.648-.235-.374 A9.9 9.9 0 012.1 12C2.1 6.533 6.533 2.1 12 2.1c5.467 0 9.9 4.433 9.9 9.9 0 5.467-4.433 9.9-9.9 9.9z" />
             </svg>
             {t('fleet.contactTeam')}
           </button>

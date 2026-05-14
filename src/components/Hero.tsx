@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import makkahImg from "../assets/makkah.jpg";
 import haramainImg from "../assets/hermain.jpg";
-import desertSafariImg from "../assets/desert-safari.jpg";
+import ziyaratImg from "../assets/ziyarat.jpg";
 
 const Hero = () => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const Hero = () => {
       desc: t('hero.card2Desc')
     },
     {
-      img: desertSafariImg,
+      img: ziyaratImg,
       title: t('hero.card3'),
       desc: t('hero.card3Desc')
     },
