@@ -13,7 +13,7 @@ const StatsBar = () => {
   ];
 
   return (
-  <section className="bg-foreground py-8">
+  <section className="bg-[#0D1C1A] border-y border-[rgba(64,138,113,0.15)] py-8">
     <div className="container mx-auto px-6">
       <motion.div
         initial={{ opacity: 0 }}
@@ -24,8 +24,11 @@ const StatsBar = () => {
       >
         {stats.map((s) => (
           <div key={s.label} className="text-center flex-1 min-w-[120px]">
-            <div className="font-display font-bold text-2xl md:text-3xl text-gold">{s.value}</div>
-            <div className="font-body text-xs text-primary-foreground/70 mt-1">{s.label}</div>
+            <div className="font-display font-bold text-2xl md:text-3xl text-[#F0FFF8]">
+              {s.value.replace(/[^0-9.]/g, '')}
+              <span className="text-[#B0E4CC]">{s.value.replace(/[0-9.]/g, '')}</span>
+            </div>
+            <div className="font-body text-xs text-[rgba(176,228,204,0.50)] mt-1">{s.label}</div>
           </div>
         ))}
       </motion.div>

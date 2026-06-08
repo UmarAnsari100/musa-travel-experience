@@ -23,23 +23,23 @@ const App = () => (
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#111111',
-              color: '#F5F5F0',
-              border: '1px solid #222220',
+              background: '#0F1E1C',
+              color: '#F0FFF8',
+              border: '1px solid rgba(64,138,113,0.20)',
               borderRadius: '12px',
               padding: '14px 20px',
               fontSize: '14px',
             },
             success: {
               iconTheme: {
-                primary: '#D4A853',
-                secondary: '#000000',
+                primary: '#B0E4CC',
+                secondary: '#0e1111',
               },
             },
             error: {
               iconTheme: {
                 primary: '#BA1A1A',
-                secondary: '#FFFFFF',
+                secondary: '#0F1E1C',
               },
             },
           }}

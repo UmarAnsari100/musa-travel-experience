@@ -24,7 +24,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-[#000000] text-white pt-20 pb-10 overflow-hidden">
+    <footer className="relative bg-[#0e1111] text-white pt-20 pb-10 overflow-hidden">
       <div className="relative container mx-auto px-6 max-w-[1200px]">
 
         {/* Middle Section */}

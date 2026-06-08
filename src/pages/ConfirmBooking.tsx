@@ -48,47 +48,47 @@ const ConfirmBooking = () => {
   const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "966597100424";
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[#0e1111] text-white">
       <Navbar />
       
       <main className="container mx-auto px-6 pt-32 pb-20 max-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#111111] border border-[#222220] rounded-3xl p-8 md:p-12 shadow-2xl"
+          className="bg-[#0F1E1C] border border-[rgba(64,138,113,0.20)] rounded-3xl p-8 md:p-12 shadow-2xl"
         >
           {!isConfirmed ? (
             <>
               <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D4A853]/10 text-[#D4A853] mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#B0E4CC]/10 text-[#B0E4CC] mb-6">
                   <Car size={32} />
                 </div>
                 <h1 className="text-3xl font-display font-bold mb-2">Driver Confirmation</h1>
-                <p className="text-[#888880]">Review booking details and confirm the ride.</p>
+                <p className="text-[#7ABFA0]">Review booking details and confirm the ride.</p>
               </div>
 
               <div className="space-y-6 mb-10">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#1A1A1A] rounded-2xl border border-[#222220]">
-                    <span className="text-[10px] uppercase tracking-widest text-[#888880] block mb-1">Customer</span>
+                  <div className="p-4 bg-[rgba(64,138,113,0.12)] rounded-2xl border border-[rgba(64,138,113,0.20)]">
+                    <span className="text-[10px] uppercase tracking-widest text-[#7ABFA0] block mb-1">Customer</span>
                     <p className="font-semibold">{bookingData.customer_name}</p>
                   </div>
-                  <div className="p-4 bg-[#1A1A1A] rounded-2xl border border-[#222220]">
-                    <span className="text-[10px] uppercase tracking-widest text-[#888880] block mb-1">Vehicle</span>
-                    <p className="font-semibold text-[#D4A853]">{bookingData.vehicle_type}</p>
+                  <div className="p-4 bg-[rgba(64,138,113,0.12)] rounded-2xl border border-[rgba(64,138,113,0.20)]">
+                    <span className="text-[10px] uppercase tracking-widest text-[#7ABFA0] block mb-1">Vehicle</span>
+                    <p className="font-semibold text-[#B0E4CC]">{bookingData.vehicle_type}</p>
                   </div>
                 </div>
 
-                <div className="p-6 bg-[#1A1A1A] rounded-2xl border border-[#222220] space-y-4">
+                <div className="p-6 bg-[rgba(64,138,113,0.12)] rounded-2xl border border-[rgba(64,138,113,0.20)] space-y-4">
                   <div className="flex items-start gap-4">
-                    <MapPin className="text-[#D4A853] mt-1" size={18} />
+                    <MapPin className="text-[#B0E4CC] mt-1" size={18} />
                     <div>
-                      <span className="text-[10px] uppercase tracking-widest text-[#888880]">Route</span>
+                      <span className="text-[10px] uppercase tracking-widest text-[#7ABFA0]">Route</span>
                       <p className="text-sm mt-1">{bookingData.pickup} → {bookingData.dropoff}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <Calendar className="text-[#D4A853]" size={18} />
+                    <Calendar className="text-[#B0E4CC]" size={18} />
                     <p className="text-sm">{bookingData.date} at {bookingData.time}</p>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const ConfirmBooking = () => {
               <button
                 onClick={handleConfirm}
                 disabled={isConfirming}
-                className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#7B5804] to-[#D4A853] text-black font-bold text-lg hover:scale-[1.02] transition-all disabled:opacity-50"
+                className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#285A48] to-[#B0E4CC] text-black font-bold text-lg hover:scale-[1.02] transition-all disabled:opacity-50"
               >
                 {isConfirming ? "Processing..." : "Confirm Ride"}
               </button>
@@ -112,7 +112,7 @@ const ConfirmBooking = () => {
                 <CheckCircle2 size={48} />
               </motion.div>
               <h2 className="text-3xl font-display font-bold mb-4">Ride Confirmed!</h2>
-              <p className="text-[#888880] mb-10 max-w-md mx-auto">
+              <p className="text-[#7ABFA0] mb-10 max-w-md mx-auto">
                 The customer has been notified via email. You can now contact them directly to coordinate.
               </p>
 

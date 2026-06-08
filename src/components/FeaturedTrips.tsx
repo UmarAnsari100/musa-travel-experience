@@ -237,7 +237,7 @@ const FeaturedTrips = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(212,168,83,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col"
+              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(176, 228, 204,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col"
             >
               {/* TOP IMAGE AREA */}
               <div className="relative h-[200px] sm:h-[220px] md:h-[200px] lg:h-[240px] w-full bg-[#111] flex items-center justify-center overflow-hidden">
@@ -324,7 +324,7 @@ const FeaturedTrips = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-12 bg-[#111111] border border-[#222220] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+          className="mt-12 bg-[#0F1E1C] border border-[rgba(64,138,113,0.20)] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="text-center md:text-left">
             <h3 className="font-display font-bold text-white text-xl mb-1">{t('trips.customTag')}</h3>

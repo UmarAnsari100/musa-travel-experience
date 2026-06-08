@@ -334,9 +334,9 @@ const Fleet = () => {
         duration: 4000,
         icon: '🚗',
         style: {
-          background: '#111111',
-          color: '#F5F5F0',
-          border: '1px solid rgba(212,168,83,0.3)',
+          background: '#0F1E1C',
+          color: '#F0FFF8',
+          border: '1px solid rgba(176, 228, 204,0.3)',
           borderRadius: '12px',
         }
       }
@@ -344,13 +344,13 @@ const Fleet = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0A0A0A] transition-colors duration-300">
+    <div className="min-h-screen bg-[#0e1111] transition-colors duration-300">
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className="font-display text-[12rem] md:text-[20rem] font-black text-black/[0.05] dark:text-white/[0.03] leading-none uppercase">
+          <span className="font-display text-[12rem] md:text-[20rem] font-black text-[rgba(176,228,204,0.02)] leading-none uppercase">
             MUSA
           </span>
         </div>
@@ -362,13 +362,13 @@ const Fleet = () => {
             transition={{ duration: 0.65, ease: "easeOut" }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4 text-[#1a1a1a] dark:text-white">
+            <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4 text-[#F0FFF8]">
               {t('fleet.heading')}
             </h1>
-            <p className="text-gray-text font-body text-base md:text-lg max-w-xl mx-auto mb-2 dark:text-gray-400">
+            <p className="text-[#7ABFA0] font-body text-base md:text-lg max-w-xl mx-auto mb-2">
               {t('fleet.subtext')}
             </p>
-            <p className="text-[#C9A84C] font-body text-[11px] uppercase tracking-[0.3em] font-bold">
+            <p className="text-[#B0E4CC] font-body text-[11px] uppercase tracking-[0.3em] font-bold">
               {t('fleet.tag')}
             </p>
           </motion.div>
@@ -389,54 +389,54 @@ const Fleet = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-                  className="bg-white dark:bg-[#111] border border-black/5 dark:border-white/5 rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group cursor-pointer w-full"
+                  className="bg-[#0D1C1A] border border-[rgba(64,138,113,0.15)] rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group cursor-pointer w-full"
                   onClick={() => {
                     setDetailsCar(car);
                     setCurrentImageIndex(0);
                   }}
                 >
-                  <div className="relative h-[220px] sm:h-[180px] md:h-[210px] lg:h-[220px] w-full overflow-hidden bg-[#0D0D0D] transition-colors">
+                  <div className="relative h-[220px] sm:h-[180px] md:h-[210px] lg:h-[220px] w-full overflow-hidden bg-[#0e1111] transition-colors">
                     <img
                       src={car.coverImage}
                       alt={car.name}
                       className="w-full h-full object-cover object-center block transition-transform duration-500 group-hover:scale-105"
                     />
                     {car.badge && (
-                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.3)]">
+                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(176, 228, 204,0.3)]">
                         {car.badge}
                       </div>
                     )}
-                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#D4A853] text-[10px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.25)]">
+                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#B0E4CC] text-[10px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-[rgba(176, 228, 204,0.25)]">
                       {car.category}
                     </div>
                   </div>
 
                   <div className="p-3 md:p-6">
-                    <h3 className="font-display font-bold text-sm md:text-xl text-[#1a1a1a] dark:text-white mb-1 md:mb-2">{car.name}</h3>
+                    <h3 className="font-display font-bold text-sm md:text-xl text-[#F0FFF8] mb-1 md:mb-2">{car.name}</h3>
 
-                    <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-gray-500 dark:text-gray-400 text-[10px] md:text-[13px] font-body">
+                    <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-[#7ABFA0] text-[10px] md:text-[13px] font-body">
                       <div className="flex items-center gap-1 md:gap-1.5">
-                        <Users size={12} className="text-[#C9A84C]" />
+                        <Users size={12} className="text-[#B0E4CC]" />
                         <span>{car.seats} Seats</span>
                       </div>
                       <div className="flex items-center gap-1 md:gap-1.5">
-                        <Briefcase size={12} className="text-[#C9A84C]" />
+                        <Briefcase size={12} className="text-[#B0E4CC]" />
                         <span>{car.luggage}</span>
                       </div>
                       <div className="flex items-center gap-1 md:gap-1.5 hidden sm:flex">
-                        <Snowflake size={12} className="text-[#C9A84C]" />
+                        <Snowflake size={12} className="text-[#B0E4CC]" />
                         <span>AC</span>
                       </div>
                     </div>
 
-                    <p className="text-gray-400 dark:text-gray-500 text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
+                    <p className="text-[rgba(176,228,204,0.50)] text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
                       {car.description}
                     </p>
 
                     <div className="flex items-end justify-between mb-4 md:mb-6">
                       <div>
-                        <span className="text-gray-400 text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
-                        <span className="text-[#C9A84C] font-display font-bold text-sm md:text-xl">{car.price}</span>
+                        <span className="text-[rgba(176,228,204,0.50)] text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
+                        <span className="text-[#B0E4CC] font-display font-bold text-sm md:text-xl">{car.price}</span>
                       </div>
                     </div>
 
@@ -446,7 +446,7 @@ const Fleet = () => {
                           e.stopPropagation();
                           handleBookNow(car);
                         }}
-                        className="flex-1 bg-[#C9A84C] text-[#0D0D14] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
+                        className="flex-1 bg-[#B0E4CC] text-[#0e1111] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
                         {t('fleet.bookNow')}
                       </button>
@@ -456,7 +456,7 @@ const Fleet = () => {
                           setDetailsCar(car);
                           setCurrentImageIndex(0);
                         }}
-                        className="flex-1 border border-gray-200 dark:border-white/10 text-[#1a1a1a] dark:text-white font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
+                        className="flex-1 border border-[rgba(64,138,113,0.15)] text-[#F0FFF8] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:border-[#B0E4CC] hover:text-[#B0E4CC] transition-all"
                       >
                         {t('fleet.viewDetail')}
                       </button>
@@ -486,20 +486,20 @@ const Fleet = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-[95vw] md:w-[90vw] max-w-[900px] h-full max-h-[95vh] md:max-h-[90vh] bg-white dark:bg-[#111111] rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl flex flex-col md:flex-row transition-colors"
+              className="relative w-[95vw] md:w-[90vw] max-w-[900px] h-full max-h-[95vh] md:max-h-[90vh] bg-[#0F1E1C] rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl flex flex-col md:flex-row transition-colors"
             >
               {/* Close Button */}
               <button
                 onClick={() => setDetailsCar(null)}
-                className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center hover:bg-black/20 dark:hover:bg-white/20 transition-colors"
+                className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-[rgba(176,228,204,0.1)] flex items-center justify-center hover:bg-[rgba(176,228,204,0.2)] transition-colors"
               >
-                <X size={20} className="text-gray-800 dark:text-white" />
+                <X size={20} className="text-[#F0FFF8]" />
               </button>
 
               {/* Left Column: Gallery */}
               <div className="w-full md:w-[45%] lg:w-[42%] flex flex-col h-auto md:min-h-[500px]">
                 {/* Main Image */}
-                <div className="relative aspect-video w-full overflow-hidden bg-[#0D0D0D] p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
+                <div className="relative aspect-video w-full overflow-hidden bg-[#0e1111] p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={currentImageIndex}
@@ -534,13 +534,13 @@ const Fleet = () => {
                 </div>
 
                 {/* Thumbnail strip */}
-                <div className="flex gap-2 p-3 overflow-x-auto bg-[#0D0D0D] scrollbar-none transition-colors">
+                <div className="flex gap-2 p-3 overflow-x-auto bg-[#0e1111] scrollbar-none transition-colors">
                   {detailsCar.gallery.map((img: string, idx: number) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentImageIndex(idx)}
                       className={`flex-shrink-0 w-[60px] h-[44px] md:w-[72px] md:h-[54px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${currentImageIndex === idx
-                          ? "border-[#D4A853] opacity-100 scale-105"
+                          ? "border-[#B0E4CC] opacity-100 scale-105"
                           : "border-transparent opacity-50 hover:opacity-80"
                         }`}
                     >
@@ -557,27 +557,27 @@ const Fleet = () => {
               {/* Right Column: Details */}
               <div className="flex-1 p-4 md:p-8 lg:p-10 overflow-y-auto max-h-[none] md:max-h-none">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="border border-[#D4A853] text-[#D4A853] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="border border-[#B0E4CC] text-[#B0E4CC] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                     {detailsCar.category || detailsCar.type}
                   </span>
-                  <div className="flex items-center gap-1 text-[#D4A853]">
+                  <div className="flex items-center gap-1 text-[#B0E4CC]">
                     <Star size={13} className="fill-current" />
-                    <span className="text-gray-400 dark:text-gray-500 text-[13px] font-body">
+                    <span className="text-[rgba(176,228,204,0.50)] text-[13px] font-body">
                       4.9 · 100+ reviews
                     </span>
                   </div>
                 </div>
 
-                <h2 className="font-display font-bold text-xl md:text-[28px] text-[#1a1a1a] dark:text-[#F5F5F0] mb-1">
+                <h2 className="font-display font-bold text-xl md:text-[28px] text-[#F0FFF8] mb-1">
                   {detailsCar.name}
                 </h2>
 
                 <div className="mb-4">
-                  <span className="text-[#D4A853] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm font-body ml-1">/trip</span>
+                  <span className="text-[#B0E4CC] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
+                  <span className="text-[rgba(176,228,204,0.50)] text-sm font-body ml-1">/trip</span>
                 </div>
 
-                <div className="h-px bg-[#E8E8E4] dark:bg-[#222220] my-4" />
+                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
 
                 {/* Specs Grid */}
                 <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-4 mb-6">
@@ -591,41 +591,41 @@ const Fleet = () => {
                   ].map((spec, i) => (
                     <div key={i} className="flex flex-col gap-1">
                       <div className="flex items-center gap-2">
-                        <spec.icon size={16} className="text-[#D4A853]" />
-                        <span className="text-[10px] font-body font-semibold text-gray-400 dark:text-[#888880] uppercase tracking-[0.1em]">
+                        <spec.icon size={16} className="text-[#B0E4CC]" />
+                        <span className="text-[10px] font-body font-semibold text-[#7ABFA0] uppercase tracking-[0.1em]">
                           {spec.label}
                         </span>
                       </div>
-                      <span className="text-sm font-body font-semibold text-[#1a1a1a] dark:text-[#F5F5F0] ml-[24px]">
+                      <span className="text-sm font-body font-semibold text-[#F0FFF8] ml-[24px]">
                         {spec.val}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="h-px bg-[#E8E8E4] dark:bg-[#222220] my-4" />
+                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
 
                 {/* Features */}
                 <div className="mb-6">
-                  <h4 className="text-[#D4A853] font-body font-semibold text-[12px] uppercase tracking-[0.1em] mb-3">
+                  <h4 className="text-[#B0E4CC] font-body font-semibold text-[12px] uppercase tracking-[0.1em] mb-3">
                     INCLUDED FEATURES
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {detailsCar.features.map((f: string, idx: number) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-1.5 bg-[#D4A853]/5 dark:bg-[#D4A853]/8 border border-[#D4A853]/20 px-3 py-1.5 rounded-full"
+                        className="flex items-center gap-1.5 bg-[#B0E4CC]/5 dark:bg-[#B0E4CC]/8 border border-[#B0E4CC]/20 px-3 py-1.5 rounded-full"
                       >
-                        <Check size={12} className="text-[#D4A853]" />
-                        <span className="text-[11px] md:text-[12px] font-body text-[#888880]">{f}</span>
+                        <Check size={12} className="text-[#B0E4CC]" />
+                        <span className="text-[11px] md:text-[12px] font-body text-[#7ABFA0]">{f}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="h-px bg-[#E8E8E4] dark:bg-[#222220] my-4" />
+                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
 
-                <p className="text-gray-500 dark:text-[#888880] text-sm font-body leading-relaxed mb-8">
+                <p className="text-[#7ABFA0] text-sm font-body leading-relaxed mb-8">
                   {detailsCar.description}
                 </p>
 
@@ -638,7 +638,7 @@ const Fleet = () => {
                   </button>
                   <button
                     onClick={() => setDetailsCar(null)}
-                    className="flex-1 border-1.5 border-[#E8E8E4] dark:border-[#333330] text-[#1a1a1a] dark:text-[#F5F5F0] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#F5F5F0] dark:hover:bg-white/5 transition-all"
+                    className="flex-1 border-1.5 border-[rgba(64,138,113,0.25)] text-[#F0FFF8] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#163026] hover:bg-white/5 transition-all"
                   >
                     {t('fleet.close')}
                   </button>
@@ -650,12 +650,12 @@ const Fleet = () => {
       </AnimatePresence>
 
       {/* Custom Fleet Banner */}
-      <section className="py-16 bg-[#D4A853]/5 dark:bg-[#D4A853]/5 border-y border-[#D4A853]/10">
+      <section className="py-16 bg-[#0D1C1A] border-y border-[rgba(64,138,113,0.15)]">
         <div className="container mx-auto px-6 text-center">
-          <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#1a1a1a] dark:text-white">
+          <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#F0FFF8]">
             {t('fleet.customFleet')}
           </h3>
-          <p className="text-gray-text dark:text-gray-400 font-body mb-8 max-w-lg mx-auto">
+          <p className="text-[#7ABFA0]  font-body mb-8 max-w-lg mx-auto">
             {t('fleet.customDesc')}
           </p>
           <button

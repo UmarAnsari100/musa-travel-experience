@@ -20,7 +20,7 @@ const BookingProcess = () => {
   ];
 
   return (
-  <section className="py-20 md:py-28 bg-surface-low">
+  <section className="py-20 md:py-28 bg-[#0e1111]">
     <div className="container mx-auto px-6">
       <motion.div
         variants={reveal}
