@@ -10,11 +10,12 @@ type FleetCardProps = {
 const FleetCard = ({ vehicle, onBook }: FleetCardProps) => {
   return (
     <article className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(176,228,204,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col h-full">
-      <div className="relative h-[210px] sm:h-[220px] md:h-[200px] lg:h-[230px] w-full bg-[#111] flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0e1111]">
         <img
           src={vehicle.coverImage}
           alt={vehicle.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

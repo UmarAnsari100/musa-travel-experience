@@ -34,6 +34,24 @@ const Fleet = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
+  useEffect(() => {
+    const openVehicleFromHash = () => {
+      const slug = window.location.hash.replace("#", "");
+      if (!slug) return;
+
+      const vehicle = fleetData.find((car) => car.slug === slug);
+      if (!vehicle) return;
+
+      setDetailsCar(vehicle);
+      setCurrentImageIndex(0);
+    };
+
+    openVehicleFromHash();
+    window.addEventListener("hashchange", openVehicleFromHash);
+
+    return () => window.removeEventListener("hashchange", openVehicleFromHash);
+  }, []);
+
   const handleEsc = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") setDetailsCar(null);
   }, []);
@@ -151,11 +169,12 @@ const Fleet = () => {
                     setCurrentImageIndex(0);
                   }}
                 >
-                  <div className="relative h-[220px] sm:h-[180px] md:h-[210px] lg:h-[220px] w-full overflow-hidden bg-[#0e1111] transition-colors">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0e1111] transition-colors">
                     <img
                       src={car.coverImage}
                       alt={car.name}
-                      className="w-full h-full object-cover object-center block transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
                     {car.badge && (
                       <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(176, 228, 204,0.3)]">
@@ -242,7 +261,7 @@ const Fleet = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-[95vw] md:w-[90vw] max-w-[900px] h-full max-h-[95vh] md:max-h-[90vh] bg-[#0F1E1C] rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl flex flex-col md:flex-row transition-colors"
+              className="relative w-[min(96vw,1040px)] max-h-[calc(100dvh-2rem)] bg-[#0F1E1C] rounded-[20px] md:rounded-[24px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col md:grid md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] transition-colors"
             >
               {/* Close Button */}
               <button
@@ -253,9 +272,9 @@ const Fleet = () => {
               </button>
 
               {/* Left Column: Gallery */}
-              <div className="w-full md:w-[45%] lg:w-[42%] flex flex-col h-auto md:min-h-[500px]">
+              <div className="w-full min-w-0 flex flex-col bg-[#0e1111]">
                 {/* Main Image */}
-                <div className="relative aspect-video w-full overflow-hidden bg-[#0e1111] p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#0e1111] p-3 sm:p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={currentImageIndex}
@@ -265,53 +284,34 @@ const Fleet = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="w-full h-[200px] md:h-[260px] lg:h-[300px] object-cover object-center block"
+                      className="h-full w-full rounded-xl border border-[rgba(64,138,113,0.15)] object-contain object-center"
                     />
                   </AnimatePresence>
 
                   {/* Image counter */}
-                  <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm">
+                  <div className="absolute bottom-5 right-5 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm">
                     {currentImageIndex + 1} / {detailsCar.gallery.length}
                   </div>
 
                   {/* Arrow navigation */}
                   <button
                     onClick={() => setCurrentImageIndex(prev => prev === 0 ? detailsCar.gallery.length - 1 : prev - 1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
                   >
                     ‹
                   </button>
                   <button
                     onClick={() => setCurrentImageIndex(prev => prev === detailsCar.gallery.length - 1 ? 0 : prev + 1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-all"
                   >
                     ›
                   </button>
                 </div>
 
-                {/* Thumbnail strip */}
-                <div className="flex gap-2 p-3 overflow-x-auto bg-[#0e1111] scrollbar-none transition-colors">
-                  {detailsCar.gallery.map((img: string, idx: number) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentImageIndex(idx)}
-                      className={`flex-shrink-0 w-[60px] h-[44px] md:w-[72px] md:h-[54px] rounded-lg overflow-hidden border-2 transition-all duration-200 ${currentImageIndex === idx
-                          ? "border-[#B0E4CC] opacity-100 scale-105"
-                          : "border-transparent opacity-50 hover:opacity-80"
-                        }`}
-                    >
-                      <img
-                        src={img}
-                        className="w-full h-full object-cover"
-                        alt={`${detailsCar.name} thumbnail ${idx + 1}`}
-                      />
-                    </button>
-                  ))}
-                </div>
               </div>
 
               {/* Right Column: Details */}
-              <div className="flex-1 p-4 md:p-8 lg:p-10 overflow-y-auto max-h-[none] md:max-h-none">
+              <div className="min-w-0 p-4 sm:p-6 md:p-8 lg:p-10 overflow-visible md:overflow-y-auto md:max-h-[calc(100dvh-2rem)]">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="border border-[#B0E4CC] text-[#B0E4CC] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                     {detailsCar.category || detailsCar.type}
