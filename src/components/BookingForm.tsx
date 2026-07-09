@@ -218,7 +218,7 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
     }`;
 
   return (
-    <section id="booking" className="py-20 md:py-28 bg-surface-low">
+    <section id="booking" className="scroll-mt-24 py-20 md:py-28 bg-surface-low">
       <div className="container mx-auto px-6 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 28 }}

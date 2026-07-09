@@ -209,7 +209,7 @@ const FeaturedTrips = () => {
   };
 
   return (
-    <section id="packages" className="py-20 md:py-28 bg-surface-low">
+    <section id="packages" className="py-20 md:py-28 bg-[#0E1111]">
       <div className="container mx-auto px-6">
         <motion.div
           variants={reveal}

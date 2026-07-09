@@ -5,6 +5,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import BookingProcess from "@/components/BookingProcess";
 import Services from "@/components/Services";
 import DestinationsMarquee from "@/components/DestinationsMarquee";
+import FleetPreviewSection from "@/components/FleetPreviewSection";
 import FeaturedTrips from "@/components/FeaturedTrips";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
@@ -23,6 +24,7 @@ const Index = () => {
       <BookingProcess />
       <Services />
       <DestinationsMarquee />
+      <FleetPreviewSection />
       <FeaturedTrips />
       <BookingForm />
       <Testimonials />
