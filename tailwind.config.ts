@@ -19,18 +19,23 @@ export default {
         body: ["DM Sans", "sans-serif"],
       },
       colors: {
-        bg: '#0e1111',
-        surface: '#0F1E1C',
-        'surface-2': '#112019',
-        'surface-3': '#163026',
-        accent: '#B0E4CC',
-        'accent-dark': '#408A71',
-        'accent-deep': '#285A48',
-        'gray-text': '#7ABFA0',
-        'gray-border': 'rgba(64,138,113,0.20)',
-        star: '#B0E4CC',
+        bg: '#050505',
+        surface: '#0B0B0B',
+        'surface-2': '#111111',
+        'surface-3': '#1A1A1A',
+        'border-strong': '#4A391C',
+        'text-primary': '#F8F5EC',
+        'text-secondary': '#B8B2A3',
+        'text-muted': '#6F6A60',
+        accent: '#D4AF37',
+        'accent-mid': '#B88924',
+        'accent-dark': '#6E4F12',
+        'accent-deep': '#6E4F12',
+        'gray-text': '#B8B2A3',
+        'gray-border': 'rgba(74,57,28,0.20)',
+        star: '#D4AF37',
         error: '#BA1A1A',
-        border: "hsl(var(--border))",
+        border: "#2A2418",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -77,20 +82,20 @@ export default {
       },
       boxShadow: {
         'card': `
-          0 1px 3px rgba(14, 17, 17,0.20),
-          0 4px 16px rgba(9,20,19,0.40),
-          0 16px 40px rgba(9,20,19,0.30)
+          0 1px 3px rgba(0,0,0,0.28),
+          0 4px 16px rgba(0,0,0,0.55),
+          0 16px 40px rgba(0,0,0,0.45)
         `,
         'card-hover': `
-          0 2px 8px rgba(14, 17, 17,0.30),
-          0 8px 32px rgba(9,20,19,0.50),
-          0 24px 56px rgba(9,20,19,0.40),
-          0 0 0 1px rgba(176,228,204,0.20)
+          0 2px 8px rgba(0,0,0,0.35),
+          0 8px 32px rgba(0,0,0,0.65),
+          0 24px 56px rgba(0,0,0,0.55),
+          0 0 0 1px rgba(212,175,55,0.20)
         `,
         'gold-glow': `
-          0 0 0 1px rgba(176,228,204,0.35),
-          0 8px 32px rgba(64,138,113,0.20),
-          0 24px 64px rgba(40,90,72,0.15)
+          0 0 0 1px rgba(212,175,55,0.35),
+          0 8px 32px rgba(212,175,55,0.18),
+          0 24px 64px rgba(110,79,18,0.22)
         `,
       },
       borderRadius: {
@@ -116,3 +121,4 @@ export default {
   },
   plugins: [tailwindcssAnimate],
 } satisfies Config;
+

@@ -107,9 +107,9 @@ const Fleet = () => {
         duration: 4000,
         icon: '🚗',
         style: {
-          background: '#0F1E1C',
-          color: '#F0FFF8',
-          border: '1px solid rgba(176, 228, 204,0.3)',
+          background: '#111111',
+          color: '#F8F5EC',
+          border: '1px solid rgba(212,175,55,0.30)',
           borderRadius: '12px',
         }
       }
@@ -117,13 +117,13 @@ const Fleet = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1111] transition-colors duration-300">
+    <div className="min-h-screen bg-[#050505] transition-colors duration-300">
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className="font-display text-[12rem] md:text-[20rem] font-black text-[rgba(176,228,204,0.02)] leading-none uppercase">
+          <span className="font-display text-[12rem] md:text-[20rem] font-black text-[rgba(212,175,55,0.02)] leading-none uppercase">
             MUSA
           </span>
         </div>
@@ -135,13 +135,13 @@ const Fleet = () => {
             transition={{ duration: 0.65, ease: "easeOut" }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4 text-[#F0FFF8]">
+            <h1 className="font-display font-black text-4xl md:text-[3.5rem] leading-tight tracking-[-0.02em] mb-4 text-[#F8F5EC]">
               {t('fleet.heading')}
             </h1>
-            <p className="text-[#7ABFA0] font-body text-base md:text-lg max-w-xl mx-auto mb-2">
+            <p className="text-[#B8B2A3] font-body text-base md:text-lg max-w-xl mx-auto mb-2">
               {t('fleet.subtext')}
             </p>
-            <p className="text-[#B0E4CC] font-body text-[11px] uppercase tracking-[0.3em] font-bold">
+            <p className="text-[#D4AF37] font-body text-[11px] uppercase tracking-[0.3em] font-bold">
               {t('fleet.tag')}
             </p>
           </motion.div>
@@ -163,13 +163,13 @@ const Fleet = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-                  className="bg-[#0D1C1A] border border-[rgba(64,138,113,0.15)] rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group cursor-pointer w-full"
+                  className="bg-[#0B0B0B] border border-[rgba(74,57,28,0.15)] rounded-2xl overflow-hidden shadow-card transition-all hover:-translate-y-2 group cursor-pointer w-full"
                   onClick={() => {
                     setDetailsCar(car);
                     setCurrentImageIndex(0);
                   }}
                 >
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0e1111] transition-colors">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#050505] transition-colors">
                     <img
                       src={car.coverImage}
                       alt={car.name}
@@ -177,41 +177,41 @@ const Fleet = () => {
                       className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
                     {car.badge && (
-                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(176, 228, 204,0.3)]">
+                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-full border border-[rgba(212,175,55,0.30)]">
                         {car.badge}
                       </div>
                     )}
-                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#B0E4CC] text-[10px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-[rgba(176, 228, 204,0.25)]">
+                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#D4AF37] text-[10px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full border border-[rgba(212,175,55,0.25)]">
                       {car.category}
                     </div>
                   </div>
 
                   <div className="p-3 md:p-6">
-                    <h3 className="font-display font-bold text-sm md:text-xl text-[#F0FFF8] mb-1 md:mb-2">{car.name}</h3>
+                    <h3 className="font-display font-bold text-sm md:text-xl text-[#F8F5EC] mb-1 md:mb-2">{car.name}</h3>
 
-                    <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-[#7ABFA0] text-[10px] md:text-[13px] font-body">
+                    <div className="flex flex-wrap gap-2 md:gap-4 mb-3 md:mb-4 text-[#B8B2A3] text-[10px] md:text-[13px] font-body">
                       <div className="flex items-center gap-1 md:gap-1.5">
-                        <Users size={12} className="text-[#B0E4CC]" />
+                        <Users size={12} className="text-[#D4AF37]" />
                         <span>{car.seats} Seats</span>
                       </div>
                       <div className="flex items-center gap-1 md:gap-1.5">
-                        <Briefcase size={12} className="text-[#B0E4CC]" />
+                        <Briefcase size={12} className="text-[#D4AF37]" />
                         <span>{car.luggage}</span>
                       </div>
                       <div className="flex items-center gap-1 md:gap-1.5 hidden sm:flex">
-                        <Snowflake size={12} className="text-[#B0E4CC]" />
+                        <Snowflake size={12} className="text-[#D4AF37]" />
                         <span>AC</span>
                       </div>
                     </div>
 
-                    <p className="text-[rgba(176,228,204,0.50)] text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
+                    <p className="text-[rgba(212,175,55,0.50)] text-[13px] font-body leading-relaxed mb-6 line-clamp-2">
                       {car.description}
                     </p>
 
                     <div className="flex items-end justify-between mb-4 md:mb-6">
                       <div>
-                        <span className="text-[rgba(176,228,204,0.50)] text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
-                        <span className="text-[#B0E4CC] font-display font-bold text-sm md:text-xl">{car.price}</span>
+                        <span className="text-[rgba(212,175,55,0.50)] text-[9px] md:text-xs block mb-0.5 md:mb-1 font-body">Starts at</span>
+                        <span className="text-[#D4AF37] font-display font-bold text-sm md:text-xl">{car.price}</span>
                       </div>
                     </div>
 
@@ -221,7 +221,7 @@ const Fleet = () => {
                           e.stopPropagation();
                           handleBookNow(car);
                         }}
-                        className="flex-1 bg-[#B0E4CC] text-[#0e1111] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
+                        className="flex-1 bg-[#D4AF37] text-[#050505] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:opacity-90 transition-opacity"
                       >
                         {t('fleet.bookNow')}
                       </button>
@@ -231,7 +231,7 @@ const Fleet = () => {
                           setDetailsCar(car);
                           setCurrentImageIndex(0);
                         }}
-                        className="flex-1 border border-[rgba(64,138,113,0.15)] text-[#F0FFF8] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:border-[#B0E4CC] hover:text-[#B0E4CC] transition-all"
+                        className="flex-1 border border-[rgba(74,57,28,0.15)] text-[#F8F5EC] font-body font-bold text-[11px] md:text-sm py-2.5 md:py-3 rounded-lg md:rounded-xl hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all"
                       >
                         {t('fleet.viewDetail')}
                       </button>
@@ -261,20 +261,20 @@ const Fleet = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-[min(96vw,1040px)] max-h-[calc(100dvh-2rem)] bg-[#0F1E1C] rounded-[20px] md:rounded-[24px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col md:grid md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] transition-colors"
+              className="relative w-[min(96vw,1040px)] max-h-[calc(100dvh-2rem)] bg-[#111111] rounded-[20px] md:rounded-[24px] overflow-y-auto md:overflow-hidden shadow-2xl flex flex-col md:grid md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] transition-colors"
             >
               {/* Close Button */}
               <button
                 onClick={() => setDetailsCar(null)}
-                className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-[rgba(176,228,204,0.1)] flex items-center justify-center hover:bg-[rgba(176,228,204,0.2)] transition-colors"
+                className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-[rgba(212,175,55,0.10)] flex items-center justify-center hover:bg-[rgba(212,175,55,0.20)] transition-colors"
               >
-                <X size={20} className="text-[#F0FFF8]" />
+                <X size={20} className="text-[#F8F5EC]" />
               </button>
 
               {/* Left Column: Gallery */}
-              <div className="w-full min-w-0 flex flex-col bg-[#0e1111]">
+              <div className="w-full min-w-0 flex flex-col bg-[#050505]">
                 {/* Main Image */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#0e1111] p-3 sm:p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#050505] p-3 sm:p-4 rounded-t-[16px] md:rounded-tr-none md:rounded-tl-[16px]">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={currentImageIndex}
@@ -284,7 +284,7 @@ const Fleet = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="h-full w-full rounded-xl border border-[rgba(64,138,113,0.15)] object-contain object-center"
+                      className="h-full w-full rounded-xl border border-[rgba(74,57,28,0.15)] object-contain object-center"
                     />
                   </AnimatePresence>
 
@@ -313,27 +313,27 @@ const Fleet = () => {
               {/* Right Column: Details */}
               <div className="min-w-0 p-4 sm:p-6 md:p-8 lg:p-10 overflow-visible md:overflow-y-auto md:max-h-[calc(100dvh-2rem)]">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="border border-[#B0E4CC] text-[#B0E4CC] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="border border-[#D4AF37] text-[#D4AF37] text-[11px] font-body font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                     {detailsCar.category || detailsCar.type}
                   </span>
-                  <div className="flex items-center gap-1 text-[#B0E4CC]">
+                  <div className="flex items-center gap-1 text-[#D4AF37]">
                     <Star size={13} className="fill-current" />
-                    <span className="text-[rgba(176,228,204,0.50)] text-[13px] font-body">
+                    <span className="text-[rgba(212,175,55,0.50)] text-[13px] font-body">
                       4.9 · 100+ reviews
                     </span>
                   </div>
                 </div>
 
-                <h2 className="font-display font-bold text-xl md:text-[28px] text-[#F0FFF8] mb-1">
+                <h2 className="font-display font-bold text-xl md:text-[28px] text-[#F8F5EC] mb-1">
                   {detailsCar.name}
                 </h2>
 
                 <div className="mb-4">
-                  <span className="text-[#B0E4CC] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
-                  <span className="text-[rgba(176,228,204,0.50)] text-sm font-body ml-1">/trip</span>
+                  <span className="text-[#D4AF37] font-display font-bold text-xl md:text-2xl">{detailsCar.price}</span>
+                  <span className="text-[rgba(212,175,55,0.50)] text-sm font-body ml-1">/trip</span>
                 </div>
 
-                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
+                <div className="h-px bg-[rgba(74,57,28,0.15)] my-4" />
 
                 {/* Specs Grid */}
                 <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-4 mb-6">
@@ -347,41 +347,41 @@ const Fleet = () => {
                   ].map((spec, i) => (
                     <div key={i} className="flex flex-col gap-1">
                       <div className="flex items-center gap-2">
-                        <spec.icon size={16} className="text-[#B0E4CC]" />
-                        <span className="text-[10px] font-body font-semibold text-[#7ABFA0] uppercase tracking-[0.1em]">
+                        <spec.icon size={16} className="text-[#D4AF37]" />
+                        <span className="text-[10px] font-body font-semibold text-[#B8B2A3] uppercase tracking-[0.1em]">
                           {spec.label}
                         </span>
                       </div>
-                      <span className="text-sm font-body font-semibold text-[#F0FFF8] ml-[24px]">
+                      <span className="text-sm font-body font-semibold text-[#F8F5EC] ml-[24px]">
                         {spec.val}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
+                <div className="h-px bg-[rgba(74,57,28,0.15)] my-4" />
 
                 {/* Features */}
                 <div className="mb-6">
-                  <h4 className="text-[#B0E4CC] font-body font-semibold text-[12px] uppercase tracking-[0.1em] mb-3">
+                  <h4 className="text-[#D4AF37] font-body font-semibold text-[12px] uppercase tracking-[0.1em] mb-3">
                     INCLUDED FEATURES
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {detailsCar.features.map((f: string, idx: number) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-1.5 bg-[#B0E4CC]/5 dark:bg-[#B0E4CC]/8 border border-[#B0E4CC]/20 px-3 py-1.5 rounded-full"
+                        className="flex items-center gap-1.5 bg-[#D4AF37]/5 dark:bg-[#D4AF37]/8 border border-[#D4AF37]/20 px-3 py-1.5 rounded-full"
                       >
-                        <Check size={12} className="text-[#B0E4CC]" />
-                        <span className="text-[11px] md:text-[12px] font-body text-[#7ABFA0]">{f}</span>
+                        <Check size={12} className="text-[#D4AF37]" />
+                        <span className="text-[11px] md:text-[12px] font-body text-[#B8B2A3]">{f}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="h-px bg-[rgba(64,138,113,0.15)] my-4" />
+                <div className="h-px bg-[rgba(74,57,28,0.15)] my-4" />
 
-                <p className="text-[#7ABFA0] text-sm font-body leading-relaxed mb-8">
+                <p className="text-[#B8B2A3] text-sm font-body leading-relaxed mb-8">
                   {detailsCar.description}
                 </p>
 
@@ -394,7 +394,7 @@ const Fleet = () => {
                   </button>
                   <button
                     onClick={() => setDetailsCar(null)}
-                    className="flex-1 border-1.5 border-[rgba(64,138,113,0.25)] text-[#F0FFF8] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#163026] hover:bg-white/5 transition-all"
+                    className="flex-1 border-1.5 border-[rgba(74,57,28,0.25)] text-[#F8F5EC] font-body font-medium text-[15px] h-[48px] md:h-auto py-3.5 rounded-full hover:bg-[#1F1F1F] hover:bg-white/5 transition-all"
                   >
                     {t('fleet.close')}
                   </button>
@@ -406,12 +406,12 @@ const Fleet = () => {
       </AnimatePresence>
 
       {/* Custom Fleet Banner */}
-      <section className="py-16 bg-[#0D1C1A] border-y border-[rgba(64,138,113,0.15)]">
+      <section className="py-16 bg-[#0B0B0B] border-y border-[rgba(74,57,28,0.15)]">
         <div className="container mx-auto px-6 text-center">
-          <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#F0FFF8]">
+          <h3 className="font-display font-bold text-2xl md:text-3xl mb-4 text-[#F8F5EC]">
             {t('fleet.customFleet')}
           </h3>
-          <p className="text-[#7ABFA0]  font-body mb-8 max-w-lg mx-auto">
+          <p className="text-[#B8B2A3]  font-body mb-8 max-w-lg mx-auto">
             {t('fleet.customDesc')}
           </p>
           <button
@@ -439,4 +439,6 @@ const Fleet = () => {
 };
 
 export default Fleet;
+
+
 

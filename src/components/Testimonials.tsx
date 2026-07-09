@@ -9,8 +9,8 @@ const reviews = [
     handle: "Admin, DIY Umrah UK",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#B0E4CC",
-    avatarColor: "#0e1111",
+    avatarBg: "#D4AF37",
+    avatarColor: "#050505",
     previewText: "From the moment I met Brother Afzal at Jeddah airport, I felt welcomed and well taken care of...",
     fullText: "From the moment I met Brother Afzal at Jeddah airport, I felt welcomed and well taken care of. The communication was excellent throughout the entire process, making it easy to coordinate my rides. The transport from Jeddah to Makkah was seamless, with a comfortable vehicle that made the journey enjoyable. The transfer from Makkah to Madinah went just as smoothly, and I appreciated the punctuality and professionalism shown by Brother Afzal and his team. Finally, the ride from my hotel in Madinah to the airport was equally impressive. What stood out the most was their willingness to go above and beyond. By the end of my trip, I felt as if I had known them for years, thanks to their warm demeanor and genuine hospitality. I highly recommend Musa Transport for anyone needing reliable transport in the region!"
   },
@@ -21,8 +21,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#163026",
-    avatarColor: "#B0E4CC",
+    avatarBg: "#1F1F1F",
+    avatarColor: "#D4AF37",
     previewText: "Muhammad Afzal drove our group of nine from Makkah to Madina via Badr. Extremely knowledgeable and professional...",
     fullText: "We had an excellent experience with Muhammad Afzal from Musa Transport, who drove our group of nine from Makkah to Madina via Badr. He was extremely knowledgeable, professional, and made the journey very comfortable. The vehicle was very spacious and easily accommodated all of us with plenty of room. We highly recommend him to anyone looking for reliable transport in Saudi Arabia."
   },
@@ -33,8 +33,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#B0E4CC",
-    avatarColor: "#0e1111",
+    avatarBg: "#D4AF37",
+    avatarColor: "#050505",
     previewText: "We were stuck at hotel waiting for coach transfer over 7-8 hours. I messaged Brother Afzal and he himself picked me up...",
     fullText: "We were in Madinah stuck at hotel waiting for coach transfer over 7 to 8 hours. I then messaged Brother Afzal and he himself picked me up and took me to Makkah. Was very responsive Alhamdulillah. Exceptional service when we needed it most. Cannot thank him enough for going out of his way to help us."
   },
@@ -45,8 +45,8 @@ const reviews = [
     handle: "Group Travel Organizer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#163026",
-    avatarColor: "#B0E4CC",
+    avatarBg: "#1F1F1F",
+    avatarColor: "#D4AF37",
     previewText: "Last minute I messaged at 5am to arrange Ziyarat and Brother Muhammad Afzal replied promptly, picked us up at 8:30am...",
     fullText: "Last minute plans — I messaged at 5am to see if Ziyarat could be arranged. Brother Muhammad Afzal replied promptly and arranged to pick us up at 8:30am. I asked if we could shorten the Ziyarat to 3 hours to ensure we reached back to the Haram without missing Salaah. Alhamdulillah this was accomplished. Not only did he have great knowledge of Makkah but also delivered in English for the kids. We take groups to Haramain so we are well aware of what is good service. I wanted to try something new and was very impressed!"
   },
@@ -57,8 +57,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#B0E4CC",
-    avatarColor: "#0e1111",
+    avatarBg: "#D4AF37",
+    avatarColor: "#050505",
     previewText: "Used the taxi services from Muhammad Afzal bhai after reading reviews. Very highly recommended! Airport to hotel was very smooth...",
     fullText: "We used the taxi services from Muhammad Afzal bhai to get from Jeddah to Makkah after reading reviews from the group. Very highly recommended. The whole pickup from the airport to our hotel was very smooth and Afzal bhai also provided very useful information for anything ranging from getting sims to food to Umrah related topics. A truly helpful and knowledgeable person."
   },
@@ -69,8 +69,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#163026",
-    avatarColor: "#B0E4CC",
+    avatarBg: "#1F1F1F",
+    avatarColor: "#D4AF37",
     previewText: "As soon as we landed Afzal bhai was there waiting for us — no waiting! He even helped change local currency on the way...",
     fullText: "We used MUSA LUXURY TRANSPORT with 9 seater vehicle. We paid prices as mentioned. I will highly recommend Afzal bhai. He was very supportive, punctual and helpful. We booked Jeddah to Makkah, Makkah Ziyarat, Madina Ziyarat and back to Jeddah. As soon as we landed Afzal bhai was there waiting for us — no waiting! He even helped us change local currency on the way to Makkah as there was a long line at the airport. For every query he was there to respond. Thank you for your outstanding services!"
   },
@@ -81,8 +81,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#B0E4CC",
-    avatarColor: "#0e1111",
+    avatarBg: "#D4AF37",
+    avatarColor: "#050505",
     previewText: "The service we received was outstanding. Communication was very good along with prompt timekeeping throughout the trip...",
     fullText: "Upon recommendations from this group we used Musa Transport Services for our recent trip. The service we received was outstanding. Communication was very good along with prompt timekeeping. We used them for transport for airport and Ziyarat and to Madinah and we were not left disappointed. All our requests were met from this company. Highly recommended to everyone planning their Umrah journey!"
   },
@@ -93,8 +93,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#163026",
-    avatarColor: "#B0E4CC",
+    avatarBg: "#1F1F1F",
+    avatarColor: "#D4AF37",
     previewText: "Completed Makkah Ziyarats with Muhammad Afzal — what a guy! Very knowledgeable, available in Urdu and English...",
     fullText: "Completed Makkah Ziyarats with Musa Transport and the absolutely brilliant Muhammad Afzal. What a guy — gets my vote of approval many times over. Very knowledgeable on the Ziyarats, available in both Urdu and English, and kept the little ones engaged by asking questions and pointing out things of interest. Brilliant and humble guy. Also used Muhammad Afzal for the trip from Jeddah to Makkah hotel. He was there, ready, and came to meet us rather than us wandering around looking for him. Top guy. Congratulations!"
   },
@@ -105,8 +105,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#B0E4CC",
-    avatarColor: "#0e1111",
+    avatarBg: "#D4AF37",
+    avatarColor: "#050505",
     previewText: "I want to give a massive shoutout to Muhammad Afzal from Musa Travel for providing trouble-free transfer in Makkah...",
     fullText: "We had a couple of hiccups along the way with transfers but with guidance available we were quickly able to find alternatives. I want to give a massive shoutout to Muhammad Afzal bhai from Musa Travel for providing trouble-free transfer in Makkah. It is always reassuring having reliable contacts. We recommend Musa Travel and Insha'Allah will use their services again on our next blessed visit to the Holy Cities."
   },
@@ -117,8 +117,8 @@ const reviews = [
     handle: "Verified Customer",
     location: "United Kingdom",
     stars: 5,
-    avatarBg: "#163026",
-    avatarColor: "#B0E4CC",
+    avatarBg: "#1F1F1F",
+    avatarColor: "#D4AF37",
     previewText: "I went with 8 people, mix of Pakistanis and Bengalis. Muhammad Afzal speaks Urdu fluently and has excellent English...",
     fullText: "I went with 8 people and we were a mix of Pakistanis and Bengalis. I mention this because Muhammad Afzal speaks Urdu fluently and also has good English, explaining everything so both older and younger people understood everything clearly. We used him for all our transportation needs: both airport transfers arriving and departing, Ziyarats in both Makkah and Madina, as well as the long drive to Medina and back to Makkah. Outstanding service from start to finish. Would highly recommend to anyone!"
   },
@@ -170,10 +170,10 @@ const Testimonials = () => {
               <div
                 key={i}
                 onClick={() => setSelectedReview(review)}
-                className="testimonial-marquee-card cursor-pointer relative flex flex-col hover:border-[rgba(176, 228, 204,0.2)] group"
+                className="testimonial-marquee-card cursor-pointer relative flex flex-col hover:border-[rgba(212,175,55,0.20)] group"
                 style={{
-                  background: '#0F1E1C',
-                  border: '1px solid #E5E7EB',
+                  background: '#111111',
+                  border: '1px solid #2A2418',
                   borderRadius: '16px',
                   padding: '24px'
                 }}
@@ -182,9 +182,9 @@ const Testimonials = () => {
                 <div
                   className="absolute top-6 right-6 font-body font-semibold"
                   style={{
-                    background: 'rgba(176, 228, 204,0.10)',
-                    border: '1px solid rgba(176, 228, 204,0.25)',
-                    color: '#B0E4CC',
+                    background: 'rgba(212,175,55,0.10)',
+                    border: '1px solid rgba(212,175,55,0.25)',
+                    color: '#D4AF37',
                     fontSize: '10px',
                     padding: '3px 10px',
                     borderRadius: '20px'
@@ -201,7 +201,7 @@ const Testimonials = () => {
                       height: '48px',
                       borderRadius: '50%',
                       fontSize: '16px',
-                      border: '2px solid rgba(176, 228, 204,0.3)',
+                      border: '2px solid rgba(212,175,55,0.30)',
                       background: review.avatarBg,
                       color: review.avatarColor
                     }}
@@ -209,13 +209,13 @@ const Testimonials = () => {
                     {review.initials}
                   </div>
                   <div className="flex flex-col overflow-hidden">
-                    <div className="font-body font-semibold truncate" style={{ fontSize: '14px', color: '#0F1E1C' }}>
+                    <div className="font-body font-semibold truncate" style={{ fontSize: '14px', color: '#F8F5EC' }}>
                       {review.name}
                     </div>
-                    <div className="font-body truncate" style={{ fontSize: '12px', color: '#6B7280' }}>
+                    <div className="font-body truncate" style={{ fontSize: '12px', color: '#B8B2A3' }}>
                       {review.handle}
                     </div>
-                    <div className="font-body flex items-center gap-1 mt-0.5 truncate" style={{ fontSize: '12px', color: '#6B7280' }}>
+                    <div className="font-body flex items-center gap-1 mt-0.5 truncate" style={{ fontSize: '12px', color: '#B8B2A3' }}>
                       <span style={{ fontSize: '12px' }}>🇬🇧</span>
                       <span>{review.location}</span>
                     </div>
@@ -224,16 +224,16 @@ const Testimonials = () => {
 
                 <div
                   className="flex gap-[2px]"
-                  style={{ fontSize: '14px', letterSpacing: '2px', color: '#B0E4CC', margin: '10px 0' }}
+                  style={{ fontSize: '14px', letterSpacing: '2px', color: '#D4AF37', margin: '10px 0' }}
                 >
                   ★★★★★
                 </div>
 
-                <p className="font-body text-[13px] text-[#4B5563] leading-[1.65] overflow-hidden display-[-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical]">
+                <p className="font-body text-[13px] text-[#B8B2A3] leading-[1.65] overflow-hidden display-[-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical]">
                   {review.previewText}
                 </p>
 
-                <button className="mt-3 text-[12px] font-semibold text-[#B0E4CC] hover:text-[#408A71] flex items-center gap-1 transition-colors w-fit group-hover:text-[#408A71]">
+                <button className="mt-3 text-[12px] font-semibold text-[#D4AF37] hover:text-[#B88924] flex items-center gap-1 transition-colors w-fit group-hover:text-[#B88924]">
                   Read Full Review
                   <span className="group-hover:translate-x-1 transition-transform duration-200 inline-block">
                     →
@@ -282,16 +282,16 @@ const Testimonials = () => {
               }}
               className="fixed inset-0 z-[999] flex items-center justify-center p-4 md:p-8 pointer-events-none"
             >
-              <div className="bg-[#0F1E1C] border border-[#E5E7EB] rounded-[20px] md:rounded-2xl w-full max-w-[95vw] md:max-w-lg max-h-[85vh] md:max-h-[90vh] overflow-y-auto pointer-events-auto relative shadow-[0_24px_80px_rgba(14, 17, 17,0.15)]">
+              <div className="bg-[#111111] border border-[#2A2418] rounded-[20px] md:rounded-2xl w-full max-w-[95vw] md:max-w-lg max-h-[85vh] md:max-h-[90vh] overflow-y-auto pointer-events-auto relative shadow-[0_24px_80px_rgba(0,0,0,0.55)]">
                 {/* GOLD TOP BORDER */}
-                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#B0E4CC] to-transparent rounded-t-2xl" />
+                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent rounded-t-2xl" />
 
                 {/* MODAL CONTENT */}
                 <div className="p-5 md:p-8">
                   {/* CLOSE BUTTON */}
                   <button
                     onClick={closeModal}
-                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F3F4F6] border border-[#E5E7EB] flex items-center justify-center text-[#6B7280] hover:bg-[#B0E4CC] hover:text-white hover:border-[#B0E4CC] transition-all duration-200 text-lg font-light"
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#1A1A1A] border border-[#2A2418] flex items-center justify-center text-[#B8B2A3] hover:bg-[#D4AF37] hover:text-[#050505] hover:border-[#D4AF37] transition-all duration-200 text-lg font-light"
                   >
                     ✕
                   </button>
@@ -300,7 +300,7 @@ const Testimonials = () => {
                   <div className="flex items-center gap-4 mb-6 pr-8">
                     {/* AVATAR */}
                     <div 
-                      className="w-[52px] h-[52px] md:w-16 md:h-16 rounded-full flex items-center justify-center flex-shrink-0 text-lg md:text-xl font-bold border-2 border-[rgba(176, 228, 204,0.4)]"
+                      className="w-[52px] h-[52px] md:w-16 md:h-16 rounded-full flex items-center justify-center flex-shrink-0 text-lg md:text-xl font-bold border-2 border-[rgba(212,175,55,0.40)]"
                       style={{
                         background: selectedReview.avatarBg,
                         color: selectedReview.avatarColor
@@ -312,25 +312,25 @@ const Testimonials = () => {
                     {/* NAME & DETAILS */}
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-[16px] md:text-[18px] font-bold text-[#0F1E1C] font-display">
+                        <h3 className="text-[16px] md:text-[18px] font-bold text-[#F8F5EC] font-display">
                           {selectedReview.name}
                         </h3>
                         {/* VERIFIED BADGE */}
-                        <span className="text-[10px] font-bold text-[#B0E4CC] bg-[rgba(176, 228, 204,0.10)] border border-[rgba(176, 228, 204,0.25)] px-2.5 py-0.5 rounded-full">
+                        <span className="text-[10px] font-bold text-[#D4AF37] bg-[rgba(212,175,55,0.10)] border border-[rgba(212,175,55,0.25)] px-2.5 py-0.5 rounded-full">
                           ✓ Verified
                         </span>
                       </div>
                       
-                      <p className="text-[12px] md:text-[13px] text-[#6B7280] mt-0.5">
+                      <p className="text-[12px] md:text-[13px] text-[#B8B2A3] mt-0.5">
                         {selectedReview.handle}
                       </p>
 
                       {/* STARS + LOCATION ROW */}
                       <div className="flex items-center gap-3 mt-2">
-                        <span className="text-[#B0E4CC] text-[12px] md:text-[14px] tracking-[2px]">
+                        <span className="text-[#D4AF37] text-[12px] md:text-[14px] tracking-[2px]">
                           ★★★★★
                         </span>
-                        <span className="text-[11px] md:text-[12px] text-[#6B7280] flex items-center gap-1">
+                        <span className="text-[11px] md:text-[12px] text-[#B8B2A3] flex items-center gap-1">
                           🇬🇧 {selectedReview.location}
                         </span>
                       </div>
@@ -338,25 +338,25 @@ const Testimonials = () => {
                   </div>
 
                   {/* GOLD DIVIDER */}
-                  <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(176, 228, 204,0.3)] to-transparent mb-6" />
+                  <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.30)] to-transparent mb-6" />
 
                   {/* LARGE QUOTE MARK */}
-                  <div className="text-[60px] md:text-[80px] leading-none text-[rgba(176, 228, 204,0.15)] font-display font-bold mb-[-16px] md:mb-[-20px] mt-[-12px] md:mt-[-16px] select-none">
+                  <div className="text-[60px] md:text-[80px] leading-none text-[rgba(212,175,55,0.15)] font-display font-bold mb-[-16px] md:mb-[-20px] mt-[-12px] md:mt-[-16px] select-none">
                     "
                   </div>
 
                   {/* FULL REVIEW TEXT */}
-                  <p className="text-[14px] md:text-[15px] text-[#4B5563] leading-[1.7] md:leading-[1.85] mb-6">
+                  <p className="text-[14px] md:text-[15px] text-[#B8B2A3] leading-[1.7] md:leading-[1.85] mb-6">
                     {selectedReview.fullText}
                   </p>
 
                   {/* CLOSING QUOTE */}
-                  <div className="text-[60px] md:text-[80px] leading-none text-[rgba(176, 228, 204,0.15)] font-display font-bold text-right mt-[-24px] md:mt-[-32px] mb-4 select-none">
+                  <div className="text-[60px] md:text-[80px] leading-none text-[rgba(212,175,55,0.15)] font-display font-bold text-right mt-[-24px] md:mt-[-32px] mb-4 select-none">
                     "
                   </div>
 
                   {/* GOLD DIVIDER */}
-                  <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(176, 228, 204,0.3)] to-transparent mb-6" />
+                  <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.30)] to-transparent mb-6" />
 
                   {/* BOTTOM ACTION BUTTONS */}
                   <div className="flex gap-3 flex-col sm:flex-row">
@@ -377,7 +377,7 @@ const Testimonials = () => {
                     {/* CLOSE BUTTON */}
                     <button
                       onClick={closeModal}
-                      className="flex-1 sm:flex-none sm:px-8 border border-[#E5E7EB] text-[#4B5563] hover:border-[#0F1E1C] hover:text-[#0F1E1C] font-medium text-[14px] py-3 px-6 rounded-full transition-all duration-200"
+                      className="flex-1 sm:flex-none sm:px-8 border border-[#4A391C] text-[#D4AF37] hover:border-[#D4AF37] hover:text-[#F8F5EC] hover:bg-[rgba(212,175,55,0.10)] font-medium text-[14px] py-3 px-6 rounded-full transition-all duration-200"
                     >
                       Close
                     </button>
@@ -393,3 +393,5 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+
+

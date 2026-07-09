@@ -76,12 +76,12 @@ const Navbar = () => {
       style={{
         backdropFilter: "blur(20px)",
         backgroundColor: "rgba(14, 17, 17, 0.85)",
-        borderBottom: "1px solid rgba(64,138,113,0.15)"
+        borderBottom: "1px solid rgba(74,57,28,0.15)"
       }}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        <Link to="/" className="font-display text-xl font-bold tracking-tight text-[#F0FFF8]">
-          MUSA<span className="text-[#B0E4CC] font-normal">TRANSPORT</span>
+        <Link to="/" className="font-display text-xl font-bold tracking-tight text-[#F8F5EC]">
+          MUSA<span className="text-[#D4AF37] font-normal">TRANSPORT</span>
         </Link>
 
         {/* Desktop Nav Links */}
@@ -91,7 +91,7 @@ const Navbar = () => {
               key={link.name}
               to="/"
               onClick={() => handleNavClick(link.name)}
-              className={`text-sm font-body font-medium transition-colors ${activeSection === link.name ? "text-[#F0FFF8]" : "text-[#7ABFA0] hover:text-[#F0FFF8]"
+              className={`text-sm font-body font-medium transition-colors ${activeSection === link.name ? "text-[#F8F5EC]" : "text-[#B8B2A3] hover:text-[#F8F5EC]"
                 }`}
             >
               {t(link.key)}
@@ -103,7 +103,7 @@ const Navbar = () => {
               window.scrollTo({ top: 0, behavior: "instant" });
               setMobileOpen(false);
             }}
-            className={`text-sm font-body font-medium transition-colors ${location.pathname === "/fleet" ? "text-[#F0FFF8]" : "text-[#7ABFA0] hover:text-[#F0FFF8]"
+            className={`text-sm font-body font-medium transition-colors ${location.pathname === "/fleet" ? "text-[#F8F5EC]" : "text-[#B8B2A3] hover:text-[#F8F5EC]"
               }`}
           >
             {t('nav.fleet', 'Fleet')}
@@ -113,7 +113,7 @@ const Navbar = () => {
               key={link.name}
               to="/"
               onClick={() => handleNavClick(link.name)}
-              className={`text-sm font-body font-medium transition-colors ${activeSection === link.name ? "text-[#F0FFF8]" : "text-[#7ABFA0] hover:text-[#F0FFF8]"
+              className={`text-sm font-body font-medium transition-colors ${activeSection === link.name ? "text-[#F8F5EC]" : "text-[#B8B2A3] hover:text-[#F8F5EC]"
                 }`}
             >
               {t(link.key)}
@@ -144,7 +144,7 @@ const Navbar = () => {
           {/* Hamburger Bar — mobile only */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex md:hidden items-center justify-center w-[36px] h-[36px] rounded-[10px] bg-[rgba(176, 228, 204,0.08)] border border-[rgba(176, 228, 204,0.20)] text-[#B0E4CC] transition-all hover:bg-[rgba(176, 228, 204,0.15)] hover:border-[rgba(176, 228, 204,0.40)]"
+            className="flex md:hidden items-center justify-center w-[36px] h-[36px] rounded-[10px] bg-[rgba(212,175,55,0.08)] border border-[rgba(212,175,55,0.20)] text-[#D4AF37] transition-all hover:bg-[rgba(212,175,55,0.15)] hover:border-[rgba(212,175,55,0.40)]"
           >
             {mobileOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -207,3 +207,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

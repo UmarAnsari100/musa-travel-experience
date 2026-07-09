@@ -209,7 +209,7 @@ const FeaturedTrips = () => {
   };
 
   return (
-    <section id="packages" className="py-20 md:py-28 bg-[#0E1111]">
+    <section id="packages" className="py-20 md:py-28 bg-[#050505]">
       <div className="container mx-auto px-6">
         <motion.div
           variants={reveal}
@@ -237,10 +237,10 @@ const FeaturedTrips = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6, ease: "easeOut" }}
-              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(176, 228, 204,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col"
+              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(212,175,55,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col"
             >
               {/* TOP IMAGE AREA */}
-              <div className="relative h-[200px] sm:h-[220px] md:h-[200px] lg:h-[240px] w-full bg-[#111] flex items-center justify-center overflow-hidden">
+              <div className="relative h-[200px] sm:h-[220px] md:h-[200px] lg:h-[240px] w-full bg-[#111111] flex items-center justify-center overflow-hidden">
                 <img
                   src={pkg.image}
                   alt={t(pkg.titleKey)}
@@ -259,7 +259,7 @@ const FeaturedTrips = () => {
               </div>
 
               {/* ROUTE STRIP */}
-              <div className="bg-[#111] py-2 border-b border-white/5">
+              <div className="bg-[#111111] py-2 border-b border-white/5">
                 <p className="text-center text-gold text-[10px] sm:text-xs tracking-widest uppercase font-medium">
                   {t(pkg.routeStripKey)}
                 </p>
@@ -324,7 +324,7 @@ const FeaturedTrips = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-12 bg-[#0F1E1C] border border-[rgba(64,138,113,0.20)] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+          className="mt-12 bg-[#111111] border border-[rgba(74,57,28,0.20)] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="text-center md:text-left">
             <h3 className="font-display font-bold text-white text-xl mb-1">{t('trips.customTag')}</h3>
@@ -357,3 +357,4 @@ const FeaturedTrips = () => {
 };
 
 export default FeaturedTrips;
+

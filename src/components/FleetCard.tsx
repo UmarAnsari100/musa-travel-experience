@@ -9,8 +9,8 @@ type FleetCardProps = {
 
 const FleetCard = ({ vehicle, onBook }: FleetCardProps) => {
   return (
-    <article className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(176,228,204,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col h-full">
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0e1111]">
+    <article className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-[0_8px_30px_rgba(212,175,55,0.15)] transition-all duration-300 relative border border-transparent hover:border-gold/30 hover:-translate-y-[6px] flex flex-col h-full">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#050505]">
         <img
           src={vehicle.coverImage}
           alt={vehicle.name}
@@ -93,3 +93,4 @@ const FleetCard = ({ vehicle, onBook }: FleetCardProps) => {
 };
 
 export default FleetCard;
+
