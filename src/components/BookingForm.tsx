@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useBooking } from '../context/BookingContext'
-import emailjs from '@emailjs/browser';
+import { sendBookingEmail, sendConfirmationEmail } from "@/lib/emailjs";
+import { Calendar, Clock } from "lucide-react";
 
 const serviceTypes = [
   { label: "Hajj & Umrah Transfers", value: "Hajj & Umrah Transfers" },
@@ -54,6 +55,10 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
 
   const { bookingDefaults, setBookingDefaults } = useBooking();
 
+  const openNativePicker = (input: HTMLInputElement) => {
+    input.showPicker?.();
+  };
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
 
@@ -91,27 +96,22 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
     const loadingToast =
       toast.loading('Sending booking...')
     try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formData,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      const customerTemplateId =
-        import.meta.env
-          .VITE_EMAILJS_TEMPLATE_ID_CUSTOMER
-      if (customerTemplateId) {
-        try {
-          await emailjs.send(
-            import.meta.env.VITE_EMAILJS_SERVICE_ID,
-            customerTemplateId,
-            formData,
-            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-          )
-          console.log('Customer email sent ✅')
-        } catch (err) {
-          console.warn('Customer email failed ⚠️', err)
-        }
+      console.log('[BookingForm] Sending admin booking email...')
+      const adminEmail = await sendBookingEmail(formData)
+
+      if (!adminEmail.success) {
+        throw adminEmail.error
+      }
+
+      console.log('[BookingForm] Admin email succeeded. Sending customer confirmation email...')
+      const customerEmail = await sendConfirmationEmail(formData)
+
+      if (!customerEmail.success) {
+        console.error('[BookingForm] Customer confirmation failed after admin success:', customerEmail.error)
+        toast.error('Booking sent, but customer confirmation email failed. Check console.', { duration: 6000 })
+      } else {
+        console.log('[BookingForm] Customer confirmation accepted by EmailJS:', customerEmail.response)
+        toast.success('Customer confirmation email accepted by EmailJS.', { duration: 4000 })
       }
       const waNum = import.meta.env.VITE_WHATSAPP_NUMBER
       if (waNum) {
@@ -312,12 +312,34 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.date')}</label>
-              <input type="date" name="travel_date" value={formData.travel_date} onChange={handleChange} className={inputClass("travel_date")} />
+              <div className="relative">
+                <input
+                  type="date"
+                  name="travel_date"
+                  value={formData.travel_date}
+                  onChange={handleChange}
+                  onClick={(e) => openNativePicker(e.currentTarget)}
+                  onFocus={(e) => openNativePicker(e.currentTarget)}
+                  className={`${inputClass("travel_date")} pr-11 cursor-pointer`}
+                />
+                <Calendar className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gold" />
+              </div>
               {errors.travel_date && <span className="text-destructive text-xs mt-1 block">{errors.travel_date}</span>}
             </div>
             <div>
               <label className="font-body font-medium text-xs uppercase tracking-[0.10em] text-gray-text mb-2 block">{t('booking.time')}</label>
-              <input type="time" name="travel_time" value={formData.travel_time} onChange={handleChange} className={inputClass("travel_time")} />
+              <div className="relative">
+                <input
+                  type="time"
+                  name="travel_time"
+                  value={formData.travel_time}
+                  onChange={handleChange}
+                  onClick={(e) => openNativePicker(e.currentTarget)}
+                  onFocus={(e) => openNativePicker(e.currentTarget)}
+                  className={`${inputClass("travel_time")} pr-11 cursor-pointer`}
+                />
+                <Clock className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gold" />
+              </div>
               {errors.travel_time && <span className="text-destructive text-xs mt-1 block">{errors.travel_time}</span>}
             </div>
             <div>
