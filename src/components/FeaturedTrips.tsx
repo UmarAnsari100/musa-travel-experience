@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useBooking } from "../context/BookingContext";
 import { toast } from "react-hot-toast";
+import { scheduleBookingScroll } from "@/lib/scroll";
 
 import jeddahImg from "../assets/jeddah.jpg";
 import makkahImg from "../assets/makkah.jpg";
@@ -191,13 +192,7 @@ const FeaturedTrips = () => {
       tripTitle: t(pkg.titleKey),
     });
 
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-      bookingSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+    setTimeout(scheduleBookingScroll, 300);
 
     toast.success(
       `✅ "${t(pkg.titleKey)}" ${t('trips.success')}`,
