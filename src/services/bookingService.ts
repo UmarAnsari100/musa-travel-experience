@@ -459,4 +459,37 @@ export const bookingService = {
       saveLocalStore([...store]);
     }
   },
+
+  async fetchBookingByReference(reference: string): Promise<Booking | null> {
+    if (!reference) return null;
+    const cleanRef = reference.trim().toUpperCase();
+
+    if (isSupabaseConfigured()) {
+      try {
+        const { data, error } = await supabase
+          .from('bookings')
+          .select(`
+            *,
+            segments:journey_segments(*),
+            documents:booking_documents(*),
+            whatsapp_logs:whatsapp_messages(*)
+          `)
+          .eq('booking_reference', cleanRef)
+          .maybeSingle();
+
+        if (!error && data) {
+          return data as Booking;
+        }
+      } catch (err) {
+        console.warn('[bookingService] Supabase fetch by reference error:', err);
+      }
+    }
+
+    const store = getLocalStore();
+    return (
+      store.find(
+        (b) => b.booking_reference.trim().toUpperCase() === cleanRef
+      ) || null
+    );
+  },
 };

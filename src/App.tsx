@@ -11,6 +11,7 @@ import Fleet from "./pages/Fleet.tsx";
 import ConfirmBooking from "./pages/ConfirmBooking.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
+import BookingVerification from "./pages/BookingVerification.tsx";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -71,6 +72,8 @@ const App = () => (
                   </ProtectedRoute>
                 }
               />
+              <Route path="/verify/:reference" element={<BookingVerification />} />
+              <Route path="/verify" element={<BookingVerification />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -119,14 +119,24 @@ export const VoucherPreviewModal: React.FC<VoucherPreviewModalProps> = ({
             {/* Voucher Subheader & Status */}
             <div className="py-3 px-2 flex justify-between items-center border-b border-gray-200">
               <span className="font-bold text-xs uppercase tracking-wide text-gray-800">
-                Official Umrah Transportation Voucher
+                {booking.status === 'pending'
+                  ? 'Reservation Request & Travel Voucher'
+                  : booking.status === 'cancelled'
+                  ? 'Cancelled Reservation Voucher'
+                  : 'Official Transportation Voucher'}
               </span>
               <span
                 className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
-                  booking.status === 'confirmed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                  booking.status === 'confirmed'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : booking.status === 'pending'
+                    ? 'bg-amber-100 text-amber-800'
+                    : booking.status === 'cancelled'
+                    ? 'bg-red-100 text-red-800'
+                    : 'bg-blue-100 text-blue-800'
                 }`}
               >
-                {booking.status}
+                {booking.status === 'pending' ? 'Pending Review' : booking.status}
               </span>
             </div>
 

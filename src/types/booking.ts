@@ -71,6 +71,7 @@ export interface Booking {
   additional_passengers?: string[];
   service_type: string;
   status: BookingStatus;
+  verification_token?: string; // Secure unguessable token for public QR verification
   total_price?: number;
   currency?: string;
   payment_status: PaymentStatus;

@@ -1,6 +1,8 @@
 import { jsPDF } from 'jspdf';
 import QRCode from 'qrcode';
 import { Booking } from '@/types/booking';
+import { SITE_CONFIG, buildVerificationUrl } from '@/config/site';
+import { generateVerificationToken } from '@/services/verificationService';
 
 export const generateVoucherPDF = async (booking: Booking): Promise<jsPDF> => {
   const doc = new jsPDF({
@@ -14,18 +16,19 @@ export const generateVoucherPDF = async (booking: Booking): Promise<jsPDF> => {
   const margin = 16;
   const contentWidth = pageWidth - margin * 2;
 
-  // 1. Generate QR Code
-  const qrDataUrl = await QRCode.toDataURL(
-    `https://musatransport.com/verify?ref=${encodeURIComponent(booking.booking_reference)}`,
-    {
-      width: 180,
-      margin: 1,
-      color: {
-        dark: '#050505',
-        light: '#FFFFFF',
-      },
-    }
-  );
+  // 1. Generate Secure Verification QR Code
+  // Uses centralized domain configuration (https://umarhtransport.com) and cryptographic token
+  const verificationToken = booking.verification_token || generateVerificationToken(booking);
+  const verificationUrl = buildVerificationUrl(booking.booking_reference, verificationToken);
+
+  const qrDataUrl = await QRCode.toDataURL(verificationUrl, {
+    width: 200,
+    margin: 1,
+    color: {
+      dark: '#0B0D0F',
+      light: '#FFFFFF',
+    },
+  });
 
   // 2. Background: Clean luxury parchment/white A4 canvas with gold and dark framing
   doc.setFillColor(252, 252, 250);
@@ -86,25 +89,71 @@ export const generateVoucherPDF = async (booking: Booking): Promise<jsPDF> => {
 
   currentY += headerHeight + 8;
 
-  // 4. Voucher Title & Status Banner
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(15);
-  doc.setTextColor(11, 13, 15);
-  doc.text('OFFICIAL TRANSPORTATION CONFIRMATION VOUCHER', margin, currentY);
+  // 4. Voucher Title & Status Banner (Layout Fixed to Prevent Any Overlap)
+  // Dynamically determines title to avoid describing pending bookings as official confirmations
+  let voucherHeading = 'OFFICIAL TRANSPORTATION VOUCHER';
+  let statusBadgeText = 'CONFIRMED';
+  let statusBadgeColor: [number, number, number] = [22, 163, 74]; // Emerald
 
-  // Status Badge
-  const isConfirmed = booking.status === 'confirmed';
-  const statusColor: [number, number, number] = isConfirmed ? [34, 197, 94] : [234, 179, 8];
-  doc.setFillColor(statusColor[0], statusColor[1], statusColor[2]);
-  doc.roundedRect(pageWidth - margin - 38, currentY - 5, 38, 7.5, 1.5, 1.5, 'F');
+  if (booking.status === 'pending') {
+    voucherHeading = 'RESERVATION REQUEST & TRAVEL VOUCHER';
+    statusBadgeText = 'PENDING REVIEW';
+    statusBadgeColor = [217, 119, 6]; // Amber
+  } else if (booking.status === 'cancelled') {
+    voucherHeading = 'CANCELLED RESERVATION VOUCHER';
+    statusBadgeText = 'CANCELLED';
+    statusBadgeColor = [220, 38, 38]; // Red
+  } else if (booking.status === 'in_progress') {
+    voucherHeading = 'ACTIVE DISPATCH JOURNEY VOUCHER';
+    statusBadgeText = 'IN PROGRESS';
+    statusBadgeColor = [37, 99, 235]; // Blue
+  } else if (booking.status === 'completed') {
+    voucherHeading = 'COMPLETED JOURNEY VOUCHER';
+    statusBadgeText = 'COMPLETED';
+    statusBadgeColor = [124, 58, 237]; // Purple
+  }
+
+  // Title on Left (max width capped at 126mm so it never overlaps the badge)
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(11, 13, 15);
+  const maxTitleWidth = contentWidth - 48; // 130mm available
+  doc.text(voucherHeading, margin, currentY, { maxWidth: maxTitleWidth });
+
+  // Status Badge on Right (fixed 44mm width, positioned cleanly on right margin)
+  const badgeWidth = 44;
+  const badgeHeight = 7.5;
+  const badgeX = pageWidth - margin - badgeWidth;
+  const badgeY = currentY - 5.5;
+
+  doc.setFillColor(statusBadgeColor[0], statusBadgeColor[1], statusBadgeColor[2]);
+  doc.roundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 1.5, 1.5, 'F');
 
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  const statusText = booking.status.toUpperCase();
-  doc.text(statusText, pageWidth - margin - 35, currentY);
+  doc.text(statusBadgeText, badgeX + badgeWidth / 2, badgeY + 5.2, { align: 'center' });
 
-  currentY += 8;
+  // Status Clarification Subtitle to prevent any confusion
+  currentY += 4.5;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+
+  if (booking.status === 'pending') {
+    doc.setTextColor(180, 83, 9);
+    doc.text('⚠️ STATUS: PENDING DISPATCH REVIEW — NOT YET AN OFFICIALLY ALLOCATED RESERVATION', margin, currentY);
+  } else if (booking.status === 'confirmed') {
+    doc.setTextColor(22, 101, 52);
+    doc.text('✓ STATUS: CONFIRMED RESERVATION — CHAUFFEUR & VEHICLE DISPATCH ALLOCATED', margin, currentY);
+  } else if (booking.status === 'cancelled') {
+    doc.setTextColor(185, 28, 28);
+    doc.text('✗ STATUS: CANCELLED — THIS VOUCHER IS VOID AND NOT VALID FOR TRAVEL', margin, currentY);
+  } else {
+    doc.setTextColor(100, 95, 85);
+    doc.text(`STATUS: ${statusBadgeText} — VERIFIED SERVICE ITINERARY`, margin, currentY);
+  }
+
+  currentY += 6;
 
   // 5. Customer Information Block (Left) + Verification QR Code (Right)
   const infoBlockHeight = 46;
@@ -190,7 +239,11 @@ export const generateVoucherPDF = async (booking: Booking): Promise<jsPDF> => {
   doc.setFontSize(6.5);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(110, 100, 85);
-  doc.text('SCAN TO VERIFY', pageWidth - margin - 32, currentY + 42);
+  doc.text('SCAN TO VERIFY', pageWidth - margin - 20, currentY + 40, { align: 'center' });
+  doc.setFontSize(5.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(150, 140, 125);
+  doc.text(SITE_CONFIG.domain, pageWidth - margin - 20, currentY + 43.5, { align: 'center' });
 
   currentY += infoBlockHeight + 10;
 
@@ -295,7 +348,7 @@ export const generateVoucherPDF = async (booking: Booking): Promise<jsPDF> => {
   doc.setTextColor(60, 55, 50);
   doc.text('• Airport Pickups: Your designated chauffeur will be positioned in the arrival hall holding a paging sign with your name.', margin + 4, currentY + 6);
   doc.text('• Flight Monitoring: Our operations dispatch center tracks your flight live. Delays are automatically accommodated.', margin + 4, currentY + 12);
-  doc.text('• 24/7 Operations Hotline & WhatsApp Support: +966 59 710 0424 | Email: operations@musatransport.com', margin + 4, currentY + 18);
+  doc.text(`• 24/7 Operations Hotline & WhatsApp: ${SITE_CONFIG.supportPhoneFormatted} | Official Verification: ${SITE_CONFIG.domain}`, margin + 4, currentY + 18);
 
   // 8. Footer Bar: Luxury Golden Stamp
   const footerY = pageHeight - margin - 12;
