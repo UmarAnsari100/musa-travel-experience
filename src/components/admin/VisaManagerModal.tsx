@@ -5,6 +5,8 @@ import { useAdminAuth } from '@/context/AuthContext';
 import { X, Upload, FileText, Eye, Download, Trash2, Shield, Lock, AlertCircle, Share2, History } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
+import { VisaPreviewModal } from '@/components/admin/VisaPreviewModal';
+
 interface VisaManagerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -20,6 +22,7 @@ export const VisaManagerModal: React.FC<VisaManagerModalProps> = ({ isOpen, onCl
   const [activeTab, setActiveTab] = useState<'documents' | 'audit'>('documents');
   const [isUploading, setIsUploading] = useState(false);
   const [docType, setDocType] = useState<'visa' | 'passport' | 'ticket' | 'other'>('visa');
+  const [previewDoc, setPreviewDoc] = useState<BookingDocument | null>(null);
 
   useEffect(() => {
     loadDocs();
@@ -49,33 +52,18 @@ export const VisaManagerModal: React.FC<VisaManagerModalProps> = ({ isOpen, onCl
     }
   };
 
-  const handleView = async (doc: BookingDocument) => {
-    try {
-      const url = await documentService.getSecureSignedUrl(
-        doc,
-        'view',
-        user?.id || 'admin',
-        user?.name || 'Administrator'
-      );
-      window.open(url, '_blank');
-      await loadDocs();
-    } catch (err: any) {
-      toast.error('Failed to generate secure viewing token: ' + err.message);
-    }
+  const handleView = (doc: BookingDocument) => {
+    setPreviewDoc(doc);
   };
 
   const handleDownload = async (doc: BookingDocument) => {
     try {
-      const url = await documentService.getSecureSignedUrl(
+      await documentService.downloadDocument(
         doc,
-        'download',
         user?.id || 'admin',
         user?.name || 'Administrator'
       );
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = doc.file_name;
-      a.click();
+      toast.success(`Downloaded: ${doc.file_name}`);
       await loadDocs();
     } catch (err: any) {
       toast.error('Download error: ' + err.message);
@@ -333,6 +321,15 @@ export const VisaManagerModal: React.FC<VisaManagerModalProps> = ({ isOpen, onCl
           </button>
         </div>
       </div>
+
+      {/* In-App Visa Preview Modal */}
+      <VisaPreviewModal
+        isOpen={Boolean(previewDoc)}
+        onClose={() => setPreviewDoc(null)}
+        document={previewDoc}
+        booking={booking}
+        onDownload={handleDownload}
+      />
     </div>
   );
 };

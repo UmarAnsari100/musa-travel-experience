@@ -2,14 +2,39 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { BookingDocument, DocumentAuditLog } from '@/types/booking';
 
 const ALLOWED_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png'];
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 
 const LOCAL_DOCS_STORE_KEY = 'musa_transport_private_docs';
 const LOCAL_AUDIT_STORE_KEY = 'musa_transport_doc_audit_logs';
 
+const isUuid = (str?: string): boolean => {
+  if (!str) return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+};
+
+const fileToDataUrl = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
+  });
+};
+
 export const documentService = {
   validateFile(file: File): { valid: boolean; error?: string } {
-    if (!ALLOWED_MIME_TYPES.includes(file.type.toLowerCase())) {
+    if (!file) {
+      return { valid: false, error: 'No file provided.' };
+    }
+
+    const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+    const mime = file.type ? file.type.toLowerCase() : '';
+
+    const mimeValid = ALLOWED_MIME_TYPES.includes(mime);
+    const extValid = ALLOWED_EXTENSIONS.includes(ext);
+
+    if (!mimeValid && !extValid) {
       return {
         valid: false,
         error: 'Invalid file format. Only PDF, JPG, JPEG, and PNG files are accepted.',
@@ -19,7 +44,7 @@ export const documentService = {
     if (file.size > MAX_FILE_SIZE_BYTES) {
       return {
         valid: false,
-        error: 'File size exceeds maximum allowed limit of 10 MB.',
+        error: `File size (${(file.size / (1024 * 1024)).toFixed(1)} MB) exceeds maximum allowed limit of 10 MB.`,
       };
     }
 
@@ -41,55 +66,72 @@ export const documentService = {
     const storagePath = `${bookingId}/${Date.now()}_${sanitizedFileName}`;
 
     if (isSupabaseConfigured()) {
-      try {
-        // Upload to private bucket 'visa-documents'
-        const { error: uploadError } = await supabase.storage
-          .from('visa-documents')
-          .upload(storagePath, file, {
-            contentType: file.type,
-            upsert: false,
-          });
+      // 1. Upload to private Supabase Storage bucket 'visa-documents'
+      const { error: uploadError } = await supabase.storage
+        .from('visa-documents')
+        .upload(storagePath, file, {
+          contentType: file.type || 'application/octet-stream',
+          upsert: false,
+        });
 
-        if (uploadError) throw uploadError;
-
-        // Insert metadata in database
-        const { data: docRecord, error: dbError } = await supabase
-          .from('booking_documents')
-          .insert({
-            booking_id: bookingId,
-            document_type: documentType,
-            file_name: file.name,
-            file_path: storagePath,
-            file_size: file.size,
-            mime_type: file.type,
-            uploaded_by: uploadedBy || null,
-          })
-          .select()
-          .single();
-
-        if (dbError) throw dbError;
-
-        return docRecord as BookingDocument;
-      } catch (err) {
-        console.warn('[documentService] Supabase upload failed, using local vault:', err);
+      if (uploadError) {
+        console.error('[documentService] Supabase Storage upload error:', uploadError);
+        throw new Error(`Failed to upload document to secure storage: ${uploadError.message}`);
       }
+
+      // 2. Insert metadata into booking_documents table
+      const { data: docRecord, error: dbError } = await supabase
+        .from('booking_documents')
+        .insert({
+          booking_id: bookingId,
+          document_type: documentType,
+          file_name: file.name,
+          file_path: storagePath,
+          file_size: file.size,
+          mime_type: file.type || 'application/octet-stream',
+          uploaded_by: isUuid(uploadedBy) ? uploadedBy : null,
+        })
+        .select()
+        .single();
+
+      if (dbError) {
+        console.error('[documentService] Database insert error for document metadata:', dbError);
+        // Clean up uploaded orphaned file to maintain zero-garbage policy
+        await supabase.storage.from('visa-documents').remove([storagePath]);
+        throw new Error(`Failed to record document metadata in database: ${dbError.message}`);
+      }
+
+      // 3. Update booking visa_status to 'uploaded'
+      await supabase
+        .from('bookings')
+        .update({ visa_status: 'uploaded', updated_at: new Date().toISOString() })
+        .eq('id', bookingId);
+
+      return docRecord as BookingDocument;
     }
 
-    // Local / Offline fallback with simulated object URL
+    // Offline / Local Vault Fallback (reads file as base64 data URL so preview & download persist reliably)
+    let persistentDataUrl = '';
+    try {
+      persistentDataUrl = await fileToDataUrl(file);
+    } catch {
+      persistentDataUrl = '';
+    }
+
     const localDoc: BookingDocument = {
       id: 'doc-' + Date.now(),
       booking_id: bookingId,
       document_type: documentType,
       file_name: file.name,
-      file_path: URL.createObjectURL(file), // Local blob representation
+      file_path: persistentDataUrl || storagePath,
       file_size: file.size,
-      mime_type: file.type,
+      mime_type: file.type || 'image/jpeg',
       uploaded_by: uploadedBy,
       created_at: new Date().toISOString(),
     };
 
     const stored: BookingDocument[] = JSON.parse(localStorage.getItem(LOCAL_DOCS_STORE_KEY) || '[]');
-    stored.push(localDoc);
+    stored.unshift(localDoc);
     localStorage.setItem(LOCAL_DOCS_STORE_KEY, JSON.stringify(stored));
 
     return localDoc;
@@ -108,24 +150,92 @@ export const documentService = {
       action,
       performed_by: adminId,
       performed_by_name: adminName,
-      details: `Generated 5-minute signed access token for document: ${doc.file_name}`,
+      details: `Generated 5-minute signed access token for document: ${doc.file_name} (${action})`,
     });
+
+    // If already a data URL (offline mode) or full HTTP URL, return directly
+    if (doc.file_path.startsWith('data:') || doc.file_path.startsWith('http://') || doc.file_path.startsWith('https://')) {
+      return doc.file_path;
+    }
 
     // 2. Generate 5-Minute Time-Limited Signed URL from Supabase
     if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase.storage
-          .from('visa-documents')
-          .createSignedUrl(doc.file_path, 300); // 300 seconds = 5 minutes expiry
+      const { data, error } = await supabase.storage
+        .from('visa-documents')
+        .createSignedUrl(doc.file_path, 300); // 300 seconds = 5 minutes expiry
 
-        if (error) throw error;
-        return data.signedUrl;
-      } catch (err) {
-        console.warn('[documentService] Signed URL generation error:', err);
+      if (error) {
+        console.error('[documentService] Supabase signed URL error:', error);
+        throw new Error(`Failed to generate secure URL: ${error.message}`);
       }
+
+      if (!data?.signedUrl) {
+        throw new Error('Signed URL was not returned by storage service.');
+      }
+
+      return data.signedUrl;
     }
 
-    return doc.file_path; // Local object URL
+    // Fallback: check localStorage for saved base64 version
+    const stored: BookingDocument[] = JSON.parse(localStorage.getItem(LOCAL_DOCS_STORE_KEY) || '[]');
+    const match = stored.find((d) => d.id === doc.id || d.file_path === doc.file_path);
+    if (match && match.file_path.startsWith('data:')) {
+      return match.file_path;
+    }
+
+    return doc.file_path;
+  },
+
+  async downloadDocument(
+    doc: BookingDocument,
+    adminId: string,
+    adminName: string
+  ): Promise<void> {
+    const url = await this.getSecureSignedUrl(doc, 'download', adminId, adminName);
+
+    try {
+      if (url.startsWith('data:')) {
+        // Direct download for Data URLs
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = doc.file_name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+
+      // Fetch as blob to ensure cross-origin downloads retain the original file name and open correctly
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Server returned HTTP ${response.status} when downloading file.`);
+      }
+
+      const blob = await response.blob();
+      const objectUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = objectUrl;
+      a.download = doc.file_name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(objectUrl);
+      }, 1000);
+    } catch (err: any) {
+      console.error('[documentService] Download execution error:', err);
+      // Fallback: try direct window navigation if blob fetch was blocked
+      const fallbackA = document.createElement('a');
+      fallbackA.href = url;
+      fallbackA.download = doc.file_name;
+      fallbackA.target = '_blank';
+      fallbackA.rel = 'noreferrer';
+      document.body.appendChild(fallbackA);
+      fallbackA.click();
+      document.body.removeChild(fallbackA);
+    }
   },
 
   async fetchDocuments(bookingId: string): Promise<BookingDocument[]> {
@@ -137,16 +247,46 @@ export const documentService = {
           .eq('booking_id', bookingId)
           .order('created_at', { ascending: false });
 
-        if (!error && data) {
+        if (error) {
+          console.error('[documentService] Supabase fetchDocuments error:', error);
+          throw error;
+        }
+
+        if (data && data.length > 0) {
           return data as BookingDocument[];
         }
       } catch (err) {
-        console.warn('[documentService] Fetch documents error:', err);
+        console.warn('[documentService] Fetch documents error, checking local store:', err);
       }
     }
 
     const stored: BookingDocument[] = JSON.parse(localStorage.getItem(LOCAL_DOCS_STORE_KEY) || '[]');
     return stored.filter((d) => d.booking_id === bookingId);
+  },
+
+  async fetchAllDocuments(): Promise<BookingDocument[]> {
+    if (isSupabaseConfigured()) {
+      try {
+        const { data, error } = await supabase
+          .from('booking_documents')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('[documentService] Supabase fetchAllDocuments error:', error);
+          throw error;
+        }
+
+        if (data && data.length > 0) {
+          return data as BookingDocument[];
+        }
+      } catch (err) {
+        console.warn('[documentService] Fetch all documents error, falling back to local vault:', err);
+      }
+    }
+
+    const stored: BookingDocument[] = JSON.parse(localStorage.getItem(LOCAL_DOCS_STORE_KEY) || '[]');
+    return stored;
   },
 
   async deleteDocument(doc: BookingDocument, adminId: string, adminName: string): Promise<void> {
@@ -165,7 +305,8 @@ export const documentService = {
         await supabase.from('booking_documents').delete().eq('id', doc.id);
         return;
       } catch (err) {
-        console.warn('[documentService] Delete document error:', err);
+        console.error('[documentService] Delete document error:', err);
+        throw err;
       }
     }
 
@@ -184,12 +325,12 @@ export const documentService = {
     if (isSupabaseConfigured()) {
       try {
         await supabase.from('document_audit_logs').insert({
-          document_id: log.document_id,
-          booking_id: log.booking_id,
+          document_id: isUuid(log.document_id) ? log.document_id : null,
+          booking_id: isUuid(log.booking_id) ? log.booking_id : null,
           action: log.action,
-          performed_by: log.performed_by,
-          performed_by_name: log.performed_by_name,
-          details: log.details,
+          performed_by: isUuid(log.performed_by) ? log.performed_by : null,
+          performed_by_name: log.performed_by_name || 'Administrator',
+          details: log.details || '',
         });
         return;
       } catch (err) {
@@ -206,7 +347,9 @@ export const documentService = {
     if (isSupabaseConfigured()) {
       try {
         let query = supabase.from('document_audit_logs').select('*').order('created_at', { ascending: false });
-        if (bookingId) query = query.eq('booking_id', bookingId);
+        if (bookingId && isUuid(bookingId)) {
+          query = query.eq('booking_id', bookingId);
+        }
         const { data, error } = await query;
         if (!error && data) return data as DocumentAuditLog[];
       } catch (err) {

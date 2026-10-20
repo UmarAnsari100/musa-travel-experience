@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/context/AuthContext';
-import { Booking, BookingStatus } from '@/types/booking';
+import { Booking, BookingStatus, BookingDocument } from '@/types/booking';
 import { bookingService } from '@/services/bookingService';
+import { documentService } from '@/services/documentService';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { BookingModal } from '@/components/admin/BookingModal';
 import { VoucherPreviewModal } from '@/components/admin/VoucherPreviewModal';
 import { WhatsAppDispatchModal } from '@/components/admin/WhatsAppDispatchModal';
 import { VisaManagerModal } from '@/components/admin/VisaManagerModal';
+import { VisaPreviewModal } from '@/components/admin/VisaPreviewModal';
 import { BookingDetailModal } from '@/components/admin/BookingDetailModal';
 import { whatsappService } from '@/services/whatsappService';
 import {
@@ -27,6 +29,7 @@ import {
   ExternalLink,
   Shield,
   Eye,
+  Download,
   Edit,
   Trash2,
   Database,
@@ -62,6 +65,28 @@ export const AdminDashboard: React.FC = () => {
 
   const [isVisaModalOpen, setIsVisaModalOpen] = useState(false);
   const [selectedVisaBooking, setSelectedVisaBooking] = useState<Booking | null>(null);
+
+  // In-App Visa Preview Modal state
+  const [previewDocument, setPreviewDocument] = useState<BookingDocument | null>(null);
+  const [previewDocumentBooking, setPreviewDocumentBooking] = useState<Booking | null>(null);
+
+  const handleViewVisa = (doc: BookingDocument, b: Booking) => {
+    setPreviewDocument(doc);
+    setPreviewDocumentBooking(b);
+  };
+
+  const handleDownloadVisa = async (doc: BookingDocument) => {
+    try {
+      await documentService.downloadDocument(
+        doc,
+        user?.id || 'admin',
+        user?.name || 'Administrator'
+      );
+      toast.success(`Downloaded: ${doc.file_name}`);
+    } catch (err: any) {
+      toast.error('Download error: ' + err.message);
+    }
+  };
 
   useEffect(() => {
     loadBookings();
@@ -588,14 +613,18 @@ export const AdminDashboard: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    setSelectedVisaBooking(b);
-                                    setIsVisaModalOpen(true);
+                                    if (b.documents && b.documents.length > 0) {
+                                      handleViewVisa(b.documents[0], b);
+                                    } else {
+                                      setSelectedVisaBooking(b);
+                                      setIsVisaModalOpen(true);
+                                    }
                                   }}
-                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 hover:border-emerald-400 transition-colors cursor-pointer"
-                                  title="Click to view uploaded visa document in secure vault"
+                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 hover:border-emerald-400 hover:bg-emerald-900/60 transition-colors cursor-pointer"
+                                  title="Click to preview uploaded visa document in secure vault"
                                 >
-                                  <Lock size={10} />
-                                  <span>Uploaded</span>
+                                  <Eye size={10} />
+                                  <span>Uploaded ({b.documents?.length || 1})</span>
                                 </button>
                               ) : b.visa_status === 'whatsapp' ? (
                                 <button
@@ -828,47 +857,189 @@ export const AdminDashboard: React.FC = () => {
         {/* Tab 3: Private Documents Vault */}
         {activeTab === 'visas' && (
           <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-[#0D0E11] border border-[rgba(74,57,28,0.25)] flex items-center justify-between">
+            {/* Header info banner */}
+            <div className="p-4 rounded-xl bg-[#0D0E11] border border-[rgba(74,57,28,0.25)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="font-semibold text-sm text-[#F8F5EC] flex items-center gap-2">
                   <Lock size={16} className="text-[#D4AF37]" />
-                  <span>Private Visa & Passport Vault</span>
+                  <span>Private Visa & Travel Document Vault</span>
                 </h3>
                 <p className="text-xs text-[#B8B2A3] mt-0.5">
-                  All sensitive traveler identity documents are stored in private cloud storage. Zero public links.
+                  Sensitive traveler identity documents stored in private cloud storage. Zero public links. Authorized access only.
                 </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-1 rounded-lg bg-[rgba(212,175,55,0.12)] border border-[rgba(212,175,55,0.30)] text-[#D4AF37] text-xs font-semibold">
+                  {bookings.reduce((acc, b) => acc + (b.documents?.length || 0), 0)} Verified File(s)
+                </span>
+                <span className="px-2.5 py-1 rounded-lg bg-amber-950/40 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+                  {bookings.filter((b) => b.is_international && b.visa_status === 'pending').length} Pending
+                </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {bookings.map((b) => (
-                <div key={b.id} className="p-4 rounded-xl bg-[#0D0E11] border border-[rgba(74,57,28,0.25)] flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-mono font-bold text-xs text-[#D4AF37]">{b.booking_reference}</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#181A1F] text-[#B8B2A3]">
-                        {b.documents?.length || 0} File(s)
-                      </span>
-                    </div>
-                    <span className="font-semibold text-sm text-[#F8F5EC] block">{b.customer_name}</span>
-                    <span className="text-xs text-[#7A756C] block mt-0.5">WhatsApp: +{b.customer_phone}</span>
-                  </div>
+            {/* 8-Column Verified Documents Table */}
+            <div className="rounded-xl bg-[#0D0E11] border border-[rgba(74,57,28,0.25)] overflow-hidden shadow-lg">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="border-b border-[rgba(74,57,28,0.30)] bg-[#111317] text-[#B8B2A3] uppercase text-[10px] tracking-wider">
+                      <th className="py-3.5 px-4 font-semibold">Customer Name</th>
+                      <th className="py-3.5 px-4 font-semibold">Booking Reference</th>
+                      <th className="py-3.5 px-4 font-semibold">Document Type</th>
+                      <th className="py-3.5 px-4 font-semibold">Upload Date</th>
+                      <th className="py-3.5 px-4 font-semibold">File Name</th>
+                      <th className="py-3.5 px-4 font-semibold">Document Status</th>
+                      <th className="py-3.5 px-4 font-semibold text-center">View</th>
+                      <th className="py-3.5 px-4 font-semibold text-center">Download</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[rgba(74,57,28,0.15)]">
+                    {bookings.flatMap((b) => (b.documents || []).map((doc) => ({ doc, booking: b }))).length === 0 ? (
+                      <tr>
+                        <td colSpan={8} className="text-center py-12 text-[#7A756C]">
+                          <div className="flex flex-col items-center justify-center gap-2">
+                            <Lock size={28} className="text-[#D4AF37]/40" />
+                            <p className="text-sm font-medium text-[#B8B2A3]">No customer documents have been uploaded yet.</p>
+                            <p className="text-xs text-[#7A756C]">When international travelers upload visa copies during booking, they will appear here securely.</p>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      bookings
+                        .flatMap((b) => (b.documents || []).map((doc) => ({ doc, booking: b })))
+                        .map(({ doc, booking }) => (
+                          <tr key={doc.id} className="hover:bg-[#131519] transition-colors">
+                            {/* 1. Customer Name */}
+                            <td className="py-3.5 px-4">
+                              <span className="font-semibold text-[#F8F5EC] block text-xs">{booking.customer_name}</span>
+                              <span className="text-[11px] text-[#7A756C]">+{booking.customer_phone}</span>
+                            </td>
 
-                  <div className="pt-4 border-t border-[rgba(74,57,28,0.20)] mt-4">
-                    <button
-                      onClick={() => {
-                        setSelectedVisaBooking(b);
-                        setIsVisaModalOpen(true);
-                      }}
-                      className="w-full py-2 rounded-lg bg-[rgba(212,175,55,0.12)] border border-[rgba(212,175,55,0.30)] text-[#D4AF37] hover:bg-[rgba(212,175,55,0.22)] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
-                    >
-                      <Lock size={13} />
-                      <span>Manage Private Documents</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                            {/* 2. Booking Reference */}
+                            <td className="py-3.5 px-4">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedDetailBooking(booking);
+                                  setIsDetailModalOpen(true);
+                                }}
+                                className="font-mono font-bold text-xs text-[#D4AF37] hover:underline"
+                                title="Click to open booking details"
+                              >
+                                {booking.booking_reference}
+                              </button>
+                            </td>
+
+                            {/* 3. Document Type */}
+                            <td className="py-3.5 px-4">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-950/60 border border-blue-500/30 text-blue-300">
+                                {doc.document_type}
+                              </span>
+                            </td>
+
+                            {/* 4. Upload Date */}
+                            <td className="py-3.5 px-4 text-[#B8B2A3] whitespace-nowrap text-[11px]">
+                              {new Date(doc.created_at).toLocaleString(undefined, {
+                                dateStyle: 'short',
+                                timeStyle: 'short',
+                              })}
+                            </td>
+
+                            {/* 5. File Name */}
+                            <td className="py-3.5 px-4">
+                              <div className="flex items-center gap-1.5 max-w-[200px]" title={doc.file_name}>
+                                <FileText size={13} className="text-[#D4AF37] shrink-0" />
+                                <span className="font-mono text-xs text-[#E5E0D5] truncate">{doc.file_name}</span>
+                              </div>
+                              <span className="text-[10px] text-[#7A756C] block mt-0.5">
+                                {(doc.file_size / 1024).toFixed(0)} KB
+                              </span>
+                            </td>
+
+                            {/* 6. Document Status */}
+                            <td className="py-3.5 px-4">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 whitespace-nowrap">
+                                <CheckCircle2 size={10} />
+                                <span>Securely Stored</span>
+                              </span>
+                            </td>
+
+                            {/* 7. View Button */}
+                            <td className="py-3.5 px-4 text-center">
+                              <button
+                                type="button"
+                                onClick={() => handleViewVisa(doc, booking)}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[rgba(212,175,55,0.15)] border border-[rgba(212,175,55,0.35)] text-[#D4AF37] hover:bg-[rgba(212,175,55,0.25)] text-xs font-semibold transition-all cursor-pointer shadow-sm"
+                                title={`Preview ${doc.file_name}`}
+                              >
+                                <Eye size={12} />
+                                <span>View</span>
+                              </button>
+                            </td>
+
+                            {/* 8. Download Button */}
+                            <td className="py-3.5 px-4 text-center">
+                              <button
+                                type="button"
+                                onClick={() => handleDownloadVisa(doc)}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#181A1F] border border-white/10 text-[#F8F5EC] hover:bg-[#252830] hover:text-[#D4AF37] text-xs font-semibold transition-all cursor-pointer shadow-sm"
+                                title={`Download ${doc.file_name}`}
+                              >
+                                <Download size={12} />
+                                <span>Download</span>
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
+
+            {/* Bookings with Pending or WhatsApp Visas */}
+            {bookings.some((b) => b.is_international && (b.visa_status === 'pending' || b.visa_status === 'whatsapp')) && (
+              <div className="rounded-xl bg-[#0D0E11] border border-amber-500/20 p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-semibold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <AlertCircle size={14} />
+                    <span>International Bookings Awaiting Visa Submission</span>
+                  </h4>
+                  <span className="text-[11px] text-[#7A756C]">
+                    Customer opted for WhatsApp or submission is pending
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {bookings
+                    .filter((b) => b.is_international && (b.visa_status === 'pending' || b.visa_status === 'whatsapp'))
+                    .map((b) => (
+                      <div
+                        key={b.id}
+                        className="p-3 rounded-lg bg-[#14161A] border border-[rgba(74,57,28,0.20)] flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="font-mono font-bold text-xs text-[#D4AF37]">{b.booking_reference}</span>
+                          <span className="text-xs text-[#F8F5EC] block font-medium">{b.customer_name}</span>
+                          <span className="text-[10px] text-amber-300 capitalize">
+                            Status: {b.visa_status.replace('_', ' ')}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedVisaBooking(b);
+                            setIsVisaModalOpen(true);
+                          }}
+                          className="px-2.5 py-1 rounded bg-[#1C1F26] hover:bg-[#262B37] text-xs text-[#D4AF37] font-semibold border border-[rgba(212,175,55,0.25)] transition-colors"
+                        >
+                          Upload Copy
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -973,6 +1144,17 @@ export const AdminDashboard: React.FC = () => {
         isOpen={isVisaModalOpen}
         onClose={() => setIsVisaModalOpen(false)}
         booking={selectedVisaBooking}
+      />
+
+      <VisaPreviewModal
+        isOpen={Boolean(previewDocument)}
+        onClose={() => {
+          setPreviewDocument(null);
+          setPreviewDocumentBooking(null);
+        }}
+        document={previewDocument}
+        booking={previewDocumentBooking}
+        onDownload={handleDownloadVisa}
       />
 
       <BookingDetailModal

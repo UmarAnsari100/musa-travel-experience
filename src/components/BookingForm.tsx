@@ -239,13 +239,14 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
     const fullPhone = getFullPhoneNumber();
     const cleanPhone = `+${fullPhone}`;
 
-    // Determine visa status string
+    // Determine initial visa status string
     let visaStatus: "not_required" | "uploaded" | "whatsapp" | "pending" = "not_required";
     if (formData.is_international) {
-      if (formData.visa_submission_method === "upload" && visaFile) {
-        visaStatus = "uploaded";
-      } else if (formData.visa_submission_method === "whatsapp") {
+      if (formData.visa_submission_method === "whatsapp") {
         visaStatus = "whatsapp";
+      } else if (formData.visa_submission_method === "upload" && visaFile) {
+        // Will be elevated to 'uploaded' only after storage and DB write succeed
+        visaStatus = "pending";
       } else {
         visaStatus = "pending";
       }
@@ -289,17 +290,26 @@ const BookingForm = ({ prefillVehicle }: { prefillVehicle?: string }) => {
         ],
       });
 
-      // 2. Upload Visa Document if attached
-      if (formData.is_international && visaFile && newBooking?.id) {
+      // 2. Securely Upload Visa Document if attached
+      if (formData.is_international && formData.visa_submission_method === "upload" && visaFile && newBooking?.id) {
         try {
+          // Do NOT pass a non-UUID string into uploadedBy (DB expects UUID or NULL for anon public customer)
           await documentService.uploadDocument(
             newBooking.id,
             visaFile,
-            "visa",
-            "Customer Online Upload"
+            "visa"
           );
-        } catch (uploadErr) {
-          console.warn("[BookingForm] Visa document upload non-blocking warning:", uploadErr);
+          // Mark as successfully uploaded only after storage and database writes both complete
+          visaStatus = "uploaded";
+          await bookingService.updateBooking(newBooking.id, { visa_status: "uploaded" });
+        } catch (uploadErr: any) {
+          console.error("[BookingForm] Secure visa document upload failed:", uploadErr);
+          visaStatus = "pending";
+          toast.error(
+            `Booking MT-${newBooking.booking_reference} registered, but visa upload failed: ${
+              uploadErr?.message || "Storage error"
+            }. You can send your visa copy directly via WhatsApp.`
+          );
         }
       }
 

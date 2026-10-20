@@ -213,7 +213,23 @@ export const bookingService = {
       }
     }
 
-    return getLocalStore();
+    const local = getLocalStore();
+    try {
+      const storedDocs: any[] = JSON.parse(localStorage.getItem('musa_transport_private_docs') || '[]');
+      if (storedDocs.length > 0) {
+        return local.map((b) => {
+          const bDocs = storedDocs.filter((d) => d.booking_id === b.id);
+          return {
+            ...b,
+            documents: bDocs.length > 0 ? bDocs : b.documents,
+            visa_status: bDocs.length > 0 ? 'uploaded' : b.visa_status,
+          };
+        });
+      }
+    } catch {
+      // fallback
+    }
+    return local;
   },
 
   async createBooking(bookingInput: Partial<Booking> & { segments: JourneySegment[] }): Promise<Booking> {
